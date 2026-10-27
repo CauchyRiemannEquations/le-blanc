@@ -2,7 +2,8 @@ export type PlayerId = 0 | 1;
 export type Difficulty = 'easy' | 'medium' | 'hard';
 export type QuestionKind = 'near' | 'sum3' | 'coprime' | 'distance' | 'sumMultiple' | 'multiple' | 'ratio';
 export interface QuestionSpec { kind:QuestionKind; parameter?:number; negate?:boolean }
-export interface Rules { min: number; max: number; handSize: number; initialReveal: number[]; questions: number }
+/** null means no question limit; finite caps remain available for balance experiments. */
+export interface Rules { min: number; max: number; handSize: number; initialReveal: number[]; questions: number|null }
 export interface Tile { value: number; revealed: boolean }
 /** delta = value[b] - value[a]; edge traversal reverses its sign. */
 export interface GapConnection { a: number; b: number; delta: number }
@@ -16,5 +17,5 @@ export interface Outcome { id:number; actor:PlayerId; type:Action['type']; succe
 export interface GameResult { winner:PlayerId; turns:number; maxChain:number; finalChain:number }
 export interface GameState { rules:Rules; players:[Player,Player]; active:PlayerId; phase:'action'|'continue'|'penalty'|'over'; turn:number; sequence:number; penaltySeed:number; history:Outcome[]; result:GameResult|null; maxChain:number }
 export interface VisibleTile { value:number|null; revealed:boolean }
-export interface AIObservation { rules:Rules; player:PlayerId; own:Tile[]; ownConnections:GapConnection[]; opponent:VisibleTile[]; connections:GapConnection[]; questions:QuestionResult[]; failed:FailedGuess[]; ownQuestionsLeft:number; phase:GameState['phase']; turn:number; active:PlayerId; }
-export interface GameView extends AIObservation { names:[string,string]; history:Outcome[]; result:GameResult|null; opponentQuestionsLeft:number }
+export interface AIObservation { rules:Rules; player:PlayerId; own:Tile[]; ownConnections:GapConnection[]; opponent:VisibleTile[]; connections:GapConnection[]; questions:QuestionResult[]; failed:FailedGuess[]; ownQuestionsLeft:number|null; phase:GameState['phase']; turn:number; active:PlayerId; }
+export interface GameView extends AIObservation { names:[string,string]; history:Outcome[]; result:GameResult|null; opponentQuestionsLeft:number|null }

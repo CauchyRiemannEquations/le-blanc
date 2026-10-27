@@ -1,12 +1,13 @@
 import type { Action, AIObservation, GameState, GameView, GapConnection, Outcome, PlayerId, QuestionKind, QuestionSpec, RevelationEvent, Rules } from './types';
 import { answerQuestion,questionKey,validQuestion } from './questions';
 export { answerQuestion,gcd } from './questions';
-export const DEFAULT_RULES:Rules = {min:1,max:20,handSize:5,initialReveal:[2],questions:4};
+export const DEFAULT_RULES:Rules = {min:1,max:20,handSize:5,initialReveal:[2],questions:null};
+export function questionsRemaining(limit:number|null,used:number):number|null {return limit===null?null:Math.max(0,limit-used);}
 export const other = (id:PlayerId):PlayerId => id === 0 ? 1 : 0;
 export function seededRandom(seed:number) { return () => { let t = seed += 0x6D2B79F5; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 export function createGame(seed = Date.now(), rules:Partial<Rules> = {}, names:[string,string]=['나','M. NOIR'], first:PlayerId=0):GameState {
   const config = {...DEFAULT_RULES,...rules};
-  if(!Number.isInteger(config.min)||!Number.isInteger(config.max)||config.min<1||config.max-config.min+1 < config.handSize*2 || config.handSize<2 || config.questions<0 || config.initialReveal.some(i=>i<0||i>=config.handSize) || config.initialReveal.length>=config.handSize)throw new Error('게임 설정이 올바르지 않습니다.');
+  if(!Number.isInteger(config.min)||!Number.isInteger(config.max)||config.min<1||config.max-config.min+1 < config.handSize*2 || config.handSize<2 || (config.questions!==null&&(!Number.isInteger(config.questions)||config.questions<0)) || config.initialReveal.some(i=>i<0||i>=config.handSize) || config.initialReveal.length>=config.handSize)throw new Error('게임 설정이 올바르지 않습니다.');
   const random=seededRandom(seed), deck=Array.from({length:config.max-config.min+1},(_,i)=>i+config.min);
   for(let i=deck.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}
   const makePlayer=(i:PlayerId):GameState['players'][number]=>({name:names[i],tiles:deck.slice(i*config.handSize,(i+1)*config.handSize).sort((a,b)=>a-b).map((value,index)=>({value,revealed:config.initialReveal.includes(index)})),connections:[],questions:[],failed:[]});
@@ -26,10 +27,10 @@ export function canTargetPair(view:AIObservation,a:number,b:number,kind:'gap'|Qu
 /** This is the only boundary used by the AI. No state references escape. */
 export function observe(state:GameState,id:PlayerId):AIObservation {
   const self=state.players[id], opponent=state.players[other(id)];
-  return structuredClone({rules:state.rules,player:id,own:self.tiles,ownConnections:self.connections,opponent:opponent.tiles.map(t=>({value:t.revealed?t.value:null,revealed:t.revealed})),connections:opponent.connections,questions:self.questions,failed:self.failed,ownQuestionsLeft:state.rules.questions-self.questions.length,phase:state.phase,turn:state.turn,active:state.active});
+  return structuredClone({rules:state.rules,player:id,own:self.tiles,ownConnections:self.connections,opponent:opponent.tiles.map(t=>({value:t.revealed?t.value:null,revealed:t.revealed})),connections:opponent.connections,questions:self.questions,failed:self.failed,ownQuestionsLeft:questionsRemaining(state.rules.questions,self.questions.length),phase:state.phase,turn:state.turn,active:state.active});
 }
 export function viewGame(state:GameState,id:PlayerId):GameView {
-  return {...observe(state,id),names:[state.players[0].name,state.players[1].name],opponentQuestionsLeft:state.rules.questions-state.players[other(id)].questions.length,result:state.result?{...state.result}:null,history:state.history.map(e=>{const c=structuredClone(e);if(e.type==='question'&&e.actor!==id){delete c.answer;delete c.question;delete c.parameter;delete c.negate;delete c.a;delete c.b;}return c;})};
+  return {...observe(state,id),names:[state.players[0].name,state.players[1].name],opponentQuestionsLeft:questionsRemaining(state.rules.questions,state.players[other(id)].questions.length),result:state.result?{...state.result}:null,history:state.history.map(e=>{const c=structuredClone(e);if(e.type==='question'&&e.actor!==id){delete c.answer;delete c.question;delete c.parameter;delete c.negate;delete c.a;delete c.b;}return c;})};
 }
 function reveal(state:GameState,id:PlayerId,index:number,reason:RevelationEvent['reason'],events:RevelationEvent[],from?:number) {
   const tile=state.players[id].tiles[index];if(tile.revealed)return;tile.revealed=true;events.push({player:id,index,value:tile.value,reason,from});
@@ -66,11 +67,11 @@ export function applyAction(state:GameState,actor:PlayerId,action:Action):GameSt
   }
   else if(action.type==='question') {
     if(s.phase!=='action')fail('연속 공격 중에는 질문할 수 없습니다.');
-    if(!validQuestion(action,s.rules)||view.ownQuestionsLeft<=0)fail('질문권을 사용할 수 없습니다.');
+    if(!validQuestion(action,s.rules)||view.ownQuestionsLeft===0)fail('이 질문을 사용할 수 없습니다.');
     if(!canTargetPair(view,action.a,action.b,action))fail('이미 알려졌거나 사용한 질문입니다.');
     const [a,b]=[action.a,action.b].sort((x,y)=>x-y), answer=answerQuestion(action,target.tiles[a].value,target.tiles[b].value);
     const spec={kind:action.kind,...(action.parameter!==undefined?{parameter:action.parameter}:{}),...(action.negate!==undefined?{negate:action.negate}:{})};
-    self.questions.push({...spec,a,b,answer,turn:s.turn});Object.assign(event,{a,b,question:action.kind,parameter:action.parameter,negate:action.negate,answer,text:'질문권 1회를 사용했습니다.'});endTurn(s);
+    self.questions.push({...spec,a,b,answer,turn:s.turn});Object.assign(event,{a,b,question:action.kind,parameter:action.parameter,negate:action.negate,answer,text:'질문했습니다.'});endTurn(s);
   } else {
     if(!validIndex(action.a)||!Number.isInteger(action.value))fail('대상과 값을 확인하세요.');
     if(action.type==='number') {

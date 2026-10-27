@@ -63,7 +63,7 @@ export function chooseAction(o:AIObservation,difficulty:Difficulty='medium',rand
   const hidden=o.own.filter(t=>!t.revealed).length;
   const threshold=difficulty==='easy'?.33:difficulty==='medium'?.58:(hidden===1?.87:.69);
   if(o.phase==='continue'&&attack.probability<threshold)return {type:'pass'};
-  if(o.phase==='action'&&o.ownQuestionsLeft>0){
+  if(o.phase==='action'&&o.ownQuestionsLeft!==0){
     const questions=rankQuestions(o,candidates);
     const question=difficulty==='easy'?questions[Math.floor(random()*questions.length)]:questions[0];
     const askThreshold=difficulty==='easy'?.37:difficulty==='medium'?.62:.78;

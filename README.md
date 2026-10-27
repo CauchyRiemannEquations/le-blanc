@@ -2,7 +2,9 @@
 
 > 숫자는 숨겨져도, 관계는 드러난다.
 
-**질문·페널티 최신 변경:** [QUESTION-UPDATE.md](QUESTION-UPDATE.md). 직접 질문 입력과 로컬 판정, 다양한 관계 질문, 무작위 타일 공개를 적용했습니다. 질문 내용과 답은 계속 비밀입니다.
+**질문 무제한 업데이트:** 기본 대전의 질문 횟수 제한을 없앴습니다. 질문 후 턴 종료와 같은 질문 반복 금지는 유지하며, 이전에 저장된 2/4/6회 설정은 제거합니다. 검증·같은 시드 비교는 [UNLIMITED-UPDATE.md](UNLIMITED-UPDATE.md)를 참고하세요.
+
+**질문·페널티 변경 기록:** [QUESTION-UPDATE.md](QUESTION-UPDATE.md). 직접 질문 입력과 로컬 판정, 다양한 관계 질문, 무작위 타일 공개를 적용했습니다. 질문 내용과 답은 계속 비밀입니다.
 
 **연결 전략·연출 업데이트 기록:** 당시 변경과 고정 시드 전후 비교는 [AI-UPDATE.md](AI-UPDATE.md)를 참고하세요. 중급·고급의 연결 계획, AI 결과 수동 확인, 간단한 난이도 선택, 카드 배분 연출이 추가됐습니다. 아래의 초기 밸런스 표는 첫 배포의 기록입니다.
 
@@ -27,9 +29,10 @@ npm test                 # Vitest 규칙·AI 검증 + 100판 대전
 npm run balance          # 5개 조건 × 100판; balance-results.json 생성
 npm run build            # TypeScript + Vite + 오프라인 캐시 생성
 npm run preview          # 프로덕션 빌드 미리보기
-npm run test:browser     # Chrome을 이용한 실제 브라우저 테스트 18개
+npm run test:browser     # Chrome을 이용한 실제 브라우저 테스트 19개
 npm run compare:ai       # 이전/현재 AI 전략을 현재 규칙으로 비교
-npx tsx scripts/question-balance.ts # 최신 질문·무작위 공개 규칙으로 중급/고급 각 100판
+npx tsx scripts/question-balance.ts # 현재 기본 규칙으로 중급/고급 각 100판
+npx tsx scripts/unlimited-balance.ts # 4회/무제한 × 중급/고급, 각 고정 시드 100판
 ```
 
 브라우저 테스트는 설치된 Chrome을 사용합니다. Chrome이 없다면 Playwright의 Chromium을 설치하고 `playwright.config.ts`의 `channel: 'chrome'`을 제거하세요. 프리뷰 서버는 개발용이며, 빌드 결과 `dist/`는 정적 호스팅에 배포할 수 있습니다.
@@ -45,7 +48,7 @@ node scripts/pwa-check.mjs
 ## 구현 범위
 
 - 1~20에서 중복 없는 5장 배분, 오름차순, 기본 가운데 공개.
-- 직접 입력한 질문의 로컬 해석·검증·확인. 차이 범위, 합의 배수, 서로소, 배수 관계, 정수 배율을 지원하며 기본 질문 3개도 바로 선택 가능. 질문권·동일 의미 중복 질문 제한, 개인 질문 기록.
+- 직접 입력한 질문의 로컬 해석·검증·확인. 차이 범위, 합의 배수, 서로소, 배수 관계, 정수 배율을 지원하며 기본 질문 3개도 바로 선택 가능. 횟수 제한 없이 질문, 동일 의미 중복 질문 금지, 개인 질문 기록.
 - 숫자 공격, 간격 공격, 실패 기록과 반복 추측 금지.
 - 부호 있는 그래프 탐색, 역방향 전파, 다중 연쇄 해독.
 - 성공 후 계속/멈추기, 간격만 생성되면 턴 종료.
@@ -56,7 +59,7 @@ node scripts/pwa-check.mjs
 - 다시 대전, 메인 메뉴, 규칙 설정. 선공은 대전 시작 시 무작위.
 - PWA manifest, 192/512 아이콘, 자체 호스팅 무료 폰트, 오프라인 앱 셸.
 
-가운데 공개 여부와 질문권 2/4/6회는 설정 화면에서 다음 대전에 적용합니다. 숫자 범위와 손패 수 등을 포함한 기본 규칙은 `src/engine/game.ts`의 `DEFAULT_RULES`에서 관리합니다.
+가운데 공개 여부는 설정 화면에서 다음 대전에 적용합니다. 질문은 기본 무제한이며 횟수 설정은 게임 메뉴에서 제거했습니다. 엔진은 밸런스 실험용 유한 횟수도 지원합니다 (`questions: null`이 무제한). 숫자 범위와 손패 수 등을 포함한 기본 규칙은 `src/engine/game.ts`의 `DEFAULT_RULES`에서 관리합니다.
 
 ## 화면과 경험
 

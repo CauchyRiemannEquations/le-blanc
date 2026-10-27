@@ -52,7 +52,7 @@ export function chooseAction(o:AIObservation,difficulty:Difficulty='medium',rand
   const attack=(possible.length?possible:ranked)[Math.floor(random()*Math.min(8,possible.length||ranked.length))];
   if(!attack)throw new Error('가능한 공격이 없습니다.');
   if(o.phase==='continue'&&attack.probability<.33)return {type:'pass'};
-  if(o.phase==='action'&&o.ownQuestionsLeft>0){
+  if(o.phase==='action'&&o.ownQuestionsLeft!==0){
     const questions=rankQuestions(o,candidates,false);
     const question=questions[Math.floor(random()*questions.length)];
     if(question&&question.information>.25&&attack.probability<.37&&random()<.55)return question.action;
@@ -131,7 +131,7 @@ function planAction(o:AIObservation,candidates:number[][],ranked:RatedAttack[],d
     const threshold=difficulty==='medium'?.55:o.own.filter(t=>!t.revealed).length===1?.86:.63;
     return best.score>0&&best.probability>=threshold?best.action:{type:'pass'};
   }
-  if(!certain.length&&o.ownQuestionsLeft>0){
+  if(!certain.length&&o.ownQuestionsLeft!==0){
     // Value both answers by the attacks they enable, rather than spending all question
     // tokens until an arbitrary attack-probability threshold is met.
     const questions=rankQuestions(o,candidates).slice(0,difficulty==='hard'?12:5).map(q=>{
