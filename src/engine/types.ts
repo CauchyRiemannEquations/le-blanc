@@ -13,7 +13,7 @@ export interface FailedGuess { kind: 'number' | 'gap'; a: number; b?: number; va
 export interface Player { name: string; tiles: Tile[]; connections: GapConnection[]; questions: QuestionResult[]; failed: FailedGuess[] }
 export type Action = ({type:'question'; a:number; b:number} & QuestionSpec) | {type:'number'; a:number; value:number} | {type:'gap'; a:number; b:number; value:number} | {type:'penalty'} | {type:'pass'};
 export interface RevelationEvent { player: PlayerId; index: number; value:number; reason:'number'|'gap'|'chain'|'penalty'; from?:number }
-export interface Outcome { id:number; actor:PlayerId; type:Action['type']; success?:boolean; answer?:boolean; question?:QuestionKind; parameter?:number; negate?:boolean; a?:number; b?:number; value?:number; reveals:RevelationEvent[]; text:string }
+export interface Outcome { id:number; actor:PlayerId; type:Action['type']|'timeout'|'resign'; success?:boolean; answer?:boolean; question?:QuestionKind; parameter?:number; negate?:boolean; a?:number; b?:number; value?:number; reveals:RevelationEvent[]; text:string }
 export interface GameResult { winner:PlayerId; turns:number; maxChain:number; finalChain:number }
 export interface GameState { rules:Rules; players:[Player,Player]; active:PlayerId; phase:'action'|'continue'|'penalty'|'over'; turn:number; sequence:number; penaltySeed:number; history:Outcome[]; result:GameResult|null; maxChain:number }
 export interface VisibleTile { value:number|null; revealed:boolean }

@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+  // Entire truth state and lobby ownership are server-only.
+  match /matches/{code}/views/{uid} {
+   allow get: if request.auth != null && request.auth.uid == uid;
+   allow list, write: if false;
+  }
+  match /{document=**} { allow read, write: if false; }
+ }
+}

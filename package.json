@@ -10,14 +10,17 @@
     "test": "vitest run",
     "balance": "tsx scripts/balance.ts",
     "test:browser": "playwright test",
-    "compare:ai": "tsx scripts/compare-ai.ts"
+    "compare:ai": "tsx scripts/compare-ai.ts",
+    "build:server": "npm --prefix functions run build",
+    "test:online": "vitest run tests/online.test.ts"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.3.0",
     "lucide-react": "^0.468.0",
     "motion": "^12.23.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "firebase": "^13.1.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.51.0",
@@ -28,6 +31,10 @@
     "tsx": "^4.20.0",
     "typescript": "~5.8.3",
     "vite": "^6.3.5",
-    "vitest": "^5.0.5"
+    "vitest": "^5.0.5",
+    "@firebase/rules-unit-testing": "^6.0.0"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "^1.14.6"
   }
 }

@@ -2,6 +2,8 @@
 
 > 숫자는 숨겨져도, 관계는 드러난다.
 
+**현재 작업:** GitHub 비공개 저장소, Firebase 온라인 대전 로컬 구현, 60초 턴 타이머. 서버 배포는 사용자 요청으로 보류했습니다. 설정·실행·배포 전 남은 단계는 [ONLINE-UPDATE.md](ONLINE-UPDATE.md)를 참고하세요. 아래 초기 검증과 한계는 당시 기록이며 온라인 모드는 별도 문서를 따릅니다.
+
 **질문 무제한 업데이트:** 기본 대전의 질문 횟수 제한을 없앴습니다. 질문 후 턴 종료와 같은 질문 반복 금지는 유지하며, 이전에 저장된 2/4/6회 설정은 제거합니다. 검증·같은 시드 비교는 [UNLIMITED-UPDATE.md](UNLIMITED-UPDATE.md)를 참고하세요.
 
 **질문·페널티 변경 기록:** [QUESTION-UPDATE.md](QUESTION-UPDATE.md). 직접 질문 입력과 로컬 판정, 다양한 관계 질문, 무작위 타일 공개를 적용했습니다. 질문 내용과 답은 계속 비밀입니다.
@@ -29,7 +31,7 @@ npm test                 # Vitest 규칙·AI 검증 + 100판 대전
 npm run balance          # 5개 조건 × 100판; balance-results.json 생성
 npm run build            # TypeScript + Vite + 오프라인 캐시 생성
 npm run preview          # 프로덕션 빌드 미리보기
-npm run test:browser     # Chrome을 이용한 실제 브라우저 테스트 19개
+npm run test:browser     # Chrome을 이용한 실제 브라우저 테스트 (온라인은 에뮬레이터 필요)
 npm run compare:ai       # 이전/현재 AI 전략을 현재 규칙으로 비교
 npx tsx scripts/question-balance.ts # 현재 기본 규칙으로 중급/고급 각 100판
 npx tsx scripts/unlimited-balance.ts # 4회/무제한 × 중급/고급, 각 고정 시드 100판
@@ -140,9 +142,9 @@ scripts/build-sw.mjs     버전별 오프라인 캐시 생성
 
 ## 알려진 한계와 다음 우선순위
 
-- 진행 중 게임 저장/복구는 없습니다. 비밀 정보 보호를 위해 새로고침은 메인 화면으로 돌아갑니다.
+- AI/핫시트는 새로고침 시 초기화됩니다. 온라인 모드는 같은 브라우저 세션에서 서버 대전으로 복귀합니다.
 - 실제 모바일 기기와 Safari의 설치·오디오·모션 검증은 남아 있습니다. 오프라인은 최초 접속과 캐시 설치 후 가능합니다.
-- 온라인 PvP는 요청 범위대로 제외했습니다. 인간 대상 사용성·재미 검증은 수행하지 않았습니다.
+- 온라인 PvP는 Firebase 에뮬레이터에서 구현·검증했으며 실제 서버 배포는 보류했습니다. 인간 대상 사용성·재미 검증은 수행하지 않았습니다.
 
 다음 개선 우선순위:
 

@@ -93,3 +93,13 @@ export function applyAction(state:GameState,actor:PlayerId,action:Action):GameSt
   }
   s.history.push(event);return s;
 }
+
+/** Invoked by the clock authority, never accepted as a player-submitted action. */
+export function expireTurn(state:GameState):GameState {
+  if(state.phase==='over')return state;
+  // A failed attack still owes its random reveal; timeout cannot avoid it.
+  if(state.phase==='penalty')return applyAction(state,state.active,{type:'penalty'});
+  const s=structuredClone(state);
+  s.history.push({id:++s.sequence,actor:s.active,type:'timeout',reveals:[],text:'제한시간이 끝나 차례를 넘겼습니다.'});
+  endTurn(s);return s;
+}

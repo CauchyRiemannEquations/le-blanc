@@ -4,3 +4,10 @@ test-results/
 playwright-report/
 *.tsbuildinfo
 .openai/*.local.*
+
+.env*
+!.env.example
+.firebase/
+*-debug.log
+functions/lib/
+functions/node_modules/
