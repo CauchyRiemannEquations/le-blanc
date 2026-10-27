@@ -8,7 +8,7 @@ export default function TileRow({tiles,own=false,selected=[],onSelect,enabled=()
   <div className="tile-row" role="group" aria-label={label}>
    {tiles.map((t,i)=>{const revealIndex=reveals.findIndex(e=>e.index===i);return <div className="tile-slot" key={i}>
     <span className="tile-index">{String(i+1).padStart(2,'0')}</span>
-    <motion.button className={`tile ${t.value===null?'secret':'face'} ${selected.includes(i)?'selected':''} ${own&&t.revealed?'exposed':''}`} aria-label={`${i+1}번 타일, ${t.value===null?'비공개':t.value}${own?(t.revealed?', 상대에게 공개됨':', 나만 볼 수 있음'):''}`} aria-pressed={onSelect?selected.includes(i):undefined} disabled={!onSelect||!enabled(i)} onClick={()=>onSelect?.(i)} whileTap={onSelect?{scale:.94}:undefined}>
+    <motion.button className={`tile ${t.value===null?'secret':'face'} ${selected.includes(i)?'selected':''} ${own&&t.revealed?'exposed':''}`} aria-label={`${i+1}번 타일, ${t.value===null?'비공개':t.value}${own?(t.revealed?', 상대에게 공개됨':t.value===null?', 가려짐':', 나만 볼 수 있음'):''}`} aria-pressed={onSelect?selected.includes(i):undefined} disabled={!onSelect||!enabled(i)} onClick={()=>onSelect?.(i)} whileTap={onSelect?{scale:.94}:undefined}>
       <motion.span key={`${t.value}-${revealIndex}`} className="tile-inner" initial={revealIndex>=0&&!reduced?{rotateY:180}:false} animate={{rotateY:0}} transition={{duration:.48,delay:revealIndex>=0?revealIndex*.34:0}}>
        <span className="tile-front">{t.value===null?<Sigil/>:<><span className="tile-corner">{t.value}</span><span className="tile-number">{t.value}</span><span className="tile-flourish">◆</span></>}</span>
        <span className="tile-back"><Sigil/></span>
