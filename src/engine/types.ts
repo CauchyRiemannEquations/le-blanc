@@ -15,5 +15,5 @@ export interface GameResult { winner:PlayerId; turns:number; maxChain:number; fi
 export interface GameState { rules:Rules; players:[Player,Player]; active:PlayerId; phase:'action'|'continue'|'penalty'|'over'; turn:number; sequence:number; history:Outcome[]; result:GameResult|null; maxChain:number }
 export interface VisibleTile { value:number|null; revealed:boolean }
 export interface AIObservation { rules:Rules; player:PlayerId; own:Tile[]; ownConnections:GapConnection[]; opponent:VisibleTile[]; connections:GapConnection[]; questions:QuestionResult[]; failed:FailedGuess[]; ownQuestionsLeft:number; phase:GameState['phase']; turn:number; active:PlayerId; }
-export interface GameView extends AIObservation { names:[string,string]; history:Outcome[]; result:GameResult|null }
+export interface GameView extends AIObservation { names:[string,string]; history:Outcome[]; result:GameResult|null; opponentQuestionsLeft:number }
 export const QUESTION_LABELS:Record<QuestionKind,string> = {near:'두 숫자의 차이가 3 이하인가?', sum3:'두 숫자의 합은 3의 배수인가?',coprime:'두 숫자는 서로소인가?'};

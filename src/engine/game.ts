@@ -29,7 +29,7 @@ export function observe(state:GameState,id:PlayerId):AIObservation {
   return structuredClone({rules:state.rules,player:id,own:self.tiles,ownConnections:self.connections,opponent:opponent.tiles.map(t=>({value:t.revealed?t.value:null,revealed:t.revealed})),connections:opponent.connections,questions:self.questions,failed:self.failed,ownQuestionsLeft:state.rules.questions-self.questions.length,phase:state.phase,turn:state.turn,active:state.active});
 }
 export function viewGame(state:GameState,id:PlayerId):GameView {
-  return {...observe(state,id),names:[state.players[0].name,state.players[1].name],result:state.result?{...state.result}:null,history:state.history.map(e=>{const c=structuredClone(e);if(e.type==='question'&&e.actor!==id){delete c.answer;delete c.question;delete c.a;delete c.b;}return c;})};
+  return {...observe(state,id),names:[state.players[0].name,state.players[1].name],opponentQuestionsLeft:state.rules.questions-state.players[other(id)].questions.length,result:state.result?{...state.result}:null,history:state.history.map(e=>{const c=structuredClone(e);if(e.type==='question'&&e.actor!==id){delete c.answer;delete c.question;delete c.a;delete c.b;}return c;})};
 }
 function reveal(state:GameState,id:PlayerId,index:number,reason:RevelationEvent['reason'],events:RevelationEvent[],from?:number) {
   const tile=state.players[id].tiles[index];if(tile.revealed)return;tile.revealed=true;events.push({player:id,index,value:tile.value,reason,from});

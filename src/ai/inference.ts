@@ -48,21 +48,103 @@ export function chooseAction(o:AIObservation,difficulty:Difficulty='medium',rand
   const candidates=enumerateCandidates(o,difficulty!=='easy');
   if(!candidates.length)throw new Error('합법적인 후보가 없습니다.');
   const ranked=rankAttacks(o,candidates);
-  let attack=ranked[0];
-  if(difficulty==='easy'){
-    const possible=ranked.filter(x=>x.probability>=.12);attack=(possible.length?possible:ranked)[Math.floor(random()*Math.min(8,possible.length||ranked.length))];
-  } else if(difficulty==='medium') {
-    const possible=ranked.filter(x=>x.score>=ranked[0].score-.08);attack=possible[Math.floor(random()*possible.length)];
-  }
+  if(difficulty!=='easy')return planAction(o,candidates,ranked,difficulty,random);
+  const possible=ranked.filter(x=>x.probability>=.12);
+  const attack=(possible.length?possible:ranked)[Math.floor(random()*Math.min(8,possible.length||ranked.length))];
   if(!attack)throw new Error('가능한 공격이 없습니다.');
-  const hidden=o.own.filter(t=>!t.revealed).length;
-  const threshold=difficulty==='easy'?.33:difficulty==='medium'?.58:(hidden===1?.87:.69);
-  if(o.phase==='continue'&&attack.probability<threshold)return {type:'pass'};
+  if(o.phase==='continue'&&attack.probability<.33)return {type:'pass'};
   if(o.phase==='action'&&o.ownQuestionsLeft>0){
     const questions=rankQuestions(o,candidates);
-    const question=difficulty==='easy'?questions[Math.floor(random()*questions.length)]:questions[0];
-    const askThreshold=difficulty==='easy'?.37:difficulty==='medium'?.62:.78;
-    if(question && question.information>.25 && attack.probability<askThreshold && (difficulty!=='easy'||random()<.55))return question.action;
+    const question=questions[Math.floor(random()*questions.length)];
+    if(question&&question.information>.25&&attack.probability<.37&&random()<.55)return question.action;
   }
   return attack.action;
+}
+
+interface NumberOpportunity { utility:number; probability:number; reveals:number }
+// Style utility, not a claim of an optimal minimax win rate. Links must also pass
+// probability/anchor gates, a tempo cost, and the current hand's exposure risk.
+const CONNECTION_POLICY={minimumGapProbability:.4,minimumAnchorProbability:.5,chainOptionWeight:3,questionLinkInformationWeight:.4};
+function exposureCost(o:AIObservation):number {
+  const hidden=o.own.flatMap((t,i)=>t.revealed?[]:[i]);
+  const smallest=Math.min(...hidden.map(i=>hidden.filter(j=>connectedDelta(o.ownConnections,i,j)!==null).length));
+  // Losing the last connected hand is much worse than a single isolated exposure.
+  return smallest+(smallest===hidden.length?2.4:hidden.length<=2?.5:0);
+}
+function nextNumberOpportunity(o:AIObservation,candidates:number[][],risk:number):NumberOpportunity {
+  let best:NumberOpportunity={utility:0,probability:0,reveals:0};
+  const remaining=o.opponent.filter(t=>!t.revealed).length;
+  for(let i=0;i<o.opponent.length;i++)if(!o.opponent[i].revealed){
+    const values=new Map<number,number>();for(const row of candidates)values.set(row[i],(values.get(row[i])??0)+1);
+    const p=Math.max(...values.values())/candidates.length,reveals=componentSize(o,i);
+    const utility=p*(reveals+(reveals===remaining?2:0))-(1-p)*risk;
+    if(utility>best.utility)best={utility,probability:p,reveals};
+  }return best;
+}
+/** A hypothetical SUCCESS belief, built from the guessed value/edge, never the true hand. */
+function successObservation(o:AIObservation,action:Action):AIObservation {
+  const next=structuredClone(o);
+  if(action.type==='number')next.opponent[action.a]={value:action.value,revealed:true};
+  if(action.type==='gap')next.connections.push({a:action.a,b:action.b,delta:action.value});
+  for(let i=0;i<next.opponent.length;i++)if(next.opponent[i].revealed){
+    for(let j=0;j<next.opponent.length;j++)if(!next.opponent[j].revealed){const delta=connectedDelta(next.connections,i,j);if(delta!==null)next.opponent[j]={value:next.opponent[i].value!+delta,revealed:true};}
+  }return next;
+}
+export interface PlannedAttack extends RatedAttack { followupProbability:number; followupReveals:number; setup:boolean; anchorProbability:number; extraChainReveals:number }
+/** Two-action belief lookahead: price the setup turn, then a conditional anchor attack. */
+export function planAttacks(o:AIObservation,candidates:number[][],ranked=rankAttacks(o,candidates)):PlannedAttack[] {
+  const risk=exposureCost(o),remaining=o.opponent.filter(t=>!t.revealed).length;
+  // Keep the modal values per target/pair. Include ties so no value is picked by its actual truth.
+  const maxima=new Map<string,number>();
+  const key=(a:Action)=>a.type==='number'?`n${a.a}`:a.type==='gap'?`g${a.a}:${a.b}`:'';
+  for(const entry of ranked)maxima.set(key(entry.action),Math.max(maxima.get(key(entry.action))??0,entry.probability));
+  return ranked.filter(e=>e.probability==maxima.get(key(e.action))&&!(e.action.type==='gap'&&(o.opponent[e.action.a].revealed||o.opponent[e.action.b].revealed))).map(entry=>{
+    const a=entry.action;
+    const supported=candidates.filter(row=>a.type==='number'?row[a.a]===a.value:a.type==='gap'?row[a.b]-row[a.a]===a.value:false);
+    const projected=successObservation(o,a),revealed=remaining-projected.opponent.filter(t=>!t.revealed).length;
+    const followup=nextNumberOpportunity(projected,supported,risk),setup=a.type==='gap'&&revealed===0;
+    let anchorProbability=0,extraChainReveals=0;
+    if(setup&&a.type==='gap'){
+      const anchors=new Map<number,number>();for(const row of supported)anchors.set(row[a.a],(anchors.get(row[a.a])??0)+1);
+      anchorProbability=Math.max(...anchors.values())/supported.length;
+      extraChainReveals=Math.min(componentSize(o,a.a),componentSize(o,a.b));
+    }
+    const winBonus=revealed===remaining?3:0;
+    const futureDiscount=setup?.78:.72;
+    const information=-Math.log2(entry.probability);
+    // A durable link is an option to reveal extra tiles from ANY later anchor,
+    // including the opponent's penalty. Price that option only when both the
+    // relation and a conditional anchor are plausible, never as a flat gap bonus.
+    const chainOption=setup&&entry.probability>=CONNECTION_POLICY.minimumGapProbability&&anchorProbability>=CONNECTION_POLICY.minimumAnchorProbability?entry.probability*anchorProbability*extraChainReveals*CONNECTION_POLICY.chainOptionWeight:0;
+    const score=entry.probability*(revealed+winBonus+futureDiscount*followup.utility+.12*information)-(1-entry.probability)*risk-(setup?.12:0)+chainOption;
+    return {...entry,score,payoff:revealed,followupProbability:followup.probability,followupReveals:followup.reveals,setup,anchorProbability,extraChainReveals};
+  }).sort((a,b)=>b.score-a.score||b.probability-a.probability);
+}
+function planAction(o:AIObservation,candidates:number[][],ranked:RatedAttack[],difficulty:'medium'|'hard',random:()=>number):Action {
+  const attacks=planAttacks(o,candidates,ranked);
+  if(!attacks.length)throw new Error('가능한 공격이 없습니다.');
+  // Certain revelations should never be delayed just to manufacture a connection.
+  const certain=attacks.filter(a=>a.probability===1&&a.payoff>0);
+  const choices=certain.length?certain:attacks;
+  const close=choices.filter(a=>a.score>=choices[0].score-(difficulty==='medium'?.07:0));
+  const best=close[difficulty==='medium'?Math.floor(random()*close.length):0];
+  if(o.phase==='continue'){
+    const threshold=difficulty==='medium'?.55:o.own.filter(t=>!t.revealed).length===1?.86:.63;
+    return best.score>0&&best.probability>=threshold?best.action:{type:'pass'};
+  }
+  if(!certain.length&&o.ownQuestionsLeft>0){
+    // Value both answers by the attacks they enable, rather than spending all question
+    // tokens until an arbitrary attack-probability threshold is met.
+    const questions=rankQuestions(o,candidates).slice(0,difficulty==='hard'?12:5).map(q=>{
+      const yes:number[][]=[],no:number[][]=[];
+      for(const row of candidates)(answerQuestion(q.action.kind,row[q.action.a],row[q.action.b])?yes:no).push(row);
+      const future=(yes.length*Math.max(0,planAttacks(o,yes)[0]?.score??0)+no.length*Math.max(0,planAttacks(o,no)[0]?.score??0))/candidates.length;
+      const {a,b}=q.action;
+      const gapEntropy=(rows:number[][])=>{const counts=new Map<number,number>();for(const row of rows){const d=row[b]-row[a];counts.set(d,(counts.get(d)??0)+1);}return [...counts.values()].reduce((h,n)=>{const p=n/rows.length;return h-p*Math.log2(p);},0);};
+      const linkInformation=canTargetPair(o,a,b,'gap')&&!o.opponent[a].revealed&&!o.opponent[b].revealed?gapEntropy(candidates)-(yes.length*gapEntropy(yes)+no.length*gapEntropy(no))/candidates.length:0;
+      return {...q,score:.78*future+.12*q.information+CONNECTION_POLICY.questionLinkInformationWeight*linkInformation-.12};
+    }).sort((a,b)=>b.score-a.score);
+    if(questions[0]&&questions[0].score>best.score)return questions[0].action;
+  }
+  return best.action;
 }

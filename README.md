@@ -2,6 +2,8 @@
 
 > 숫자는 숨겨져도, 관계는 드러난다.
 
+**연결 전략·연출 업데이트:** 최신 변경과 고정 시드 전후 비교는 [AI-UPDATE.md](AI-UPDATE.md)를 참고하세요. 중급·고급의 연결 계획, AI 결과 수동 확인, 간단한 난이도 선택, 카드 배분 연출이 추가됐습니다. 아래의 초기 밸런스 표는 첫 배포의 기록입니다.
+
 React + TypeScript + Vite로 만든 모바일 우선 1대1 숫자 추리 보드게임입니다. Motion으로 타일·연결·결과를 연출하며, 외부 API·계정·유료 서비스 없이 로컬 알고리즘으로 AI와 대전합니다.
 
 ## 실행
@@ -21,7 +23,8 @@ npm test                 # Vitest 규칙·AI 검증 + 100판 대전
 npm run balance          # 5개 조건 × 100판; balance-results.json 생성
 npm run build            # TypeScript + Vite + 오프라인 캐시 생성
 npm run preview          # 프로덕션 빌드 미리보기
-npm run test:browser     # Chrome을 이용한 실제 브라우저 테스트 10개
+npm run test:browser     # Chrome을 이용한 실제 브라우저 테스트 13개
+npm run compare:ai       # 이전/이후 중급·고급 각각 같은 시드 100판
 ```
 
 브라우저 테스트는 설치된 Chrome을 사용합니다. Chrome이 없다면 Playwright의 Chromium을 설치하고 `playwright.config.ts`의 `channel: 'chrome'`을 제거하세요. 프리뷰 서버는 개발용이며, 빌드 결과 `dist/`는 정적 호스팅에 배포할 수 있습니다.

@@ -1,0 +1,536 @@
+{
+  "heldOut": [
+    {
+      "version": "before",
+      "games": 100,
+      "seedRange": [
+        1001,
+        1100
+      ],
+      "gapsPerGame": 0.14,
+      "attackChainsPerGame": 0.08,
+      "turnsPerGame": 13.74
+    },
+    {
+      "version": "after",
+      "games": 100,
+      "seedRange": [
+        1001,
+        1100
+      ],
+      "gapsPerGame": 0.84,
+      "attackChainsPerGame": 0.38,
+      "turnsPerGame": 13.63
+    }
+  ],
+  "headToHead": {
+    "games": 100,
+    "newWins": 56,
+    "newFirstWins": 27,
+    "outOfFirst": 50,
+    "newSecondWins": 29,
+    "outOfSecond": 50,
+    "matches": [
+      {
+        "seed": 1,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 2,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 3,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 4,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 5,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 6,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 7,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 8,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 9,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 10,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 11,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 12,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 13,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 14,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 15,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 16,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 17,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 18,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 19,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 20,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 21,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 22,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 23,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 24,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 25,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 26,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 27,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 28,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 29,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 30,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 31,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 32,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 33,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 34,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 35,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 36,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 37,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 38,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 39,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 40,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 41,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 42,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 43,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 44,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 45,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 46,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 47,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 48,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 49,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 50,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 51,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 52,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 53,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 54,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 55,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 56,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 57,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 58,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 59,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 60,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 61,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 62,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 63,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 64,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 65,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 66,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 67,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 68,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 69,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 70,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 71,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 72,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 73,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 74,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 75,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 76,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 77,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 78,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 79,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 80,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 81,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 82,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 83,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 84,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 85,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 86,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 87,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 88,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 89,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 90,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 91,
+        "newPlayer": 1,
+        "winner": 1
+      },
+      {
+        "seed": 92,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 93,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 94,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 95,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 96,
+        "newPlayer": 0,
+        "winner": 0
+      },
+      {
+        "seed": 97,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 98,
+        "newPlayer": 0,
+        "winner": 1
+      },
+      {
+        "seed": 99,
+        "newPlayer": 1,
+        "winner": 0
+      },
+      {
+        "seed": 100,
+        "newPlayer": 0,
+        "winner": 0
+      }
+    ]
+  }
+}
