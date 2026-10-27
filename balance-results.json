@@ -1,0 +1,88 @@
+{
+  "seedRange": [
+    1,
+    100
+  ],
+  "results": [
+    {
+      "scenario": "default-hard",
+      "games": 100,
+      "firstPlayerWinPercent": 54,
+      "averageTurns": 13.58,
+      "averageActions": 19.28,
+      "maxActions": 22,
+      "questionsPerGame": 7.96,
+      "numberAttacksPerGame": 6.13,
+      "gapAttacksPerGame": 0.23,
+      "numberSuccessRate": 0.7047308319738989,
+      "gapSuccessRate": 0.6956521739130435,
+      "chainEventsPerGame": 0.09,
+      "chainTiles": 18,
+      "lowConfidenceAttackRate": 0.1949685534591195
+    },
+    {
+      "scenario": "no-initial-reveal",
+      "games": 100,
+      "firstPlayerWinPercent": 59,
+      "averageTurns": 15.42,
+      "averageActions": 22.36,
+      "maxActions": 26,
+      "questionsPerGame": 8,
+      "numberAttacksPerGame": 7.11,
+      "gapAttacksPerGame": 0.81,
+      "numberSuccessRate": 0.5583684950773559,
+      "gapSuccessRate": 0.6049382716049383,
+      "chainEventsPerGame": 0.32,
+      "chainTiles": 66,
+      "lowConfidenceAttackRate": 0.3434343434343434
+    },
+    {
+      "scenario": "two-questions",
+      "games": 100,
+      "firstPlayerWinPercent": 44,
+      "averageTurns": 10.06,
+      "averageActions": 16,
+      "maxActions": 18,
+      "questionsPerGame": 4,
+      "numberAttacksPerGame": 6.15,
+      "gapAttacksPerGame": 0.22,
+      "numberSuccessRate": 0.5414634146341464,
+      "gapSuccessRate": 0.5909090909090909,
+      "chainEventsPerGame": 0.1,
+      "chainTiles": 20,
+      "lowConfidenceAttackRate": 0.4301412872841444
+    },
+    {
+      "scenario": "easy-v-hard",
+      "games": 100,
+      "firstPlayerWinPercent": 7,
+      "averageTurns": 10.97,
+      "averageActions": 16.24,
+      "maxActions": 22,
+      "questionsPerGame": 5.74,
+      "numberAttacksPerGame": 3.98,
+      "gapAttacksPerGame": 1.81,
+      "numberSuccessRate": 0.5527638190954773,
+      "gapSuccessRate": 0.430939226519337,
+      "chainEventsPerGame": 0.07,
+      "chainTiles": 14,
+      "lowConfidenceAttackRate": 0.48877374784110533
+    },
+    {
+      "scenario": "random-gap-v-hard",
+      "games": 100,
+      "firstPlayerWinPercent": 1,
+      "averageTurns": 6.81,
+      "averageActions": 10.73,
+      "maxActions": 15,
+      "questionsPerGame": 2.58,
+      "numberAttacksPerGame": 0.48,
+      "gapAttacksPerGame": 3.96,
+      "numberSuccessRate": 0.9791666666666666,
+      "gapSuccessRate": 0.1111111111111111,
+      "chainEventsPerGame": 0.03,
+      "chainTiles": 6,
+      "lowConfidenceAttackRate": 0.8738738738738738
+    }
+  ]
+}
