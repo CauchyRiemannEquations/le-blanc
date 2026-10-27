@@ -5,7 +5,7 @@ test('Figma 타일 위치, 원본 에셋, 선택 색상과 공격 시트의 분�
  await page.addInitScript(()=>{Date.now=()=>4242;Math.random=()=>.1;localStorage.setItem('leblanc-settings-v1',JSON.stringify({sound:false,reduced:true,initial:true}));});
  await page.goto('/');await page.evaluate(()=>document.fonts.ready);
  await expect(page.locator('.wordmark h1')).toHaveCSS('font-family',/Bodoni Moda Variable/);
- await expect(page.locator('.title-mat img').first()).toHaveJSProperty('naturalWidth',550);
+ await expect(page.locator('.title-photograph img')).toHaveJSProperty('naturalWidth',1280);
  await page.getByRole('button',{name:'시작하기',exact:true}).click();
  await page.getByRole('button',{name:/AI 대전/}).click();await page.getByRole('button',{name:'대전 시작'}).click();
  const tile=page.getByRole('group',{name:'상대의 암호'}).getByRole('button').first();

@@ -1,0 +1,72 @@
+[
+  {
+    "asset": "ceramic-ivory.webp",
+    "source": "media-generation-ceramic-ivory-0-29677dc8-13dd-4a58-a74e-8bf2f6f0c18e.png",
+    "dimensions": [
+      1600,
+      1600
+    ],
+    "sourceSha256": "0cb53022dc7eacace5dd278ec52c2c5d49d83c4f2dd8855f8664dfadaf33d5c2",
+    "bytes": 100626
+  },
+  {
+    "asset": "lacquer-dark.webp",
+    "source": "media-generation-lacquer-dark-0-995fa616-8b76-49e9-b8d4-92eae4ffeb5c.png",
+    "dimensions": [
+      1600,
+      1600
+    ],
+    "sourceSha256": "52c8655f2fb075846123a5cea3bbf676e365f70189041796e5f389728c287fa2",
+    "bytes": 225500
+  },
+  {
+    "asset": "paper-warm.webp",
+    "source": "media-generation-paper-warm-0-70a70b30-4108-437e-92d7-59b6831c8fbe.png",
+    "dimensions": [
+      1600,
+      1600
+    ],
+    "sourceSha256": "0269acf9d83051ac2ca062f84f66bf26b699a0477a4a420e9518276bf2db477b",
+    "bytes": 180008
+  },
+  {
+    "asset": "walnut-dark.webp",
+    "source": "walnut-dark.png",
+    "dimensions": [
+      1600,
+      1600
+    ],
+    "sourceSha256": "6f151677e0884cc094eaefecac61c78effc984e4439834af1758bc38376108c4",
+    "bytes": 238788
+  },
+  {
+    "asset": "title-desktop.webp",
+    "source": "title-desktop.png",
+    "dimensions": [
+      1920,
+      1280
+    ],
+    "sourceSha256": "233a0182d8d4fbf8b5ba511e611a2157d9b58fd4310e5a043183355c54ce8f2c",
+    "bytes": 92134
+  },
+  {
+    "asset": "title-mobile.webp",
+    "source": "title-mobile.png",
+    "dimensions": [
+      1280,
+      1920
+    ],
+    "sourceSha256": "17db0cc472d177abe283c743b79f127ffcba302428bb4fe35342f06145f5268f",
+    "bytes": 104094
+  },
+  {
+    "asset": "felt-oxblood.webp",
+    "source": "felt-oxblood.png",
+    "dimensions": [
+      1600,
+      1600
+    ],
+    "sourceSha256": "a5f648ef9c82804a6c055204e627669aa4ab708575be0a787112ae319de2b347",
+    "bytes": 589862
+  }
+]
