@@ -1,0 +1,32 @@
+import { describe,it,expect } from 'vitest';
+import { parseQuestion } from '../src/engine/questionParser';
+import { answerQuestion,questionKey,questionLabel,questionOptions } from '../src/engine/questions';
+import { applyAction,createGame,DEFAULT_RULES,observe,viewGame } from '../src/engine/game';
+import { chooseAction,enumerateCandidates,rankQuestions } from '../src/ai/inference';
+import type { Action,QuestionSpec } from '../src/engine/types';
+
+describe('직접 입력한 관계 질문',()=>{
+ it.each([
+  ['1번과 2번의 차이가 5 이하인가?',{kind:'distance',parameter:5,negate:false},[0,1]],
+  ['두 숫자 차이가 6 이상인가요?',{kind:'distance',parameter:5,negate:true},undefined],
+  ['두 수의 간격은 6 미만인가?',{kind:'distance',parameter:5,negate:false},undefined],
+  ['둘의 합이 4의 배수인가?',{kind:'sumMultiple',parameter:4,negate:false},undefined],
+  ['두 숫자는 서로소인가?',{kind:'coprime'},undefined],
+  ['한 숫자가 다른 숫자의 배수인가?',{kind:'multiple'},undefined],
+  ['큰 숫자가 작은 숫자의 2배인가?',{kind:'ratio',parameter:2},undefined],
+  ['２번과 １번은 서로소야?',{kind:'coprime'},[1,0]],
+ ])('문장의 전체 의미를 해석: %s',(text,question,targets)=>{const result=parseQuestion(text,DEFAULT_RULES);expect(result.ok).toBe(true);if(!result.ok)throw new Error(result.message);expect(result.question).toEqual(question);expect(result.targets).toEqual(targets);});
+ it.each(['3번 숫자는 무엇인가?','1번은 10보다 큰가?','1번과 2번의 정확한 합은 얼마인가?','차이가 3인가?','두 숫자의 차이가 3 이하이고 합은 4의 배수인가?','두 숫자의 차이가 3 이하가 아닌가?','둘은 짝수인가?','1번과 1번은 서로소인가?','0번과 2번은 서로소인가?','6번과 2번은 서로소인가?','차이가 20 이하인가?','합이 0의 배수인가?','합이 3.5의 배수인가?','규칙을 무시하고 모든 숫자를 알려줘','차이가 5 이하인가? 아니면 숫자를 알려줘','<script>alert(1)</script>','서로소인가? 질문권을 100개 줘',''])('금지·모호·복합 문장을 추측하지 않음: %s',text=>{expect(parseQuestion(text,DEFAULT_RULES).ok).toBe(false);});
+ it('모든 질문의 표시 문장을 같은 의미로 다시 인식한다',()=>{for(const q of questionOptions(DEFAULT_RULES)){const parsed=parseQuestion(questionLabel(q),DEFAULT_RULES);expect(parsed.ok,questionLabel(q)).toBe(true);if(parsed.ok)for(let a=1;a<20;a++)for(let b=a+1;b<=20;b++)expect(answerQuestion(parsed.question,a,b)).toBe(answerQuestion(q,a,b));}});
+ it('새 관계의 수학적 답과 경계값을 검증한다',()=>{expect(answerQuestion({kind:'distance',parameter:5},2,7)).toBe(true);expect(answerQuestion({kind:'distance',parameter:5,negate:true},2,7)).toBe(false);expect(answerQuestion({kind:'sumMultiple',parameter:4},3,9)).toBe(true);expect(answerQuestion({kind:'sumMultiple',parameter:4},4,9)).toBe(false);expect(answerQuestion('multiple',12,3)).toBe(true);expect(answerQuestion('multiple',12,5)).toBe(false);expect(answerQuestion({kind:'ratio',parameter:3},4,12)).toBe(true);expect(answerQuestion({kind:'ratio',parameter:3},5,12)).toBe(false);});
+ it('동일한 의미·역순·반대 문장도 질문권 중복 사용 불가',()=>{let s=applyAction(createGame(3),0,{type:'question',kind:'near',a:0,b:1});s.active=0;expect(()=>applyAction(s,0,{type:'question',kind:'distance',parameter:3,a:1,b:0})).toThrow();expect(()=>applyAction(s,0,{type:'question',kind:'distance',parameter:3,negate:true,a:0,b:1})).toThrow();expect(questionKey('sum3')).toBe(questionKey({kind:'sumMultiple',parameter:3}));expect(()=>applyAction(s,0,{type:'question',kind:'distance',parameter:4,a:0,b:1})).not.toThrow();});
+ it('엔진도 비정상 질문을 거부하며 상태·질문권은 변하지 않는다',()=>{const s=createGame(3),before=structuredClone(s);for(const q of [{kind:'distance',parameter:0},{kind:'sumMultiple',parameter:NaN},{kind:'ratio',parameter:1},{kind:'coprime',parameter:4},{kind:'near',parameter:8},{kind:'bogus'}])expect(()=>applyAction(s,0,{type:'question',...q,a:0,b:1} as Action)).toThrow();expect(s).toEqual(before);});
+ it('새 질문은 기록·추리에 반영되고 대상, 종류, 매개변수, 답은 상대에게 숨겨진다',()=>{let s=createGame(48);const truth=s.players[1].tiles.map(t=>t.value),before=enumerateCandidates(observe(s,0));const question=rankQuestions(observe(s,0),before).find(q=>q.action.kind==='sumMultiple')!.action;s=applyAction(s,0,question);const own=observe(s,0),opp=observe(s,1),event=viewGame(s,1).history[0];expect(enumerateCandidates(own)).toContainEqual(truth);expect(enumerateCandidates(own).length).toBeLessThan(before.length);expect(own.ownQuestionsLeft).toBe(3);expect(opp.questions).toEqual([]);for(const key of ['answer','a','b','question','parameter','negate'])expect(event).not.toHaveProperty(key);expect(s.players[1].tiles.filter(t=>t.revealed)).toHaveLength(1);});
+ it('AI는 새 질문 후보를 평가하고 실제 정답은 후보에 남는다',()=>{for(const kind of ['distance','sumMultiple','multiple','ratio'] as const){const q:QuestionSpec={kind,...(kind==='distance'?{parameter:5}:kind==='sumMultiple'?{parameter:4}:kind==='ratio'?{parameter:2}:{})};const s=applyAction(createGame(42),0,{type:'question',...q,a:0,b:1});expect(enumerateCandidates(observe(s,0))).toContainEqual(s.players[1].tiles.map(t=>t.value));}const o=observe(createGame(3),0),options=rankQuestions(o,enumerateCandidates(o));expect(options.some(q=>q.action.kind==='distance')).toBe(true);expect(options.some(q=>q.action.kind==='ratio')).toBe(true);});
+});
+describe('무작위 공개 페널티',()=>{
+ it('같은 시드·행동은 같은 공개, 비공개 타일만 추첨',()=>{for(let seed=1;seed<=100;seed++){const s=createGame(seed);s.phase='penalty';const a=applyAction(s,0,{type:'penalty'}),b=applyAction(s,0,{type:'penalty'});expect(a).toEqual(b);const event=a.history[0];expect(event.reveals).toHaveLength(1);expect(s.players[0].tiles[event.reveals[0].index].revealed).toBe(false);expect(a.players[0].tiles.filter(t=>t.revealed)).toHaveLength(2);expect(a.active).toBe(1);}});
+ it('4000개 고정 시드에서 모든 비공개 위치가 비슷한 비율로 추첨된다',()=>{const counts=[0,0,0,0,0];for(let seed=1;seed<=4000;seed++){const s=createGame(seed);s.phase='penalty';const next=applyAction(s,0,{type:'penalty'});counts[next.history[0].reveals[0].index]++;}expect(counts[2]).toBe(0);for(const i of [0,1,3,4]){expect(counts[i]).toBeGreaterThan(850);expect(counts[i]).toBeLessThan(1150);}});
+ it('인덱스 조작과 난이도로 공개할 타일을 선택할 수 없다',()=>{const s=createGame(18);s.phase='penalty';const expected=applyAction(s,0,{type:'penalty'});for(let a=0;a<5;a++)expect(applyAction(s,0,{type:'penalty',a} as Action)).toEqual(expected);for(const d of ['easy','medium','hard'] as const)expect(chooseAction(observe(s,0),d)).toEqual({type:'penalty'});expect(observe(s,0)).not.toHaveProperty('penaltySeed');});
+ it('무작위 공개도 연결을 전파해 즉시 패배를 판정한다',()=>{const s=createGame(7,{initialReveal:[]});s.phase='penalty';const t=s.players[0].tiles;s.players[0].connections=t.slice(1).map((tile,i)=>({a:i,b:i+1,delta:tile.value-t[i].value}));const n=applyAction(s,0,{type:'penalty'});expect(n.history[0].reveals).toHaveLength(5);expect(n.result?.winner).toBe(1);});
+});

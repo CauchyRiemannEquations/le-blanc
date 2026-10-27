@@ -1,9 +1,9 @@
-import type { Action, AIObservation, GameState, GameView, GapConnection, Outcome, PlayerId, QuestionKind, RevelationEvent, Rules } from './types';
+import type { Action, AIObservation, GameState, GameView, GapConnection, Outcome, PlayerId, QuestionKind, QuestionSpec, RevelationEvent, Rules } from './types';
+import { answerQuestion,questionKey,validQuestion } from './questions';
+export { answerQuestion,gcd } from './questions';
 export const DEFAULT_RULES:Rules = {min:1,max:20,handSize:5,initialReveal:[2],questions:4};
 export const other = (id:PlayerId):PlayerId => id === 0 ? 1 : 0;
 export function seededRandom(seed:number) { return () => { let t = seed += 0x6D2B79F5; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-export function gcd(a:number,b:number):number { while(b) [a,b]=[b,a%b]; return Math.abs(a); }
-export function answerQuestion(kind:QuestionKind,a:number,b:number):boolean { if(kind==='near')return Math.abs(a-b)<=3; if(kind==='sum3')return (a+b)%3===0; return gcd(a,b)===1; }
 export function createGame(seed = Date.now(), rules:Partial<Rules> = {}, names:[string,string]=['나','M. NOIR'], first:PlayerId=0):GameState {
   const config = {...DEFAULT_RULES,...rules};
   if(!Number.isInteger(config.min)||!Number.isInteger(config.max)||config.min<1||config.max-config.min+1 < config.handSize*2 || config.handSize<2 || config.questions<0 || config.initialReveal.some(i=>i<0||i>=config.handSize) || config.initialReveal.length>=config.handSize)throw new Error('게임 설정이 올바르지 않습니다.');
@@ -11,17 +11,17 @@ export function createGame(seed = Date.now(), rules:Partial<Rules> = {}, names:[
   for(let i=deck.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}
   const makePlayer=(i:PlayerId):GameState['players'][number]=>({name:names[i],tiles:deck.slice(i*config.handSize,(i+1)*config.handSize).sort((a,b)=>a-b).map((value,index)=>({value,revealed:config.initialReveal.includes(index)})),connections:[],questions:[],failed:[]});
   const players:GameState['players']=[makePlayer(0),makePlayer(1)];
-  return {rules:config,players,active:first,phase:'action',turn:1,sequence:0,history:[],result:null,maxChain:0};
+  return {rules:config,players,active:first,phase:'action',turn:1,sequence:0,penaltySeed:seed^0xA5F1523D,history:[],result:null,maxChain:0};
 }
 export function connectedDelta(edges:GapConnection[],start:number,end:number):number|null {
   const queue:[number,number][]=[[start,0]], seen=new Set([start]);
   for(let n=0;n<queue.length;n++){const [at,value]=queue[n];if(at===end)return value;for(const e of edges){let next=-1,delta=0;if(e.a===at){next=e.b;delta=e.delta;}else if(e.b===at){next=e.a;delta=-e.delta;}if(next>=0&&!seen.has(next)){seen.add(next);queue.push([next,value+delta]);}}} return null;
 }
-export function canTargetPair(view:AIObservation,a:number,b:number,kind:'gap'|QuestionKind):boolean {
+export function canTargetPair(view:AIObservation,a:number,b:number,kind:'gap'|QuestionKind|QuestionSpec):boolean {
   if(!Number.isInteger(a)||!Number.isInteger(b)||a===b||a<0||b<0||a>=view.opponent.length||b>=view.opponent.length)return false;
   if(view.opponent[a].revealed&&view.opponent[b].revealed)return false;
   if(kind==='gap')return connectedDelta(view.connections,a,b)===null;
-  return !view.questions.some(q=>q.kind===kind && ((q.a===a&&q.b===b)||(q.a===b&&q.b===a)));
+  return !view.questions.some(q=>questionKey(q)===questionKey(kind) && ((q.a===a&&q.b===b)||(q.a===b&&q.b===a)));
 }
 /** This is the only boundary used by the AI. No state references escape. */
 export function observe(state:GameState,id:PlayerId):AIObservation {
@@ -29,7 +29,7 @@ export function observe(state:GameState,id:PlayerId):AIObservation {
   return structuredClone({rules:state.rules,player:id,own:self.tiles,ownConnections:self.connections,opponent:opponent.tiles.map(t=>({value:t.revealed?t.value:null,revealed:t.revealed})),connections:opponent.connections,questions:self.questions,failed:self.failed,ownQuestionsLeft:state.rules.questions-self.questions.length,phase:state.phase,turn:state.turn,active:state.active});
 }
 export function viewGame(state:GameState,id:PlayerId):GameView {
-  return {...observe(state,id),names:[state.players[0].name,state.players[1].name],opponentQuestionsLeft:state.rules.questions-state.players[other(id)].questions.length,result:state.result?{...state.result}:null,history:state.history.map(e=>{const c=structuredClone(e);if(e.type==='question'&&e.actor!==id){delete c.answer;delete c.question;delete c.a;delete c.b;}return c;})};
+  return {...observe(state,id),names:[state.players[0].name,state.players[1].name],opponentQuestionsLeft:state.rules.questions-state.players[other(id)].questions.length,result:state.result?{...state.result}:null,history:state.history.map(e=>{const c=structuredClone(e);if(e.type==='question'&&e.actor!==id){delete c.answer;delete c.question;delete c.parameter;delete c.negate;delete c.a;delete c.b;}return c;})};
 }
 function reveal(state:GameState,id:PlayerId,index:number,reason:RevelationEvent['reason'],events:RevelationEvent[],from?:number) {
   const tile=state.players[id].tiles[index];if(tile.revealed)return;tile.revealed=true;events.push({player:id,index,value:tile.value,reason,from});
@@ -48,19 +48,29 @@ function checkWinner(s:GameState,events:RevelationEvent[]) {
 export function applyAction(state:GameState,actor:PlayerId,action:Action):GameState {
   const fail=(message:string):never=>{throw new Error(message);};
   if(state.phase==='over'||state.active!==actor)fail('지금은 행동할 수 없습니다.');
-  if(state.phase==='penalty'&&action.type!=='penalty')fail('공개할 내 타일을 선택하세요.');
+  if(state.phase==='penalty'&&action.type!=='penalty')fail('오답 페널티를 먼저 진행하세요.');
   if(state.phase!=='penalty'&&action.type==='penalty')fail('공개할 차례가 아닙니다.');
   const s=structuredClone(state), self=s.players[actor], target=s.players[other(actor)], view=observe(s,actor);
   const event:Outcome={id:++s.sequence,actor,type:action.type,reveals:[],text:''};
   const validIndex=(i:number)=>Number.isInteger(i)&&i>=0&&i<s.rules.handSize;
   if(action.type==='pass') {if(s.phase!=='continue')fail('공격 성공 후에만 멈출 수 있습니다.');event.text='공격을 멈췄습니다.';endTurn(s);}
-  else if(action.type==='penalty') {if(!validIndex(action.a)||self.tiles[action.a].revealed)fail('비공개 타일을 선택하세요.');reveal(s,actor,action.a,'penalty',event.reveals);propagate(s,actor,event.reveals);event.text='오답 페널티로 타일을 공개했습니다.';if(!checkWinner(s,event.reveals))endTurn(s);}
+  else if(action.type==='penalty') {
+    // The engine draws uniformly from hidden tiles. Neither a player nor the AI
+    // can choose an index; the private seed makes fixed-seed replays reproducible.
+    const hidden=self.tiles.flatMap((t,i)=>t.revealed?[]:[i]);
+    if(!hidden.length)fail('공개할 타일이 없습니다.');
+    const index=hidden[Math.floor(seededRandom(s.penaltySeed+s.sequence*0x9E3779B9)()*hidden.length)];
+    reveal(s,actor,index,'penalty',event.reveals);propagate(s,actor,event.reveals);
+    event.text=`무작위로 ${index+1}번 타일이 공개됐습니다.`;
+    if(!checkWinner(s,event.reveals))endTurn(s);
+  }
   else if(action.type==='question') {
     if(s.phase!=='action')fail('연속 공격 중에는 질문할 수 없습니다.');
-    if(!['near','sum3','coprime'].includes(action.kind)||view.ownQuestionsLeft<=0)fail('질문권을 사용할 수 없습니다.');
-    if(!canTargetPair(view,action.a,action.b,action.kind))fail('이미 알려졌거나 사용한 질문입니다.');
-    const [a,b]=[action.a,action.b].sort((x,y)=>x-y), answer=answerQuestion(action.kind,target.tiles[a].value,target.tiles[b].value);
-    self.questions.push({kind:action.kind,a,b,answer,turn:s.turn});Object.assign(event,{a,b,question:action.kind,answer,text:'관계 질문을 사용했습니다.'});endTurn(s);
+    if(!validQuestion(action,s.rules)||view.ownQuestionsLeft<=0)fail('질문권을 사용할 수 없습니다.');
+    if(!canTargetPair(view,action.a,action.b,action))fail('이미 알려졌거나 사용한 질문입니다.');
+    const [a,b]=[action.a,action.b].sort((x,y)=>x-y), answer=answerQuestion(action,target.tiles[a].value,target.tiles[b].value);
+    const spec={kind:action.kind,...(action.parameter!==undefined?{parameter:action.parameter}:{}),...(action.negate!==undefined?{negate:action.negate}:{})};
+    self.questions.push({...spec,a,b,answer,turn:s.turn});Object.assign(event,{a,b,question:action.kind,parameter:action.parameter,negate:action.negate,answer,text:'질문권 1회를 사용했습니다.'});endTurn(s);
   } else {
     if(!validIndex(action.a)||!Number.isInteger(action.value))fail('대상과 값을 확인하세요.');
     if(action.type==='number') {

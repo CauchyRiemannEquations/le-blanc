@@ -1,15 +1,16 @@
 import { answerQuestion, canTargetPair, connectedDelta } from '../engine/game';
-import type { Action, AIObservation, Difficulty, QuestionKind } from '../engine/types';
+import type { Action, AIObservation, Difficulty } from '../engine/types';
+import { questionOptions } from '../engine/questions';
 export function enumerateCandidates(o:AIObservation,useQuestions=true):number[][] {
   const own=new Set(o.own.map(t=>t.value)), pool=Array.from({length:o.rules.max-o.rules.min+1},(_,i)=>o.rules.min+i).filter(n=>!own.has(n)), result:number[][]=[];
   const search=(hand:number[],start:number)=>{
     const index=hand.length;
-    if(index===o.rules.handSize){if(useQuestions&&o.questions.some(q=>answerQuestion(q.kind,hand[q.a],hand[q.b])!==q.answer))return;result.push([...hand]);return;}
+    if(index===o.rules.handSize){if(useQuestions&&o.questions.some(q=>answerQuestion(q,hand[q.a],hand[q.b])!==q.answer))return;result.push([...hand]);return;}
     for(let p=start;p<=pool.length-(o.rules.handSize-index);p++){
       const n=pool[p];if(o.opponent[index].value!==null&&o.opponent[index].value!==n)continue;
       if(o.failed.some(f=>f.kind==='number'&&f.a===index&&f.value===n))continue;
       hand.push(n);
-      const invalid=o.connections.some(e=>e.b===index&&n-hand[e.a]!==e.delta) || o.failed.some(f=>f.kind==='gap'&&f.b===index&&n-hand[f.a]===f.value) || (useQuestions&&o.questions.some(q=>q.b===index&&answerQuestion(q.kind,hand[q.a],n)!==q.answer));
+      const invalid=o.connections.some(e=>e.b===index&&n-hand[e.a]!==e.delta) || o.failed.some(f=>f.kind==='gap'&&f.b===index&&n-hand[f.a]===f.value) || (useQuestions&&o.questions.some(q=>q.b===index&&answerQuestion(q,hand[q.a],n)!==q.answer));
       if(!invalid)search(hand,p+1);hand.pop();
     }
   };search([],0);return result;
@@ -30,21 +31,19 @@ export function rankAttacks(o:AIObservation,candidates:number[][]):RatedAttack[]
     }
   } return result.sort((a,b)=>b.score-a.score||b.probability-a.probability);
 }
-export function rankQuestions(o:AIObservation,candidates:number[][]):RatedQuestion[] {
+export function rankQuestions(o:AIObservation,candidates:number[][],expanded=true):RatedQuestion[] {
   const result:RatedQuestion[]=[];
-  for(const kind of ['near','sum3','coprime'] as QuestionKind[])for(let a=0;a<o.rules.handSize;a++)for(let b=a+1;b<o.rules.handSize;b++)if(canTargetPair(o,a,b,kind)){
-    const p=candidates.filter(c=>answerQuestion(kind,c[a],c[b])).length/candidates.length;
+  const options=expanded?questionOptions(o.rules):questionOptions(o.rules).slice(0,3);
+  for(const spec of options)for(let a=0;a<o.rules.handSize;a++)for(let b=a+1;b<o.rules.handSize;b++)if(canTargetPair(o,a,b,spec)){
+    const p=candidates.filter(c=>answerQuestion(spec,c[a],c[b])).length/candidates.length;
     const information=p>0&&p<1?-p*Math.log2(p)-(1-p)*Math.log2(1-p):0;
-    if(information>0)result.push({action:{type:'question',kind,a,b},information});
+    if(information>0)result.push({action:{type:'question',...spec,a,b},information});
   }return result.sort((a,b)=>b.information-a.information);
 }
 /** Pure strategy. The full GameState type is deliberately absent from this module. */
 export function chooseAction(o:AIObservation,difficulty:Difficulty='medium',random:()=>number=Math.random):Action {
   if(o.phase==='over'||o.active!==o.player)throw new Error('AI가 행동할 차례가 아닙니다.');
-  if(o.phase==='penalty'){
-    const choices=o.own.flatMap((t,i)=>t.revealed?[]:[{index:i,cost:o.own.filter((tile,j)=>!tile.revealed&&connectedDelta(o.ownConnections,i,j)!==null).length}]).sort((a,b)=>a.cost-b.cost);
-    return {type:'penalty',a:choices[difficulty==='easy'?Math.floor(random()*choices.length):0].index};
-  }
+  if(o.phase==='penalty')return {type:'penalty'};
   const candidates=enumerateCandidates(o,difficulty!=='easy');
   if(!candidates.length)throw new Error('합법적인 후보가 없습니다.');
   const ranked=rankAttacks(o,candidates);
@@ -54,7 +53,7 @@ export function chooseAction(o:AIObservation,difficulty:Difficulty='medium',rand
   if(!attack)throw new Error('가능한 공격이 없습니다.');
   if(o.phase==='continue'&&attack.probability<.33)return {type:'pass'};
   if(o.phase==='action'&&o.ownQuestionsLeft>0){
-    const questions=rankQuestions(o,candidates);
+    const questions=rankQuestions(o,candidates,false);
     const question=questions[Math.floor(random()*questions.length)];
     if(question&&question.information>.25&&attack.probability<.37&&random()<.55)return question.action;
   }
@@ -67,9 +66,9 @@ interface NumberOpportunity { utility:number; probability:number; reveals:number
 const CONNECTION_POLICY={minimumGapProbability:.4,minimumAnchorProbability:.5,chainOptionWeight:3,questionLinkInformationWeight:.4};
 function exposureCost(o:AIObservation):number {
   const hidden=o.own.flatMap((t,i)=>t.revealed?[]:[i]);
-  const smallest=Math.min(...hidden.map(i=>hidden.filter(j=>connectedDelta(o.ownConnections,i,j)!==null).length));
-  // Losing the last connected hand is much worse than a single isolated exposure.
-  return smallest+(smallest===hidden.length?2.4:hidden.length<=2?.5:0);
+  // Each hidden TILE is equally likely, so larger connected components are also
+  // more likely to be drawn. Price that expected loss instead of a chosen tile.
+  return hidden.reduce((cost,i)=>{const size=hidden.filter(j=>connectedDelta(o.ownConnections,i,j)!==null).length;return cost+size+(size===hidden.length?2.4:hidden.length<=2?.5:0);},0)/hidden.length;
 }
 function nextNumberOpportunity(o:AIObservation,candidates:number[][],risk:number):NumberOpportunity {
   let best:NumberOpportunity={utility:0,probability:0,reveals:0};
@@ -137,7 +136,7 @@ function planAction(o:AIObservation,candidates:number[][],ranked:RatedAttack[],d
     // tokens until an arbitrary attack-probability threshold is met.
     const questions=rankQuestions(o,candidates).slice(0,difficulty==='hard'?12:5).map(q=>{
       const yes:number[][]=[],no:number[][]=[];
-      for(const row of candidates)(answerQuestion(q.action.kind,row[q.action.a],row[q.action.b])?yes:no).push(row);
+      for(const row of candidates)(answerQuestion(q.action,row[q.action.a],row[q.action.b])?yes:no).push(row);
       const future=(yes.length*Math.max(0,planAttacks(o,yes)[0]?.score??0)+no.length*Math.max(0,planAttacks(o,no)[0]?.score??0))/candidates.length;
       const {a,b}=q.action;
       const gapEntropy=(rows:number[][])=>{const counts=new Map<number,number>();for(const row of rows){const d=row[b]-row[a];counts.set(d,(counts.get(d)??0)+1);}return [...counts.values()].reduce((h,n)=>{const p=n/rows.length;return h-p*Math.log2(p);},0);};

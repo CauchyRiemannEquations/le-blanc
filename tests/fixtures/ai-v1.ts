@@ -1,6 +1,10 @@
 // Frozen production AI from commit 636d9881275d96661351eb1bf040568e2e40de2f. Comparison only.
 import { answerQuestion, canTargetPair, connectedDelta } from '../../src/engine/game';
-import type { Action, AIObservation, Difficulty, QuestionKind } from '../../src/engine/types';
+import type { Action as CurrentAction, AIObservation, Difficulty, QuestionKind } from '../../src/engine/types';
+// Preserve the original strategy's chosen index for historical comparisons; the
+// current engine ignores it under the random-penalty rule.
+type Action=Exclude<CurrentAction,{type:'penalty'}>|{type:'penalty';a:number};
+
 export function enumerateCandidates(o:AIObservation,useQuestions=true):number[][] {
   const own=new Set(o.own.map(t=>t.value)), pool=Array.from({length:o.rules.max-o.rules.min+1},(_,i)=>o.rules.min+i).filter(n=>!own.has(n)), result:number[][]=[];
   const search=(hand:number[],start:number)=>{
