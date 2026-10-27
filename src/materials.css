@@ -24,3 +24,7 @@
  .board-mat::after{inset:20px 22px;background-size:800px 800px;opacity:.42}
 }
 @media(max-width:599px) and (max-height:700px){.title-photograph img{object-position:center 58%}}
+
+/* Two entry paths share the title art without covering the footer on small phones. */
+.title-screen .title-actions{top:auto;bottom:92px;gap:10px}.title-screen .title-actions .start-button{min-height:48px;height:48px}.title-screen .title-actions>p{margin:0}.title-screen .title-footer{top:auto;bottom:24px}
+@media(min-width:900px){.title-screen .title-actions{bottom:130px}}

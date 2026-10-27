@@ -18,7 +18,7 @@ export default function TileRow({tiles,own=false,selected=[],onSelect,enabled=()
     {selected.includes(i)?<span className="selected-dot"/>:null}
    </div>;})}
   </div>
-  {connections.length>0?<svg className="connections" viewBox={`0 0 500 ${45+connections.length*15}`} aria-label="확정된 간격 연결" role="img">
+  {connections.length>0?<svg className="connections" viewBox={`0 0 ${tiles.length*100} ${45+connections.length*15}`} aria-label="확정된 간격 연결" role="img">
    {connections.map((edge,i)=>{const a=50+edge.a*100,b=50+edge.b*100,y=18+i*15,path=`M${a} 2 V${y-5} Q${a} ${y} ${a+5} ${y} H${b-5} Q${b} ${y} ${b} ${y-5} V2`,hop=reveals.findIndex(r=>(r.from===edge.a&&r.index===edge.b)||(r.from===edge.b&&r.index===edge.a));return <g key={`${edge.a}-${edge.b}`}><title>{edge.a+1}번에서 {edge.b+1}번까지 +{edge.delta}</title><motion.path initial={reduced?false:{pathLength:0}} animate={{pathLength:1}} transition={{duration:.55}} d={path}/>{hop>=0?<motion.path className="chain-pulse" initial={reduced?false:{pathLength:0}} animate={{pathLength:1}} transition={{duration:reduced?0:.3,delay:reduced?0:Math.max(0,hop-1)*.34}} d={reveals[hop].from===edge.a?path:`M${b} 2 V${y-5} Q${b} ${y} ${b-5} ${y} H${a+5} Q${a} ${y} ${a} ${y-5} V2`}/>:null}<rect x={(a+b)/2-16} y={y-9} width="32" height="18" rx="7"/><text x={(a+b)/2} y={y+5}>+{edge.delta}</text></g>;})}
   </svg>:<div className="connection-space"/>}
  </div>;

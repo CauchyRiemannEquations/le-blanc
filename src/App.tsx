@@ -14,10 +14,11 @@ import Tutorial from './components/Tutorial';
 import DealIntro from './components/DealIntro';
 import OwnHand from './components/OwnHand';
 import { playTone } from './audio';
+const SoloGame=lazy(()=>import('./solo/SoloGame'));
 const OnlineGame=lazy(()=>import('./components/OnlineGame'));
 import TurnClock from './components/TurnClock';
 import { TURN_MS } from './online/types';
-type Screen='online'|'title'|'mode'|'difficulty'|'local'|'deal'|'game'|'tutorial'|'result';
+type Screen='solo'|'online'|'title'|'mode'|'difficulty'|'local'|'deal'|'game'|'tutorial'|'result';
 interface Settings { sound:boolean; reduced:boolean; initial:boolean }
 function readSettings():Settings {const defaults={sound:false,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,initial:true};try {const saved=JSON.parse(localStorage.getItem('leblanc-settings-v1')??'{}');return {sound:typeof saved?.sound==='boolean'?saved.sound:defaults.sound,reduced:typeof saved?.reduced==='boolean'?saved.reduced:defaults.reduced,initial:typeof saved?.initial==='boolean'?saved.initial:defaults.initial};}catch{return defaults;}}
 const levelNames:Record<Difficulty,string>={easy:'초급',medium:'중급',hard:'고급'};
@@ -43,10 +44,11 @@ export default function App() {
  return <MotionConfig reducedMotion={settings.reduced?'always':'user'}><div className={`app ${settings.reduced?'reduced-motion':''}`}>
   <div className="ambient" aria-hidden="true"/><div className="grain" aria-hidden="true"/>
   <div className="app-content" inert={blocking?true:undefined}>
+  {screen==='solo'?<Suspense fallback={<main className="screen">암호판을 준비합니다…</main>}><SoloGame reduced={settings.reduced} onBack={()=>setScreen('title')}/></Suspense>:null}
   {screen==='online'?<Suspense fallback={<main className="screen curtain"><p>온라인 대전 연결 중…</p></main>}><OnlineGame reduced={settings.reduced} sound={settings.sound} onBack={()=>{history.replaceState(null,'',location.pathname);setScreen('mode');}}/></Suspense>:null}
   {screen==='title'?<main className="title-screen screen">
    <header className="title-header"><span>LE BLANC / 01</span><span>A GAME OF RELATIONS</span></header>
-   <div className="title-composition"><picture className="title-photograph" aria-hidden="true"><source media="(min-width: 900px)" srcSet="/materials/title-desktop.webp"/><img src="/materials/title-mobile.webp" alt="" fetchPriority="high"/></picture><motion.div className="wordmark" initial={settings.reduced?false:{opacity:0,y:12}} animate={{opacity:1,y:0}} transition={{duration:.5}}><h1><span>LE</span><span>BLANC</span></h1><p className="tagline">숫자는 숨겨져도, 관계는 드러난다.</p></motion.div><div className="title-actions"><button className="primary start-button" onClick={()=>{setScreen('mode');playTone('select',settings.sound);}}>시작하기 <ArrowRight size={18}/></button><p>두 사람. 다섯 개의 숫자. 하나의 해답.</p></div></div>
+   <div className="title-composition"><picture className="title-photograph" aria-hidden="true"><source media="(min-width: 900px)" srcSet="/materials/title-desktop.webp"/><img src="/materials/title-mobile.webp" alt="" fetchPriority="high"/></picture><motion.div className="wordmark" initial={settings.reduced?false:{opacity:0,y:12}} animate={{opacity:1,y:0}} transition={{duration:.5}}><h1><span>LE</span><span>BLANC</span></h1><p className="tagline">숫자는 숨겨져도, 관계는 드러난다.</p></motion.div><div className="title-actions"><button className="primary start-button" onClick={()=>setScreen('solo')}>솔로 시작 / 이어하기 <ArrowRight size={18}/></button><button className="primary start-button" onClick={()=>{setScreen('mode');playTone('select',settings.sound);}}>시작하기 <ArrowRight size={18}/></button><p>혼자 풀거나, 함께 겨루거나.</p></div></div>
    <footer className="title-footer"><button className="text-button" onClick={()=>setScreen('tutorial')}>플레이 방법</button><button className="icon-button" aria-label="설정" onClick={()=>openPanel('settings')}><Settings2 size={16}/></button></footer>
   </main>:null}
   {['mode','difficulty','local'].includes(screen)?<main className="menu-screen screen"><header className="menu-header"><button className="icon-button" onClick={menuBack} aria-label="뒤로"><ArrowLeft size={21}/></button><span className="brand-small">LE BLANC</span><button className="icon-button" aria-label="설정" onClick={()=>openPanel('settings')}><Settings2 size={18}/></button></header><div className="menu-body"><Sigil small/><span className="eyebrow">{screen==='mode'?'CHOOSE YOUR OPPONENT':screen==='difficulty'?'AI 대전':'2인 대전'}</span><h1>{screen==='mode'?'누구와\n겨뤄볼까요?':screen==='difficulty'?'난이도를 선택하세요.':'기기 하나로 함께 플레이'}</h1><p className="muted">{screen==='mode'?'상대의 숫자 다섯 개를 먼저 맞히면 승리합니다.':screen==='difficulty'?'처음이라면 초급부터 시작해보세요.':'하나의 기기를 번갈아 사용하는 2인 대전입니다.'}</p>

@@ -1,0 +1,51 @@
+import {useEffect,useMemo,useRef,useState} from 'react';
+import {useReducedMotion} from 'motion/react';
+import TileRow from '../components/TileRow';
+import Overlay from '../components/Overlay';
+import {STAGES,getStage} from './stages';
+import {describe,targets} from './conditions';
+import {apply,stars} from './engine';
+import {completed,loadSave,newRun,replay,SOLO_KEY} from './storage';
+import type {SoloAction,SoloSave,Stage} from './types';
+import './solo.css';
+
+export default function SoloGame({onBack,reduced}:{onBack:()=>void;reduced:boolean}){
+ const [save,setSave]=useState(loadSave),[screen,setScreen]=useState<'list'|'play'|'result'>('list'),[tool,setTool]=useState<'number'|'question'|null>(null),[panel,setPanel]=useState<'record'|'help'|'hint'|null>(null),[tile,setTile]=useState(0),[value,setValue]=useState<number|null>(null),[memo,setMemo]=useState(false),[question,setQuestion]=useState<string|null>(null),[selected,setSelected]=useState<number[]>([]),[message,setMessage]=useState(''),[busy,setBusy]=useState(false),[replace,setReplace]=useState<Stage|null>(null);
+ const [storageError,setStorageError]=useState('');
+ const lock=useRef(false),timer=useRef<ReturnType<typeof setTimeout>|null>(null),systemReduced=useReducedMotion();
+ const reduce=reduced||!!systemReduced,run=save.active,stage=run?getStage(run.stageId)!:null,state=useMemo(()=>run?replay(run):null,[run]);
+ useEffect(()=>()=>{if(timer.current)clearTimeout(timer.current);},[]);
+ function persist(next:SoloSave){try{localStorage.setItem(SOLO_KEY,JSON.stringify(next));}catch{setStorageError('기기에 저장하지 못했습니다. 저장 공간을 확인해주세요.');}setSave(next);}
+ function resetTools(){setTool(null);setPanel(null);setQuestion(null);setSelected([]);setValue(null);setMessage('');}
+ function start(s:Stage){persist({...save,active:newRun(s)});resetTools();setScreen('play');setReplace(null);}
+ function choose(s:Stage){if(run?.stageId===s.id){resetTools();setScreen(state?.cleared?'result':'play');}else if(state&&!state.cleared)setReplace(s);else start(s);}
+ function act(action:SoloAction){if(!stage||!state||!run||lock.current)return;try{
+  const next=apply(stage,state,action);if(next===state){const answer=state.answers.find(a=>a.id===(action as {id?:string}).id);setMessage(`확인한 답: ${answer?.answer?'예':'아니오'} · 질문 횟수는 그대로입니다.`);return;}
+  persist(completed({...save,active:{...run,actions:[...run.actions,action]}},stage,next));
+  if(action.type==='memo')return;
+  const event=next.events.at(-1)!;setMessage(event.text);setTool(null);setSelected([]);
+  if(action.type==='hint')setPanel('hint');
+  if(event.reveals.length&&!reduce){lock.current=true;setBusy(true);timer.current=setTimeout(()=>{lock.current=false;setBusy(false);},event.reveals.length*340+500);}
+ }catch(e){setMessage(e instanceof Error?e.message:'다시 시도해주세요.');}}
+ const index=stage?STAGES.indexOf(stage):0,q=stage?.questions.find(q=>q.id===question),latest=state?.events.at(-1),needed=q?targets(q.condition):[];
+ const best=(id:string)=>Math.max(0,...save.records.filter(r=>r.stageId===id).map(r=>r.stars));
+ return <main className={`solo-screen solo-${screen}`}>
+  {storageError?<p role="alert">{storageError}</p>:null}
+  <header className="solo-header"><button disabled={busy} onClick={()=>{if(screen==='list')onBack();else{resetTools();setScreen('list');}}} aria-label={screen==='list'?'메인으로':'스테이지 목록'}>←</button><span className="brand-small">LE BLANC</span><button onClick={()=>setPanel('help')} aria-label="솔로 도움말">?</button></header>
+  {screen==='list'?<section className="solo-library"><span className="solo-kicker">혼자 푸는 여섯 개의 암호</span><h1>책상 위의 단서</h1><p>숫자를 찾고, 그 사이를 이어보세요.</p>{run&&!state?.cleared?<button className="primary solo-resume" onClick={()=>{resetTools();setScreen('play');}}>이어하기 · {stage?.title} →</button>:null}<ol className="solo-stage-list">{STAGES.map((s,i)=><li key={s.id}><button data-testid={`stage-${s.id}`} onClick={()=>choose(s)}><span className="solo-stage-no">0{i+1}</span><span><strong>{s.title}</strong><small>{s.subtitle}</small></span><span aria-label={`${best(s.id)}성`} className="solo-stars">{best(s.id)?'★'.repeat(best(s.id)):'—'}</span><span>↗</span></button></li>)}</ol></section>:null}
+  {screen==='play'&&stage&&state?<>
+   <section className="solo-heading"><span className="solo-kicker">암호 0{index+1} / 06</span><h1>{stage.title}</h1><p>질문 {state.questionsUsed} / 목표 {stage.parQuestions}</p></section>
+   <section className="solo-table" aria-label="솔로 암호판"><TileRow tiles={state.opened.map(v=>({value:v,revealed:v!==null}))} connections={state.connections} selected={tool==='question'?selected:tool==='number'?[tile]:[]} enabled={i=>!busy&&!state.cleared&&(tool==='question'&&!!q||state.opened[i]===null)} onSelect={i=>{if(tool==='question'&&q){setSelected(a=>a.includes(i)?a.filter(v=>v!==i):[...a,i]);}else{setTile(i);setTool('number');setMemo(false);setValue(null);setMessage('');}}} reveals={busy&&latest?latest.reveals.map(r=>({...r,player:0 as const,reason:'chain' as const})):[]} reduced={reduce} label="암호 타일"/></section>
+   <section className="solo-clues" aria-label="공개 단서"><p className="solo-range">{stage.min}–{stage.max} · 중복 없이 오름차순</p><p><b>제외</b> {stage.excluded.join(' · ')}</p>{stage.clues.filter(c=>c.kind!=='gap').map((c,i)=><p key={i}>{describe(c)}</p>)}</section>
+   <div className="solo-feedback" role="status">{message|| (state.cleared?'암호를 모두 풀었습니다.':tool==='question'&&q?`질문의 대상 ${needed.map(i=>i+1).join('·')}번 타일을 선택하세요.`:tool==='number'?`${tile+1}번 타일 · ${memo?'후보를 메모합니다.':'확정할 숫자를 고르세요.'}`:index===0?'타일을 눌러 숫자를 입력하세요. 후보를 메모해도 좋습니다.':'타일을 누르거나, 관계를 질문하세요.')}</div>
+   <section className="solo-workspace">
+    {tool?<div className="solo-tool"><div className="solo-tool-head"><strong>{tool==='number'?`${tile+1}번 타일`:'관계 질문'}</strong><button onClick={()=>{setTool(null);setSelected([]);setQuestion(null);setMessage('');}}>취소 ×</button></div>
+     {tool==='number'?<><div className="solo-tabs"><button aria-pressed={!memo} onClick={()=>{setMemo(false);setValue(null);}}>숫자 해독</button><button aria-pressed={memo} onClick={()=>{setMemo(true);setValue(null);}}>후보 메모</button></div><div className="solo-keypad">{Array.from({length:stage.max-stage.min+1},(_,i)=>i+stage.min).map(n=>{const excluded=stage.excluded.includes(n)||state.opened.includes(n)||state.failed.some(f=>f.tile===tile&&f.value===n);return <button key={n} disabled={excluded} aria-label={`${memo?'후보':'숫자'} ${n}`} aria-pressed={memo?state.memos[tile].includes(n):value===n} onClick={()=>memo?act({type:'memo',tile,value:n}):setValue(n)}>{n}{memo&&state.memos[tile].includes(n)?<small>✓</small>:null}</button>;})}</div>{memo?<p className="solo-note">메모는 단서나 정답 판정에 영향을 주지 않습니다.</p>:<button className="primary full" disabled={value===null||busy} onClick={()=>value!==null&&act({type:'guess',tile,value})}>{value===null?'숫자를 선택하세요':`${value} · 해독하기`}</button>}</>:<>{!q?<div className="solo-question-list">{stage.questions.map(q=><button key={q.id} data-testid={`question-${q.id}`} onClick={()=>{setQuestion(q.id);setSelected([]);setMessage('');}}>{describe(q.condition)}?<small>{state.answers.some(a=>a.id===q.id)?'답 다시 보기 · 무료':'대상 선택 →'}</small></button>)}{!stage.questions.length?<p>이 판은 공개된 단서만으로 풀 수 있습니다.</p>:null}</div>:<div className="solo-question-confirm"><p>{describe(q.condition)}?</p><p>대상: {needed.map(i=>`${i+1}번`).join(' · ')}</p><button className="primary full" disabled={selected.length!==needed.length||!needed.every(i=>selected.includes(i))} onClick={()=>act({type:'question',id:q.id})}>질문 실행</button><button className="text-button" onClick={()=>{setQuestion(null);setSelected([]);}}>다른 질문</button></div>}</>}
+    </div>:state.cleared?<button className="primary" disabled={busy} onClick={()=>setScreen('result')}>결과 보기 →</button>:<nav className="solo-tools" aria-label="추리 도구"><button disabled={busy} onClick={()=>{setTool('question');setQuestion(null);setSelected([]);setMessage('');}}>질문하기 ↗</button><button disabled={busy} onClick={()=>setPanel('record')}>기록</button><button disabled={busy} onClick={()=>setPanel('hint')}>힌트</button></nav>}
+   </section>
+  </>:null}
+  {screen==='result'&&stage&&state?<section className="solo-result"><span className="solo-kicker">암호 0{index+1} · 해독 완료</span><h1>{stage.title}</h1><div className="solo-result-stars" aria-label={`${stars(stage,state)}성`}>{'★'.repeat(stars(stage,state))}{'☆'.repeat(3-stars(stage,state))}</div><TileRow tiles={state.opened.map(value=>({value,revealed:true}))} connections={state.connections} reduced={reduce}/><p>질문 {state.questionsUsed} / 목표 {stage.parQuestions}<br/>오답 {state.failed.length} · 힌트 {state.hintsUsed} · 추측 해독 {state.guesses}</p><p className="solo-explanation">{stage.walkthrough.explanation}</p><p className="solo-note">3성: 목표 이내 · 오답, 힌트, 추측 없음<br/>2성: 힌트 없이 완료 · 1성: 힌트 사용</p>{index<5?<button className="primary full" onClick={()=>start(STAGES[index+1])}>다음 암호 →</button>:<button className="primary full" onClick={()=>setScreen('list')}>여섯 개의 암호 돌아보기</button>}<button className="text-button" onClick={()=>start(stage)}>다시 풀기</button></section>:null}
+  {panel?<Overlay title={panel==='record'?'추리 기록':panel==='help'?'솔로 도움말':'힌트'} reduced={reduce} onClose={()=>setPanel(null)}>{panel==='help'?<div className="help-content"><h2>단서를 읽고, 숫자를 이으세요.</h2><p>숫자는 왼쪽부터 오름차순이며 중복되지 않습니다. 제외 숫자는 들어가지 않습니다.</p><p>타일을 눌러 숫자를 해독하거나 후보를 메모하세요. 질문은 대상을 선택한 다음 실행합니다. 취소하거나 같은 답을 다시 읽으면 횟수가 늘지 않습니다.</p><p>정확히 확인한 간격만 선으로 연결됩니다. 숫자 하나를 열면 그 선으로 이어진 타일도 열립니다.</p><p>질문 목표를 넘거나 틀려도 계속 풀 수 있습니다. 확정되지 않은 숫자를 맞히면 추측 해독으로 기록합니다.</p><p>3성: 목표 이내, 오답·힌트·추측 없음.<br/>2성: 힌트 없이 완료. 1성: 힌트 사용.</p></div>:panel==='record'?<div className="solo-log"><h2>확인한 것들</h2>{state?.events.length?state.events.map(e=><p key={e.id}>{e.text}</p>):<p>아직 질문하거나 해독한 기록이 없습니다.</p>}</div>:<div className="solo-log"><h2>한 걸음씩</h2><p>힌트를 보면 이번 판의 최고 평가는 1성입니다. 질문은 자동으로 실행되지 않습니다.</p>{state?.events.filter(e=>e.kind==='hint').map(e=><p key={e.id}>{e.text}</p>)}<button className="primary full" disabled={!state||state.cleared||busy} onClick={()=>act({type:'hint'})}>힌트 보기</button></div>}</Overlay>:null}
+  {replace?<Overlay title="새 암호 시작" reduced={reduce} onClose={()=>setReplace(null)}><h2>진행 중인 암호를 바꿀까요?</h2><p>현재 판의 진행은 새 판으로 교체됩니다. 완료한 기록은 유지됩니다.</p><button className="primary full" onClick={()=>start(replace)}>새 판 시작</button></Overlay>:null}
+ </main>;
+}
