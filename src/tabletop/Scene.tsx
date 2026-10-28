@@ -1,3 +1,4 @@
+import {CARD_FACE,needsOrientationMark} from '../cardFace';
 import {useEffect,useMemo,useRef} from 'react';
 import {useFrame,useThree,useLoader} from '@react-three/fiber';
 import * as THREE from 'three';
@@ -10,10 +11,10 @@ export interface HitLayout {central:Hit[];near:Hit[]}
 export interface SceneProps {data:SceneData;peek:boolean;selected:number[];page:number;reduced:boolean;eventId:string;revealIds:string[];onSelect?:(i:number)=>void;onLayout:(hits:HitLayout)=>void;placement:'play'|'tool'|'menu';dealing:boolean;onReady:()=>void}
 function faceTexture(value:number|null,paper:HTMLImageElement){
  if(value===null)return null;
- const canvas=document.createElement('canvas');canvas.width=512;canvas.height=768;const c=canvas.getContext('2d')!;
- c.drawImage(paper,0,0,512,768);
- c.textAlign='center';c.fillStyle='#21180f';c.font='bold 272px Georgia';c.fillText(String(value),256,470);
- if(value===6||value===9)c.fillRect(208,504,96,8);
+ const f=CARD_FACE,canvas=document.createElement('canvas');canvas.width=f.width;canvas.height=f.height;const c=canvas.getContext('2d')!;
+ c.drawImage(paper,0,0,f.width,f.height);
+ c.textAlign='center';c.fillStyle=f.ink;c.font=`${f.weight} ${f.size}px ${f.family}`;c.fillText(String(value),f.x,f.baseline);
+ if(needsOrientationMark(value))c.fillRect(f.marker.x,f.marker.y,f.marker.width,f.marker.height);
  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=4;return texture;
 }
 

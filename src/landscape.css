@@ -111,3 +111,6 @@ html,body,#root,.app,.app-content{min-height:100%;margin:0}.app .ambient{backgro
  .app .menu-utilities{margin-top:4px}
  .app .online-lobby .menu-body{max-height:calc(100dvh - 32px);bottom:12px}
 }
+
+/* Same printed number geometry as the 3D card, including the 6/9 orientation mark. */
+.app .tile .card-face-number{position:absolute;inset:0;width:100%;height:100%;padding:0;letter-spacing:0;font-variation-settings:normal;font-variant-numeric:normal;pointer-events:none}

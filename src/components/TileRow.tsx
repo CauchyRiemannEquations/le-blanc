@@ -1,3 +1,4 @@
+import {CARD_FACE,needsOrientationMark} from '../cardFace';
 import { motion } from 'motion/react';
 import { Eye } from 'lucide-react';
 import type { GapConnection, RevelationEvent, VisibleTile } from '../engine/types';
@@ -10,7 +11,7 @@ export default function TileRow({tiles,own=false,selected=[],onSelect,enabled=()
     <span className="tile-index">{String(i+1).padStart(2,'0')}</span>
     <motion.button className={`tile ${t.value===null?'secret':'face'} ${selected.includes(i)?'selected':''} ${own&&t.revealed?'exposed':''}`} aria-label={`${i+1}번 타일, ${t.value===null?'비공개':t.value}${own?(t.revealed?', 상대에게 공개됨':t.value===null?', 가려짐':', 나만 볼 수 있음'):''}`} aria-pressed={onSelect?selected.includes(i):undefined} disabled={!onSelect||!enabled(i)} onClick={()=>onSelect?.(i)} whileTap={onSelect?{scale:.94}:undefined}>
       <motion.span key={`${t.value}-${revealIndex}`} className="tile-inner" initial={revealIndex>=0&&!reduced?{rotateY:180}:false} animate={{rotateY:0}} transition={{duration:.48,delay:revealIndex>=0?revealIndex*.34:0}}>
-       <span className="tile-front">{t.value===null?<Sigil/>:<><span className="tile-corner">{t.value}</span><span className="tile-number">{t.value}</span><span className="tile-flourish">◆</span></>}</span>
+       <span className="tile-front">{t.value===null?<Sigil/>:<><span className="tile-corner">{t.value}</span><svg className="tile-number card-face-number" viewBox={`0 0 ${CARD_FACE.width} ${CARD_FACE.height}`} preserveAspectRatio="none" aria-hidden="true"><text x={CARD_FACE.x} y={CARD_FACE.baseline} textAnchor="middle" style={{fontFamily:CARD_FACE.family,fontWeight:CARD_FACE.weight,fontSize:CARD_FACE.size,fill:CARD_FACE.ink}}>{t.value}</text>{needsOrientationMark(t.value)?<rect {...CARD_FACE.marker} fill={CARD_FACE.ink}/>:null}</svg><span className="tile-flourish">◆</span></>}</span>
        <span className="tile-back"><Sigil/></span>
       </motion.span>
       {own&&t.revealed?<Eye className="exposed-eye" size={11}/>:null}
