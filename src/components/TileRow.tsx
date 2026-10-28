@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { Eye } from 'lucide-react';
 import type { GapConnection, RevelationEvent, VisibleTile } from '../engine/types';
-export function Sigil({small=false}:{small?:boolean}) {return <span className={`sigil ${small?'small':''}`} aria-hidden="true"><img src="/atelier/tile-oval.svg" alt=""/><b>LB</b></span>;}
+export function Sigil({small=false}:{small?:boolean}) {return <span className={`sigil ${small?'small':''}`} aria-hidden="true"><img src="/materials/card-back-vintage.webp" alt=""/></span>;}
 interface Props {tiles:VisibleTile[];own?:boolean;selected?:number[];onSelect?:(index:number)=>void;enabled?:(index:number)=>boolean;connections?:GapConnection[];reveals?:RevelationEvent[];label?:string;compact?:boolean;reduced?:boolean}
 export default function TileRow({tiles,own=false,selected=[],onSelect,enabled=()=>true,connections=[],reveals=[],label,compact=false,reduced=false}:Props) {
  return <div className={`tile-stage ${own?'own-stage':''} ${compact?'compact':''}`}>

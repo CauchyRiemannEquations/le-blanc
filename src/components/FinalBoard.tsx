@@ -1,7 +1,9 @@
 import type { VisibleTile } from '../engine/types';
 import TileRow from './TileRow';
-/** The decoded opponent is the visual focus; the other hand remains inspectable. */
+/** Only mounted after the engine/server has finished the match and released both hands. */
 export default function FinalBoard({hands,winner,reduced}:{hands:{name:string;tiles:VisibleTile[]}[];winner:number;reduced:boolean}) {
- const decoded=hands[1-winner],other=hands[winner];
- return <div className="final-boards"><div className="decoded-board"><TileRow tiles={decoded.tiles} reduced={reduced} label={`${decoded.name} · 최종 암호`}/></div><details className="other-final-hand"><summary>다른 패 확인</summary><TileRow tiles={other.tiles} compact reduced={reduced} label={`${other.name} · 최종 암호`}/></details></div>;
+ return <div className="final-boards">{[winner,1-winner].map(player=><section className="final-hand" key={player}>
+  <h3><span>{hands[player].name}</span><small>{player===winner?'승리':'패배'}</small></h3>
+  <TileRow tiles={hands[player].tiles} compact reduced={reduced} label={`${hands[player].name} · 최종 암호`}/>
+ </section>)}</div>;
 }

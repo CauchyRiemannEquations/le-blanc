@@ -16,3 +16,17 @@ describe('서버 권한 온라인 대전',()=>{
  it('나가기 이후에만 최종 전체 패를 볼 수 있다',()=>{const r=closeGame(setup(),0,'나갔습니다.');expect(r.game!.result!.winner).toBe(1);expect(projectRoom(r,'bob',2000).finalBoards).toHaveLength(2);expect(()=>actInRoom(r,'bob',{type:'pass'},r.version,'x',2000)).toThrow();});
  it('30분 지난 대기방 입장을 거절한다',()=>{expect(()=>joinRoomState(createRoomState('ABCDEFGH','a','A',0),'b','B',1800001,1,0)).toThrow();});
 });
+
+it('friend reveal choice is authoritative, persists on reconnect, and old rooms default to the middle card',()=>{
+ for(const initial of [false,true]){
+  const waiting=createRoomState('ABCDEFGH','alice','Alice',0,initial);
+  expect(projectRoom(waiting,'alice',1).initialReveal).toBe(initial);
+  const room=joinRoomState(waiting,'bob','Bob',1000,42,0);
+  expect(room.game!.players.map(p=>p.tiles.map(t=>t.revealed))).toEqual(Array(2).fill(initial?[false,false,true,false,false]:Array(5).fill(false)));
+  const saved=JSON.parse(JSON.stringify(room));
+  for(const uid of ['alice','bob'])expect(projectRoom(saved,uid,2000).initialReveal).toBe(initial);
+ }
+ const old=createRoomState('ABCDEFGH','alice','Alice',0);delete old.initialReveal;
+ expect(joinRoomState(old,'bob','Bob',1000,42,0).game!.rules.initialReveal).toEqual([2]);
+ expect(()=>createRoomState('ABCDEFGH','alice','Alice',0,'false')).toThrow();
+});

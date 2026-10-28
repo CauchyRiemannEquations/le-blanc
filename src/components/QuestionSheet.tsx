@@ -1,37 +1,28 @@
-import { useState } from 'react';
-import { ArrowLeft,ArrowRight,Check,MessageCircle } from 'lucide-react';
-import { parseQuestion } from '../engine/questionParser';
-import { questionLabel } from '../engine/questions';
-import { canTargetPair } from '../engine/game';
-import type { Action,GameView,QuestionSpec } from '../engine/types';
+import {useState} from 'react';
+import {ArrowLeft,MessageCircle,Minus,Plus} from 'lucide-react';
+import {questionLabel,validQuestion} from '../engine/questions';
+import {canTargetPair} from '../engine/game';
+import type {Action,GameView,QuestionSpec} from '../engine/types';
 import Overlay from './Overlay';
-import TileRow from './TileRow';
-interface Props { view:GameView;onClose:()=>void;onAction:(a:Action)=>void;reduced:boolean }
-export default function QuestionSheet({view,onClose,onAction,reduced}:Props) {
- const [text,setText]=useState(''),[question,setQuestion]=useState<QuestionSpec|null>(null),[selected,setSelected]=useState<number[]>([]),[error,setError]=useState('');
- function check(){const result=parseQuestion(text,view.rules);if(!result.ok){setError(result.message);return;}setQuestion(result.question);setSelected(result.targets??[]);setError('');}
- function preset(q:QuestionSpec){setText(questionLabel(q));setQuestion(q);setSelected([]);setError('');}
- const pairOk=question!==null&&selected.length===2&&canTargetPair(view,selected[0],selected[1],question);
- return <Overlay title="질문하기" onClose={onClose} wide reduced={reduced} board={<TileRow tiles={view.opponent} selected={selected} onSelect={!question?undefined:index=>setSelected(prev=>prev.includes(index)?prev.filter(i=>i!==index):prev.length<2?[...prev,index]:[prev[1],index])} label="공격 또는 질문 대상" reduced={reduced}/>}>
-  {!question?<><h2>두 숫자의 관계를 물어보세요.</h2>
-   <form className="question-composer" onSubmit={e=>{e.preventDefault();check();}}>
-    <label htmlFor="question-text">물어볼 내용</label><input id="question-text" value={text} maxLength={120} autoComplete="off" placeholder="두 숫자의 차이가 5 이하인가?" aria-describedby="question-input-help" aria-invalid={!!error} onChange={e=>{setText(e.target.value);setError('');}} onKeyDown={e=>{if(e.key==='Enter'&&e.nativeEvent.isComposing)e.preventDefault();}}/>
-    <p id="question-input-help">차이, 합의 배수, 서로소, 배수 관계를 판정할 수 있습니다.</p>
-    {error?<p className="inline-error" role="alert">{error}</p>:null}
-    <button className="primary full" type="submit" disabled={!text.trim()}>질문 판정<ArrowRight size={16}/></button>
-   </form>
-   <div className="quick-questions"><span className="eyebrow">바로 고르기</span><div>{([{kind:'near'},{kind:'sum3'},{kind:'coprime'}] as QuestionSpec[]).map((q,i)=><button className="secondary" key={q.kind} onClick={()=>preset(q)}>{['차이 ≤ 3','합이 3의 배수','서로소'][i]}</button>)}</div></div>
-   <details className="question-examples"><summary>어떻게 물어보나요?</summary><p>예시의 숫자를 바꿔 쓸 수 있습니다. 타일 번호를 적지 않으면 다음 화면에서 고릅니다.</p>{['1번과 2번의 차이가 5 이하인가?','두 숫자의 합이 4의 배수인가?','한 숫자가 다른 숫자의 배수인가?','큰 숫자가 작은 숫자의 2배인가?','두 숫자는 서로소인가?'].map(example=><button className="text-button" key={example} onClick={()=>{setText(example);setError('');}}>{example}<ArrowRight size={13}/></button>)}<small>지원하는 관계를 정해진 문장 패턴으로 해석합니다. 복합 조건이나 뜻이 불분명한 문장은 판정하지 않습니다.</small></details>
-   <p className="sheet-foot">횟수 제한은 없습니다. 확정하면 차례가 끝납니다.</p>
-  </>:<>
-   <button className="text-button back-inline" onClick={()=>{setQuestion(null);setError('');}}><ArrowLeft size={14}/>질문 수정</button>
-   <p className="question-approved"><Check size={15}/>이 질문을 사용할 수 있습니다</p><h2 className="sheet-title">{questionLabel(question)}</h2>
-   <p className="step-label"><span>01</span>상대 타일 두 개 선택<b>{selected.length} / 2</b></p>
-
-   {selected.length===2&&!pairOk?<p className="inline-error" role="status">이미 물어본 질문이거나 두 타일이 모두 공개됐습니다. 다른 질문이나 타일을 골라주세요.</p>:null}
-   <div className="question-confirmation">{selected.length===2?`${[...selected].sort((a,b)=>a-b).map(i=>i+1).join('번 · ')}번에 질문합니다.`:'위에서 타일을 고르세요.'}</div>
-   <button className="primary full" disabled={!pairOk} onClick={()=>{if(pairOk)onAction({type:'question',...question,a:selected[0],b:selected[1]});}}><MessageCircle size={17}/>질문 확정</button>
-   <p className="sheet-foot">질문하면 내 차례 종료<br/>질문 내용과 답은 상대에게 보이지 않습니다.</p>
+import DuelTable from '../tabletop/DuelTable';
+interface Props {view:GameView;onClose:()=>void;onAction:(a:Action)=>void;reduced:boolean}
+type Choice='distance'|'sumMultiple'|'coprime';
+export default function QuestionSheet({view,onClose,onAction,reduced}:Props){
+ const [kind,setKind]=useState<Choice|null>(null),[parameter,setParameter]=useState(3),[selected,setSelected]=useState<number[]>([]);
+ const question:QuestionSpec|null=kind?{kind,...(kind==='coprime'?{}:{parameter})}:null;
+ const min=kind==='sumMultiple'?2:1,max=kind==='sumMultiple'?Math.min(10,view.rules.max):view.rules.max-view.rules.min-1;
+ const valid=question!==null&&validQuestion(question,view.rules);
+ const pairOk=valid&&selected.length===2&&canTargetPair(view,selected[0],selected[1],question!);
+ function choose(next:Choice){setKind(next);setParameter(Math.min(3,next==='sumMultiple'?Math.min(10,view.rules.max):view.rules.max-view.rules.min-1));setSelected([]);}
+ function select(index:number){setSelected(prev=>prev.includes(index)?prev.filter(i=>i!==index):prev.length<2?[...prev,index]:[prev[1],index]);}
+ return <Overlay surface={kind?'question-target':'question-options'} title="질문하기" onClose={onClose} wide reduced={reduced} board={<DuelTable layout="tool" view={view} selected={selected} onSelect={kind?select:undefined} label="공격 또는 질문 대상" reduced={reduced}/>}>
+  {!question?<><h2>어떤 관계를 물어볼까요?</h2><div className="question-options-list">{([{kind:'distance',label:'간격',description:'두 숫자의 차이가 N 이하인가?'},{kind:'sumMultiple',label:'합의 배수',description:'두 숫자의 합이 N의 배수인가?'},{kind:'coprime',label:'서로소',description:'두 숫자의 공약수가 1뿐인가?'}] as const).map(option=><button key={option.kind} aria-label={option.label} onClick={()=>choose(option.kind)}><strong>{option.label}</strong><small>{option.description}</small></button>)}</div><p className="question-rule-note">질문 내용과 답은 나만 봅니다. 확정하면 차례가 끝납니다.</p></>:<>
+   <button className="text-button back-inline" onClick={()=>{setKind(null);setSelected([]);}}><ArrowLeft size={14}/>질문 바꾸기</button>
+   <h2 className="sheet-title">{questionLabel(question)}</h2>
+   <div className="question-confirmation" role="status">{selected.length===2?`${[...selected].sort((a,b)=>a-b).map(i=>i+1).join('번 · ')}번 선택됨`:`상대 카드 2장을 고르세요 · ${selected.length} / 2`}</div>
+   {kind!=='coprime'?<div className="question-parameter" role="group" aria-label={kind==='distance'?'간격 기준 조절':'합의 배수 조절'}><span>{kind==='distance'?'간격 기준':'합의 배수'}</span><button aria-label="기준 숫자 줄이기" disabled={parameter<=min} onClick={()=>setParameter(n=>n-1)}><Minus size={18}/></button><output aria-label="기준 숫자">{parameter}</output><button aria-label="기준 숫자 늘리기" disabled={parameter>=max} onClick={()=>setParameter(n=>n+1)}><Plus size={18}/></button></div>:null}
+   {selected.length===2&&!pairOk?<p className="inline-error" role="alert">이미 물어본 질문이거나 두 카드가 모두 공개됐습니다. 숫자 또는 대상을 바꿔주세요.</p>:null}
+   <button className="primary full" disabled={!pairOk} onClick={()=>{if(pairOk&&question)onAction({type:'question',...question,a:selected[0],b:selected[1]});}}><MessageCircle size={17}/>질문 확정</button>
   </>}
  </Overlay>;
 }

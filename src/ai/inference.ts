@@ -109,13 +109,13 @@ export function planAttacks(o:AIObservation,candidates:number[][],ranked=rankAtt
       extraChainReveals=Math.min(componentSize(o,a.a),componentSize(o,a.b));
     }
     const winBonus=revealed===remaining?3:0;
-    const futureDiscount=setup?.78:.72;
+    const futureDiscount=setup?(o.rules.gapPolicy==='continue-once'?1:.78):.72;
     const information=-Math.log2(entry.probability);
     // A durable link is an option to reveal extra tiles from ANY later anchor,
     // including the opponent's penalty. Price that option only when both the
     // relation and a conditional anchor are plausible, never as a flat gap bonus.
     const chainOption=setup&&entry.probability>=CONNECTION_POLICY.minimumGapProbability&&anchorProbability>=CONNECTION_POLICY.minimumAnchorProbability?entry.probability*anchorProbability*extraChainReveals*CONNECTION_POLICY.chainOptionWeight:0;
-    const score=entry.probability*(revealed+winBonus+futureDiscount*followup.utility+.12*information)-(1-entry.probability)*risk-(setup?.12:0)+chainOption;
+    const score=entry.probability*(revealed+winBonus+futureDiscount*followup.utility+.12*information)-(1-entry.probability)*risk-(setup&&o.rules.gapPolicy==='legacy'?.12:0)+chainOption;
     return {...entry,score,payoff:revealed,followupProbability:followup.probability,followupReveals:followup.reveals,setup,anchorProbability,extraChainReveals};
   }).sort((a,b)=>b.score-a.score||b.probability-a.probability);
 }

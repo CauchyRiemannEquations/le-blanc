@@ -1,0 +1,2 @@
+import {chromium} from '@playwright/test';
+const b=await chromium.launch({channel:'chrome'}),p=await b.newPage();for(const viewport of [{width:800,height:360},{width:1440,height:900}]){await p.setViewportSize(viewport);await p.goto('http://127.0.0.1:4173/?room=');await p.getByRole('textbox',{name:'내 이름'}).waitFor();await p.screenshot({path:`screenshots/cards-online-setup-${viewport.width}.png`});}await b.close();

@@ -43,11 +43,10 @@ export function questionLabel(input:QuestionKind|QuestionSpec):string {
   default:throw new Error('지원하지 않는 질문입니다.');
  }
 }
-/** All AI choices use the same predicates available through the question composer. */
+/** AI uses the same three question families offered by the current menu. Legacy predicates remain readable for saved records. */
 export function questionOptions(rules:Rules):QuestionSpec[] {
- const options:QuestionSpec[]=[{kind:'near'},{kind:'sum3'},{kind:'coprime'},{kind:'multiple'}];
+ const options:QuestionSpec[]=[{kind:'near'},{kind:'sum3'},{kind:'coprime'}];
  for(let parameter=1;parameter<rules.max-rules.min;parameter++)if(parameter!==3)options.push({kind:'distance',parameter});
  for(let parameter=2;parameter<=Math.min(10,rules.max);parameter++)if(parameter!==3)options.push({kind:'sumMultiple',parameter});
- for(let parameter=2;parameter<=5;parameter++)options.push({kind:'ratio',parameter});
  return options.filter(q=>validQuestion(q,rules));
 }

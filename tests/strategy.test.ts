@@ -4,7 +4,7 @@ import { chooseAction,enumerateCandidates,planAttacks } from '../src/ai/inferenc
 import { chooseAction as original } from './fixtures/ai-v1';
 import type { AIObservation,Difficulty } from '../src/engine/types';
 function linkPosition():AIObservation{return {
- rules:{min:1,max:20,handSize:5,initialReveal:[2],questions:4},player:1,
+ gapUsed:false,rules:{version:2,gapPolicy:'continue-once',min:1,max:20,handSize:5,initialReveal:[2],questions:4},player:1,
  own:[4,8,11,12,18].map((value,i)=>({value,revealed:i===2||i===3})),ownConnections:[],
  opponent:[null,null,9,null,null].map(value=>({value,revealed:value!==null})),connections:[],
  questions:[{kind:'near',a:0,b:1,answer:true,turn:2},{kind:'near',a:3,b:4,answer:true,turn:4},{kind:'near',a:1,b:2,answer:false,turn:6},{kind:'sum3',a:0,b:1,answer:false,turn:8}],failed:[],ownQuestionsLeft:0,phase:'action',turn:10,active:1,

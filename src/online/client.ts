@@ -16,7 +16,7 @@ function setup(){
 }
 async function ready(){if(!onlineConfigured)throw new Error('온라인 서버 연결 설정이 필요합니다.');services??=setup();await services.auth.authStateReady();if(!services.auth.currentUser){signingIn??=signInAnonymously(services.auth).finally(()=>{signingIn=undefined;});await signingIn;}return services;}
 async function call(name:string,data:unknown){const {functions}=await ready();return (await httpsCallable<unknown,RoomView>(functions,name)(data)).data;}
-export const createOnlineRoom=(name:string)=>call('createRoom',{name});
+export const createOnlineRoom=(name:string,initialReveal=true)=>call('createRoom',{name,initialReveal});
 export const joinOnlineRoom=(code:string,name:string)=>call('joinRoom',{code,name});
 export const syncOnlineRoom=(code:string)=>call('roomCommand',{code,operation:'sync'});
 export const leaveOnlineRoom=(code:string)=>call('roomCommand',{code,operation:'leave'});

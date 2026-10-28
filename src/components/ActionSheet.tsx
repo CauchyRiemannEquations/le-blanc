@@ -3,7 +3,7 @@ import { ArrowLeft,ArrowRight,Link2,Hash,ScanLine } from 'lucide-react';
 import { canTargetPair } from '../engine/game';
 import type { Action,GameView } from '../engine/types';
 import Overlay from './Overlay';
-import TileRow from './TileRow';
+import DuelTable from '../tabletop/DuelTable';
 import QuestionSheet from './QuestionSheet';
 interface Props { mode:'question'|'attack';view:GameView;onClose:()=>void;onAction:(a:Action)=>void;reduced:boolean }
 export default function ActionSheet(props:Props) {return props.mode==='question'?<QuestionSheet {...props}/>:<AttackSheet {...props}/>;}
@@ -15,8 +15,8 @@ function AttackSheet({view,onClose,onAction,reduced}:Props) {
  const valid=(kind==='number'?selected.length===1:pairOk)&&value!==null;
  function submit(){if(!valid||!kind)return;if(kind==='number')onAction({type:'number',a:selected[0],value:value!});else onAction({type:'gap',a:selected[0],b:selected[1],value:value!});}
  function disabledNumber(n:number){if(kind==='number'){const i=selected[0];return view.own.some(t=>t.value===n)||view.opponent.some(t=>t.revealed&&t.value===n)||view.failed.some(f=>f.kind==='number'&&f.a===i&&f.value===n)||view.opponent.some((t,j)=>t.value!==null&&(j<i?t.value>=n:j>i?t.value<=n:false));}const [a,b]=[...selected].sort((x,y)=>x-y);return n<b-a||view.failed.some(f=>f.kind==='gap'&&f.a===a&&f.b===b&&f.value===n);}
- return <Overlay title={kind?`${kind==='gap'?'간격 공격':'숫자 공격'}${selected.length?' · '+[...selected].sort((a,b)=>a-b).map(i=>`${i+1}번`).join(' ↔ '):''}`:'공격하기'} onClose={onClose} wide reduced={reduced} board={<TileRow tiles={view.opponent} selected={selected} onSelect={kind?select:undefined} enabled={i=>kind!=='number'||!view.opponent[i].revealed} connections={view.connections} label="공격 또는 질문 대상" reduced={reduced}/>}>
-  {!kind?<><h2>무엇을 맞힐까요?</h2><div className="choice-list"><button onClick={()=>setKind('number')}><Hash/><span><strong>숫자 공격</strong><small>타일 하나의 숫자 맞히기</small></span><ArrowRight/></button><button onClick={()=>setKind('gap')}><Link2/><span><strong>간격 공격</strong><small>두 숫자의 차이를 맞혀 연결하기</small></span><ArrowRight/></button></div><p className="sheet-foot">틀리면 내 비공개 타일 한 장이 무작위로 공개됩니다.</p></>:<>
+ return <Overlay surface={!kind?'attack-kind':valid||selected.length===count?'attack-value':'attack-target'} title={kind?`${kind==='gap'?'간격 공격':'숫자 공격'}${selected.length?' · '+[...selected].sort((a,b)=>a-b).map(i=>`${i+1}번`).join(' ↔ '):''}`:'공격하기'} onClose={onClose} wide reduced={reduced} board={<DuelTable layout="tool" view={view} selected={selected} onSelect={kind?select:undefined} enabled={i=>kind!=='number'||!view.opponent[i].revealed} label="공격 또는 질문 대상" reduced={reduced}/>}>
+  {!kind?<><h2>무엇을 맞힐까요?</h2><div className="choice-list"><button onClick={()=>setKind('number')}><Hash/><span><strong>숫자 공격</strong><small>타일 하나의 숫자 맞히기</small></span><ArrowRight/></button><button disabled={view.rules.gapPolicy==='continue-once'&&view.gapUsed} onClick={()=>setKind('gap')}><Link2/><span><strong>간격 공격</strong><small>{view.gapUsed?'이번 턴 사용 완료':'연결 후 숫자 공격 가능 · 턴당 1회'}</small></span><ArrowRight/></button></div><p className="sheet-foot">틀리면 내 비공개 타일 한 장이 무작위로 공개됩니다.</p></>:<>
    <button className="text-button back-inline" onClick={()=>{setKind(null);setSelected([]);setValue(null);}}><ArrowLeft size={14}/>공격 바꾸기</button>
    <h2 className="sheet-title">{kind==='number'?'숫자를 맞혀보세요.':'두 숫자의 차이는?'}</h2>
    <p className="step-label"><span>01</span>{count===1?'상대 타일 하나 선택':'상대 타일 두 개 선택'}<b>{selected.length} / {count}</b></p>

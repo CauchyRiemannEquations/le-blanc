@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-28",
+  "mode": "built-in image_gen",
+  "reference": "title-tavern-v3.webp; card-design-reference.png",
+  "sources": [
+    {
+      "name": "card-back-vintage.webp",
+      "original": "exec-4f68961e-db71-4251-b259-06c99f0c0727.png",
+      "size": [
+        512,
+        768
+      ]
+    },
+    {
+      "name": "card-front-vintage.webp",
+      "original": "exec-218d934c-fe64-4886-9bcf-559f9a349fbf.png",
+      "size": [
+        512,
+        768
+      ]
+    },
+    {
+      "name": "karl-portrait.webp",
+      "original": "exec-216d95b4-12ad-430a-b92a-65edd89123ee.png",
+      "alpha": true
+    }
+  ],
+  "originalDirectory": "C:/Users/USER/.codex/generated_images/01a17b13-d09b-71f2-9cbc-bc54209f30b7",
+  "processing": "Pillow resize and WebP encoding only; originals retained",
+  "prompts": [
+    [
+      "back",
+      "Create ONE production game texture, portrait 2:3, full bleed card back filling the entire image with NO surrounding background, NO perspective and NO object shadow. Reference 1 is the intended antique tavern card material and patina. Reference 2 shows the exact back motif on LEFT: preserve its two intersecting perpendicular ellipses, central outlined diamond and small solid diamond, four tiny cardinal nodes and double fine rectangular border. Render it as actual timeworn burgundy/oxblood coated paper with rubbed corners, subtle creases, muted mottling, tiny scuffs and imperfect antique gold foil print, beautifully realistic but readable at small size. Flat orthographic scan of just the surface, not a card lying in a scene. Warm diffuse even lighting, no baked dramatic light gradient. Keep the central diagram structurally identical, only the material becomes vintage. No letters, no LB, no numbers, no additional symbols, no text, no white margin. All four image edges are the edge of the texture."
+    ],
+    [
+      "front",
+      "Create ONE production game card front surface texture, portrait 2:3, full bleed to all four edges, flat orthographic scan, no surrounding background or object shadow. Reference 1 shows the antique numerical card fronts: match their lightly stained golden parchment, aged corners, subtly worn paper grain, faded thin double-line antique gold/brown border, restrained tiny corner flourishes. But REMOVE ALL NUMBERS AND TEXT: the center must be blank and calm for a numeral dynamically drawn by the game. Reference 2 right card is the simple layout, do not include its 12. Elegant old playing card, handled for years, realistic warm paper rather than clean beige flat fill. No large stains across center, no objects, no other graphics, no perspective, no letters or numbers. Even diffuse lighting; surface texture only."
+    ],
+    [
+      "karl",
+      "Create one transparent-background character cutout asset for a fixed first-person tavern card game. Waist-up seated fictional man Karl, early middle age, quiet attentive expression, dark brown wool coat and worn charcoal waistcoat, cream linen shirt, understated early nineteenth century European inn clothing, short naturally styled brown hair. Painterly photorealism matching the warm candlelit tavern illustration reference, realistic cloth folds, skin, buttons, seams, gentle amber light from viewer's left and deep soft shadow on right. Frontal view from the player sitting opposite, a slight elevated view. BOTH shoulders and complete sleeves visible, forearms lowered naturally to the two sides near his waist; hands loosely resting at bottom sides, no pointing or held cards. Torso from waist through full head, centered, comfortably seated, no chair or table, no objects, no scenery, no text, no nameplate. Truly transparent alpha outside the character, no painted checkerboard or matte. Keep the silhouette clean and detailed. This is an illustrated character sprite for placement behind a real 3D tabletop, not a polygon model, not a screenshot, no plastic/cartoon look. Face is restrained and unobtrusive."
+    ]
+  ]
+}
