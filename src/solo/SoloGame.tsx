@@ -11,12 +11,16 @@ import {apply,stars} from './engine';
 import {completed,loadSave,newRun,replay,SOLO_KEY} from './storage';
 import type {SoloAction,SoloSave,Stage} from './types';
 import './solo.css';
+import {MENU_AUDIO} from '../audioScene';
+import type {AudioScene} from '../audioScene';
 
-export default function SoloGame({onBack,onSettings,reduced}:{onBack:()=>void;onSettings:()=>void;reduced:boolean}){
+export default function SoloGame({onBack,onSettings,reduced,onAudioScene}:{onAudioScene:(scene:AudioScene)=>void;onBack:()=>void;onSettings:()=>void;reduced:boolean}){
  const [save,setSave]=useState(loadSave),[screen,setScreen]=useState<'list'|'play'|'result'>('list'),[tool,setTool]=useState<'number'|'question'|null>(null),[panel,setPanel]=useState<'record'|'help'|'hint'|null>(null),[tile,setTile]=useState(0),[value,setValue]=useState<number|null>(null),[memo,setMemo]=useState(false),[question,setQuestion]=useState<string|null>(null),[selected,setSelected]=useState<number[]>([]),[message,setMessage]=useState(''),[busy,setBusy]=useState(false),[replace,setReplace]=useState<Stage|null>(null);
  const [storageError,setStorageError]=useState('');
  const lock=useRef(false),timer=useRef<ReturnType<typeof setTimeout>|null>(null),systemReduced=useReducedMotion();
  const reduce=reduced||!!systemReduced,run=save.active,stage=run?getStage(run.stageId)!:null,state=useMemo(()=>run?replay(run):null,[run]);
+ useEffect(()=>{onAudioScene(screen==='list'?MENU_AUDIO:{track:'solo',...(screen==='result'&&run?{result:{id:run.id,cue:'victory' as const}}:{})});},[screen,run?.id,onAudioScene]);
+ useEffect(()=>()=>onAudioScene(MENU_AUDIO),[onAudioScene]);
  useEffect(()=>()=>{if(timer.current)clearTimeout(timer.current);},[]);
  function persist(next:SoloSave){try{localStorage.setItem(SOLO_KEY,JSON.stringify(next));}catch{setStorageError('기기에 저장하지 못했습니다. 저장 공간을 확인해주세요.');}setSave(next);}
  function resetTools(){setTool(null);setPanel(null);setQuestion(null);setSelected([]);setValue(null);setMessage('');}

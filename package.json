@@ -10,6 +10,7 @@
     "test": "vitest run",
     "balance": "tsx scripts/balance.ts",
     "test:browser": "playwright test",
+    "check:audio": "node scripts/check-audio.mjs",
     "compare:gaps": "tsx scripts/gap-balance.ts",
     "compare:ai": "tsx scripts/compare-ai.ts",
     "build:server": "npm --prefix functions run build",
