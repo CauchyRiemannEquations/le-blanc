@@ -11,7 +11,6 @@ try {
   await expect(page.locator('canvas[data-renderer="three-webgl"]')).toBeVisible();await expect(page.getByRole('button',{name:'질문하기',exact:true})).toBeVisible();
   await page.screenshot({path:`screenshots/candle-duel-${viewport.width}.png`});
   await page.getByRole('button',{name:'질문하기',exact:true}).click();await page.getByRole('button',{name:'간격',exact:true}).click();const targets=page.getByRole('group',{name:'공격 또는 질문 대상'});await targets.getByRole('button').nth(0).click();await targets.getByRole('button').nth(1).click();await expect(targets.getByRole('button',{pressed:true})).toHaveCount(2);await expect(page.getByRole('button',{name:'질문 확정',exact:true})).toBeEnabled();
-  await page.goto('http://127.0.0.1:4173/');await page.getByRole('button',{name:'솔로 모드',exact:true}).click();await page.getByTestId('stage-main-branches-v2').click();await expect(page.locator('canvas[data-renderer="three-webgl"]')).toBeVisible();await expect(page.getByRole('group',{name:'암호 타일'}).getByRole('button').first()).toBeVisible();await page.screenshot({path:`screenshots/candle-solo-${viewport.width}.png`});
-  expect(errors).toEqual([]);console.log(`PASS ${viewport.width}x${viewport.height}: image asset, real 3D duel/solo, two-card targeting, no page errors`);await context.close();
+  expect(errors).toEqual([]);console.log(`PASS ${viewport.width}x${viewport.height}: image asset, real 3D duel, two-card targeting, no page errors`);await context.close();
  }
 }finally{await browser.close();}

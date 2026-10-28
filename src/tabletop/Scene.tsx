@@ -1,5 +1,8 @@
 import {CARD_FACE,needsOrientationMark} from '../cardFace';
 import {useEffect,useMemo,useRef} from 'react';
+import type {RefObject} from 'react';
+import {playSfx} from '../audio';
+import {DealMotionEvents,animationSoundCurrent,isNewPublicReveal,publicRevealCues} from './sfxEvents';
 import {useFrame,useThree,useLoader} from '@react-three/fiber';
 import * as THREE from 'three';
 import type {SceneCard,SceneData} from './model';
@@ -8,7 +11,7 @@ import Tavern from './Tavern';
 
 export interface Hit {x:number;y:number;width:number;height:number}
 export interface HitLayout {central:Hit[];near:Hit[]}
-export interface SceneProps {data:SceneData;peek:boolean;selected:number[];page:number;reduced:boolean;eventId:string;revealIds:string[];onSelect?:(i:number)=>void;onLayout:(hits:HitLayout)=>void;placement:'play'|'tool'|'menu';dealing:boolean;onReady:()=>void}
+export interface SceneProps {data:SceneData;peek:boolean;selected:number[];reduced:boolean;eventId:string;eventSfx:boolean;finalResult:boolean;soundScope:string;onPublicSound:(eventId:string)=>void;revealIds:string[];onSelect?:(i:number)=>void;onLayout:(hits:HitLayout)=>void;placement:'play'|'tool'|'menu';dealing:boolean;onReady:()=>void}
 function faceTexture(value:number|null,paper:HTMLImageElement){
  if(value===null)return null;
  const f=CARD_FACE,canvas=document.createElement('canvas');canvas.width=f.width;canvas.height=f.height;const c=canvas.getContext('2d')!;
@@ -18,26 +21,33 @@ function faceTexture(value:number|null,paper:HTMLImageElement){
  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=4;return texture;
 }
 
-function Card({card,position,rotation,selected,reduced,delay=0,scale=1,onClick,dealing=false,dealOrder=0}:{dealing?:boolean;dealOrder?:number;scale?:number;card:SceneCard;position:[number,number,number];rotation:[number,number,number];selected:boolean;reduced:boolean;delay?:number;onClick?:()=>void}){
+function Card({card,position,rotation,selected,reduced,delay=0,scale=1,onClick,dealing=false,dealOrder=0,eventId,eventSfx,finalResult,soundScope,revealOrder,visibilityEpoch,onPublicSound}:{dealing?:boolean;dealOrder?:number;scale?:number;card:SceneCard;position:[number,number,number];rotation:[number,number,number];selected:boolean;reduced:boolean;delay?:number;onClick?:()=>void;eventId:string;eventSfx:boolean;finalResult:boolean;soundScope:string;revealOrder:number;visibilityEpoch:RefObject<number>;onPublicSound:(eventId:string)=>void}){
  const group=useRef<THREE.Group>(null),flip=useRef<THREE.Group>(null),invalidate=useThree(s=>s.invalidate);
  const angle=card.value===null?Math.PI:0,initialAngle=useRef(angle),previous=useRef({value:card.value,revealed:card.revealed}),started=useRef(0),initialPosition=useRef<[number,number,number]>(dealing?[3.4,.24,.45]:position),initialRotation=useRef(rotation);
- const dealStart=useRef<number|null>(null),wasDealing=useRef(dealing);
- useEffect(()=>{if(wasDealing.current&&!dealing&&group.current){group.current.position.set(...position);group.current.rotation.set(...rotation);group.current.visible=true;}wasDealing.current=dealing;},[dealing]);
+ const dealStart=useRef<number|null>(null),wasDealing=useRef(dealing),dealMotion=useRef(new DealMotionEvents()),dealCycle=useRef(dealing?1:0),dealEpoch=useRef(visibilityEpoch.current);
+ const pendingReveal=useRef<{id:string;order:number;epoch:number}|null>(null);
+ const soundAllowed=(epoch:number)=>animationSoundCurrent(document.hidden,epoch,visibilityEpoch.current);
+ const placed=()=>{if(dealMotion.current.land()&&!reduced&&soundAllowed(dealEpoch.current))playSfx('card_place',{id:`${soundScope}:deal-${dealCycle.current}:${card.id}:place`});};
+ useEffect(()=>{if(!wasDealing.current&&dealing){dealStart.current=null;dealMotion.current.reset();dealCycle.current++;dealEpoch.current=visibilityEpoch.current;}if(wasDealing.current&&!dealing&&group.current){group.current.position.set(...position);group.current.rotation.set(...rotation);group.current.visible=true;placed();}wasDealing.current=dealing;},[dealing]);
  const [back,paper]=useLoader(THREE.TextureLoader,['/materials/card-back-vintage.webp','/materials/card-front-vintage.webp']);back.colorSpace=THREE.SRGBColorSpace;back.anisotropy=4;
  const texture=useMemo(()=>faceTexture(card.value,paper.image as HTMLImageElement),[card.value,paper]);
  useEffect(()=>()=>texture?.dispose(),[texture]);
  useEffect(()=>{
+  pendingReveal.current=null;
   if(previous.current.value!==card.value||previous.current.revealed!==card.revealed){
+   if(!document.hidden&&isNewPublicReveal(previous.current.revealed,card.revealed,revealOrder,eventSfx))pendingReveal.current={id:eventId,order:revealOrder,epoch:visibilityEpoch.current};
    // A private inspection has no chain delay; only a newly public card follows the engine event order.
    started.current=performance.now()+(!previous.current.revealed&&card.revealed?delay*320:0);
    previous.current={value:card.value,revealed:card.revealed};invalidate();
   }
- },[card.value,card.revealed,delay,invalidate]);
+ },[card.value,card.revealed,delay,eventId,eventSfx,revealOrder,invalidate]);
  useEffect(()=>{invalidate();},[...position,...rotation,selected,reduced,dealing,invalidate]);
  useFrame((_,dt)=>{
   if(!group.current||!flip.current)return;
-  if(dealing&&!reduced){dealStart.current??=performance.now();const elapsed=performance.now()-dealStart.current-dealOrder*170;group.current.visible=elapsed>=0;if(elapsed<0){invalidate();return;}}else group.current.visible=true;
+  if(dealing&&!reduced){dealStart.current??=performance.now();const elapsed=performance.now()-dealStart.current-dealOrder*170;group.current.visible=elapsed>=0;if(elapsed<0){invalidate();return;}if(dealMotion.current.start()&&soundAllowed(dealEpoch.current))playSfx('card_deal',{id:`${soundScope}:deal-${dealCycle.current}:${card.id}:start`});}else group.current.visible=true;
   if(!reduced&&performance.now()<started.current){invalidate();return;}
+  const reveal=pendingReveal.current;
+  if(reveal){pendingReveal.current=null;if(soundAllowed(reveal.epoch)){const cues=publicRevealCues(reveal.order,reduced,finalResult);if(cues.length)onPublicSound(reveal.id);for(const cue of cues)playSfx(cue.event,{state:cue.state,id:`${soundScope}:outcome-${reveal.id}:${card.id}:${cue.event}`});}}
   let moving=false;const speed=reduced?1:1-Math.exp(-dt*12);
   flip.current.rotation.y=THREE.MathUtils.lerp(flip.current.rotation.y,angle,speed);
   if(Math.abs(flip.current.rotation.y-angle)<.001)flip.current.rotation.y=angle;else moving=true;
@@ -52,6 +62,7 @@ function Card({card,position,rotation,selected,reduced,delay=0,scale=1,onClick,d
   group.current.position.y=Math.max(group.current.position.y,.035+scale*(.69*Math.abs(Math.cos(group.current.rotation.x))*Math.abs(Math.cos(flip.current.rotation.y))+.44*Math.abs(Math.sin(flip.current.rotation.y))));
   // Non-sensitive diagnostics use only slot identity, public state and the actual rendered transform.
   group.current.userData={slot:card.slot,revealed:card.revealed,faceUp:card.value!==null};
+  if(dealing&&!moving)placed();
   if(moving)invalidate();
  });
  return <group name={card.id} ref={group} scale={scale} position={initialPosition.current} rotation={initialRotation.current}><group ref={flip} rotation={[0,initialAngle.current,0]} onPointerDown={onClick?e=>{e.stopPropagation();onClick();}:undefined}>
@@ -72,6 +83,7 @@ function Link({a,b,delta,index,count,animate,reduced,spread=1}:{spread?:number;a
 }
 export default function Scene(p:SceneProps){
  const {camera,size,invalidate,gl,scene}=useThree();const spread=size.height<300?1.4:1.15;
+ const visibilityEpoch=useRef(0);
  const initialLinks=useRef(new Set(p.data.connections.map(e=>`${e.a}-${e.b}`)));
  const maps=useLoader(THREE.TextureLoader,['/materials/walnut-dark.webp']);
  const textures=useMemo(()=>maps.map(m=>{const t=m.clone();t.colorSpace=THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1,1);return t;}),[maps]);
@@ -83,7 +95,7 @@ export default function Scene(p:SceneProps){
   cam.clearViewOffset();cam.aspect=aspect;
   cam.position.set(0,d*.65,d*.76);cam.lookAt(0,.15,0);cam.updateProjectionMatrix();cam.updateMatrixWorld();
   const project=(position:[number,number,number],width=.88,height=1.38):Hit=>{const v=new THREE.Vector3(...position).project(cam);const scale=availableHeight/(2*Math.tan(THREE.MathUtils.degToRad(40)/2)*cam.position.distanceTo(new THREE.Vector3(...position)));return {x:(v.x+1)*size.width/2,y:(1-v.y)*size.height/2,width:Math.max(34,width*scale),height:Math.max(44,height*scale*.72)};};
-  const near=p.data.reference?p.data.hand.slice(p.page*5,p.page*5+5):p.data.hand;
+  const near=p.data.hand;
   p.onLayout({central:p.data.central.map(c=>{
    // Project the actual flat card corners, not a guessed vertical rectangle.
    const x=centralX(c.slot,p.data.central.length)*spread,y=p.selected.includes(c.slot)?.2:.07;
@@ -91,23 +103,23 @@ export default function Scene(p:SceneProps){
    const xs=corners.map(v=>(v.x+1)*size.width/2),ys=corners.map(v=>(1-v.y)*size.height/2);
    const left=Math.min(...xs)-3,right=Math.max(...xs)+3,top=Math.min(...ys)-4,bottom=Math.max(...ys)+4;
    return {x:(left+right)/2,y:(top+bottom)/2,width:Math.max(34,right-left),height:Math.max(44,bottom-top)};
-  }),near:near.map((c,i)=>project(nearCardPose(p.data.reference?i:c.slot,near.length,p.peek,c.revealed,p.data.reference).position))});invalidate();
- },[camera,size.width,size.height,p.data.central.length,p.selected,p.data.hand,p.page,p.peek,p.placement,p.onLayout,invalidate,spread]);
+  }),near:near.map(c=>project(nearCardPose(c.slot,near.length,p.peek,c.revealed).position))});invalidate();
+ },[camera,size.width,size.height,p.data.central.length,p.selected,p.data.hand,p.peek,p.placement,p.onLayout,invalidate,spread]);
  useEffect(()=>{p.onReady();},[p.onReady]);
- useEffect(()=>{const hide=()=>{if(!document.hidden)invalidate();};document.addEventListener('visibilitychange',hide);return()=>document.removeEventListener('visibilitychange',hide);},[invalidate]);
+ useEffect(()=>{const hide=()=>{if(document.hidden)visibilityEpoch.current++;else invalidate();};document.addEventListener('visibilitychange',hide);return()=>document.removeEventListener('visibilitychange',hide);},[invalidate]);
  useEffect(()=>{gl.domElement.dataset.renderer='three-webgl';},[gl]);
  useFrame(()=>{
   gl.domElement.dataset.frames=String(Number(gl.domElement.dataset.frames??0)+1);
   gl.domElement.dataset.slots=JSON.stringify([...p.data.central,...p.data.hand].flatMap(c=>{const node=scene.getObjectByName(c.id);return node?[{id:c.id,x:node.position.x,z:node.position.z,revealed:c.revealed}]:[];}));
  });
- const near=p.data.reference?p.data.hand.slice(p.page*5,p.page*5+5):p.data.hand;
+ const near=p.data.hand;
  return <>
   <color attach="background" args={['#100c09']}/><ambientLight intensity={.65}/><hemisphereLight args={['#ffe5bc','#241811',1.05]}/><directionalLight position={[-3,7,4]} color="#ffe0b1" intensity={2.4} castShadow shadow-mapSize={[1024,1024]} shadow-camera-left={-7} shadow-camera-right={7} shadow-camera-top={7} shadow-camera-bottom={-7} shadow-bias={-.002}/>
-  <Tavern opponent={!p.data.reference}/>
+  <Tavern/>
   <mesh receiveShadow position={[0,-.23,.15]}><boxGeometry args={[11,.4,8]}/><meshStandardMaterial map={textures[0]} color="#d1b394" roughness={.85}/></mesh>
   {[-3.4,-1.7,0,1.7,3.4].map(x=><mesh key={x} position={[x,-.025,.15]}><boxGeometry args={[.012,.008,7.95]}/><meshStandardMaterial color="#25180f" roughness={1}/></mesh>)}
-  {p.data.central.map(c=><Card key={c.id} card={c} dealing={p.dealing} dealOrder={c.slot*2} scale={spread} position={[centralX(c.slot,p.data.central.length)*spread,p.selected.includes(c.slot)?.2:.07,-1.5]} rotation={[-Math.PI/2,0,0]} selected={p.selected.includes(c.slot)} reduced={p.reduced} delay={Math.max(0,p.revealIds.indexOf(c.id))} onClick={()=>p.onSelect?.(c.slot)}/>)}
+  {p.data.central.map(c=><Card key={c.id} card={c} eventId={p.eventId} eventSfx={p.eventSfx} finalResult={p.finalResult} soundScope={p.soundScope} revealOrder={p.revealIds.indexOf(c.id)} visibilityEpoch={visibilityEpoch} onPublicSound={p.onPublicSound} dealing={p.dealing} dealOrder={c.slot*2} scale={spread} position={[centralX(c.slot,p.data.central.length)*spread,p.selected.includes(c.slot)?.2:.07,-1.5]} rotation={[-Math.PI/2,0,0]} selected={p.selected.includes(c.slot)} reduced={p.reduced} delay={Math.max(0,p.revealIds.indexOf(c.id))} onClick={()=>p.onSelect?.(c.slot)}/>)}
   {p.data.connections.map((e,i)=><Link key={`${e.a}-${e.b}`} {...e} index={i} spread={spread} count={p.data.central.length} animate={!initialLinks.current.has(`${e.a}-${e.b}`)} reduced={p.reduced}/>)}
-  {near.map((c,i)=>{const pose=nearCardPose(p.data.reference?i:c.slot,near.length,p.peek,c.revealed,p.data.reference);return <Card key={c.id} card={c} dealing={p.dealing} dealOrder={c.slot*2+1} position={pose.position} rotation={pose.rotation} selected={false} reduced={p.reduced} delay={Math.max(0,p.revealIds.indexOf(c.id))}/>;})}
+  {near.map(c=>{const pose=nearCardPose(c.slot,near.length,p.peek,c.revealed);return <Card key={c.id} card={c} eventId={p.eventId} eventSfx={p.eventSfx} finalResult={p.finalResult} soundScope={p.soundScope} revealOrder={p.revealIds.indexOf(c.id)} visibilityEpoch={visibilityEpoch} onPublicSound={p.onPublicSound} dealing={p.dealing} dealOrder={c.slot*2+1} position={pose.position} rotation={pose.rotation} selected={false} reduced={p.reduced} delay={Math.max(0,p.revealIds.indexOf(c.id))}/>;})}
  </>;
 }

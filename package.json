@@ -14,8 +14,7 @@
     "compare:gaps": "tsx scripts/gap-balance.ts",
     "compare:ai": "tsx scripts/compare-ai.ts",
     "build:server": "npm --prefix functions run build",
-    "test:online": "vitest run tests/online.test.ts",
-    "verify:solo": "tsx scripts/verify-solo.ts"
+    "test:online": "vitest run tests/online.test.ts"
   },
   "dependencies": {
     "@fontsource-variable/bodoni-moda": "^5.3.0",

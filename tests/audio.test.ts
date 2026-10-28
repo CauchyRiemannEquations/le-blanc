@@ -1,5 +1,5 @@
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest';
-import {GameAudio} from '../src/soundtrack';
+import {AUDIO_FILES,GameAudio} from '../src/soundtrack';
 import {audioSettings,duelAudio} from '../src/audioScene';
 
 class Param {
@@ -35,6 +35,9 @@ beforeEach(()=>{
 });
 afterEach(()=>{audio.dispose();vi.useRealTimers();vi.unstubAllGlobals();});
 describe('settings and result perspective',()=>{
+ it('ships only the menu/duel soundtrack, ambience and duel result cues',()=>{
+  expect(AUDIO_FILES).toEqual({menu:'bgm_menu.ogg',duel:'bgm_duel.ogg',victory:'cue_victory.ogg',defeat:'cue_defeat.ogg',ambience:'amb_tavern.ogg'});
+ });
  it('preserves old opt-out and validates persisted volume',()=>{
   expect(audioSettings({sound:false})).toMatchObject({sound:false,music:false,ambience:false});
   expect(audioSettings({sound:true})).toMatchObject({sound:true,music:true,ambience:true});
@@ -62,10 +65,10 @@ describe('audio lifecycle',()=>{
   await audio.unlock();await flush();const old=sources('bgm_menu')[0],amb=sources('amb_tavern')[0];
   let resolve!:(v:unknown)=>void;
   context().decodeAudioData.mockImplementationOnce(()=>new Promise(r=>{resolve=r;}));
-  audio.setScene({track:'solo'});await flush();await vi.advanceTimersByTimeAsync(600);
+  audio.setScene({track:'duel'});await flush();await vi.advanceTimersByTimeAsync(600);
   expect(old.stop).not.toHaveBeenCalled();
-  resolve('bgm_solo.ogg');await flush();
-  const next=sources('bgm_solo')[0];expect(next.start).toHaveBeenCalledOnce();
+  resolve('bgm_duel.ogg');await flush();
+  const next=sources('bgm_duel')[0];expect(next.start).toHaveBeenCalledOnce();
   await vi.advanceTimersByTimeAsync(500);expect(old.stop).toHaveBeenCalledOnce();expect(old.disconnect).toHaveBeenCalledOnce();
   expect(amb.stop).not.toHaveBeenCalled();
  });
@@ -73,17 +76,17 @@ describe('audio lifecycle',()=>{
   let resolve!:(v:unknown)=>void;
   await audio.unlock();await flush();
   context().decodeAudioData.mockImplementationOnce(()=>new Promise(r=>{resolve=r;}));
-  audio.setScene({track:'solo'});await flush();audio.setScene({track:'duel'});await flush();
-  resolve('bgm_solo.ogg');await flush();
-  expect(sources('bgm_solo')).toHaveLength(0);expect(sources('bgm_duel')).toHaveLength(1);
+  audio.setScene({track:'duel'});await flush();audio.setScene({track:'menu'});await flush();
+  resolve('bgm_duel.ogg');await flush();
+  expect(sources('bgm_duel')).toHaveLength(0);expect(sources('bgm_menu')).toHaveLength(1);
   audio.dispose();expect(context().close).toHaveBeenCalledOnce();
   expect(context().sources.every(s=>s.stop.mock.calls.length>0)).toBe(true);
  });
  it('rapidly returning to the fading song keeps its source',async()=>{
-  await audio.unlock();await flush();audio.setScene({track:'solo'});await flush();audio.setScene({track:'menu'});await flush();
+  await audio.unlock();await flush();audio.setScene({track:'duel'});await flush();audio.setScene({track:'menu'});await flush();
   await vi.advanceTimersByTimeAsync(500);
   expect(sources('bgm_menu')).toHaveLength(1);expect(sources('bgm_menu')[0].stop).not.toHaveBeenCalled();
-  expect(sources('bgm_solo')[0].stop).toHaveBeenCalledOnce();
+  expect(sources('bgm_duel')[0].stop).toHaveBeenCalledOnce();
  });
  it('plays one result cue, ducks music, restores it and permits the next result entry',async()=>{
   await audio.unlock();await flush();
@@ -116,11 +119,24 @@ describe('audio lifecycle',()=>{
   audio.setSettings(enabled);await flush();expect(context().state).toBe('running');
   expect(sources('bgm_menu')).toHaveLength(1);expect(menu.start).toHaveBeenCalledOnce();
  });
- it('preserves synthesized SFX notes and prevents stale effects after tab return',async()=>{
-  await audio.unlock();await flush();audio.tone('chain',true);
-  expect(context().oscillators.map(n=>n.frequency.value)).toEqual([392,494,587]);
-  audio.setHidden(true);expect(context().oscillators.every(n=>n.stop.mock.calls.length===2)).toBe(true);
-  audio.tone('fail',true);expect(context().oscillators).toHaveLength(3);
+ it('uses sampled effects, never duplicate sine notes, and stops effects on tab hide',async()=>{
+  await audio.unlock();await flush();audio.tone('chain',true);await flush();
+  expect(context().oscillators).toHaveLength(0);
+  expect(sources('sfx_chain_low')).toHaveLength(1);
+  audio.setHidden(true);expect(sources('sfx_chain_low')[0].stop).toHaveBeenCalledOnce();
+  audio.tone('fail',true);await flush();expect(sources('sfx_number_wrong')).toHaveLength(0);
+ });
+ it('cancels delayed/decoding SFX on scene, sound and mute changes without replay',async()=>{
+  await audio.unlock();await flush();
+  let resolve!:(value:unknown)=>void;context().decodeAudioData.mockImplementationOnce(()=>new Promise(done=>{resolve=done;}));
+  audio.sfx('card_flip',{id:'old-scene'});await flush();audio.setScene({track:'duel'});resolve('sfx_card_flip.ogg');await flush();
+  expect(sources('sfx_card_flip')).toHaveLength(0);
+  audio.sfx('number_correct',{delayMs:100,id:'muted-queue'});audio.setSettings({...enabled,sound:false});await vi.advanceTimersByTimeAsync(200);
+  expect(sources('sfx_number_correct')).toHaveLength(0);
+  audio.setSettings(enabled);audio.sfx('number_correct',{id:'new-result'});await flush();expect(sources('sfx_number_correct')).toHaveLength(1);
+  audio.setSettings({...enabled,muted:true});expect(sources('sfx_number_correct')[0].stop).toHaveBeenCalledOnce();
+  audio.setSettings(enabled);await flush();expect(sources('sfx_number_correct')).toHaveLength(1);
+  audio.setSettings({...enabled,volume:0});audio.sfx('ui_back');await flush();expect(sources('sfx_ui_back')).toHaveLength(0);
  });
  it('independently disables ambience, music, and SFX; full mute covers all',async()=>{
   await audio.unlock();await flush();
@@ -135,7 +151,7 @@ describe('audio lifecycle',()=>{
   vi.mocked(fetch).mockRejectedValue(new Error('offline'));
   await audio.unlock();await flush();expect(context().sources).toHaveLength(0);
   await audio.unlock();await flush();expect(fetch).toHaveBeenCalledTimes(2);
-  audio.tone('select',true);expect(context().oscillators).toHaveLength(1);
+  audio.tone('select',true);await flush();expect(context().oscillators).toHaveLength(0);expect(sources('sfx_ui_press')).toHaveLength(0);
   audio.dispose();audio=new GameAudio();vi.stubGlobal('AudioContext',class {constructor(){throw Error('unsupported');}});
   await expect(audio.unlock()).resolves.toBeUndefined();
  });

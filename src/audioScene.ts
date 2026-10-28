@@ -1,5 +1,5 @@
 import type { PlayerId } from './engine/types';
-export type MusicTrack = 'menu' | 'solo' | 'duel';
+export type MusicTrack = 'menu' | 'duel';
 export type ResultCue = 'victory' | 'defeat';
 export interface AudioScene { track: MusicTrack; result?: { id: string; cue: ResultCue } }
 export const MENU_AUDIO: AudioScene = { track: 'menu' };

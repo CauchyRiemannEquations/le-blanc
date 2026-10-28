@@ -1,3 +1,4 @@
+import type { SfxEvent, SfxOptions } from './sfx';
 import { GameAudio } from './soundtrack';
 let active: GameAudio | undefined;
 export function mountAudio() {
@@ -5,3 +6,7 @@ export function mountAudio() {
  return { audio, dispose: () => { audio.dispose(); if (active === audio) active = undefined; } };
 }
 export function playTone(kind: 'select' | 'success' | 'fail' | 'chain', enabled: boolean) { active?.tone(kind, enabled); }
+
+export function playSfx(event:SfxEvent,options:SfxOptions={}) { active?.sfx(event,options); }
+
+export function cancelSfx(id:string) { active?.cancelSfx(id); }

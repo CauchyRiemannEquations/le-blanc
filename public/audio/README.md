@@ -1,14 +1,14 @@
 # LE BLANC audio
 
-Six web assets only (6,320,475 bytes total). WAV masters, source sample libraries,
+Five music/ambience web assets (4,378,266 bytes total), plus the 36 short
+[SFX assets](sfx/README.md) in `sfx/`. WAV masters, source sample libraries,
 and production ZIPs are intentionally not distributed with the game.
 
 | Asset | Duration | Playback |
 | --- | ---: | --- |
-| bgm_menu.ogg | 104 s | Full-buffer loop; menus, solo list, friend lobby |
-| bgm_solo.ogg | 160 s | Full-buffer loop; solo play and tutorial |
+| bgm_menu.ogg | 104 s | Full-buffer loop; menus, duel how-to, friend lobby |
 | bgm_duel.ogg | 144 s | Full-buffer loop; AI, online and shared-device duel |
-| cue_victory.ogg | 6 s | Once on victory/solo result entry |
+| cue_victory.ogg | 6 s | Once on duel victory result entry |
 | cue_defeat.ogg | 4.5 s | Once on defeat result entry |
 | amb_tavern.ogg | 96 s | Independent quiet full-buffer loop |
 
@@ -26,19 +26,8 @@ D4–F4–E4–A3 motif. This is sampled-instrument rendering, not a new live re
   Dalzell; sample cutting by Elan Hickler / Soundemote.
 - The CC0 statement applies to the instrument samples. This document does not
   assign a new license to the composed score, recordings, or game code.
-- Source notes: the supplied Library `README(1).md`, ID
-  `libfile_eed3058a7d54819190a04dbce01703b3`, read on 2026-10-28.
-- `manifest.json` retains the original Library references and the hashes of the
-  six user-attached files actually installed in this checkout. No Library item
-  was replaced or duplicated.
-
-The fresh attachments were downloaded on this PC using the current Library
-transfer helper with the installed Codex Python 3.12 runtime, with normal TLS
-certificate verification. They were verified as readable, with the expected
-sizes and Ogg headers. The initial Python 3.14 download failed certificate
-validation. The original Library references additionally require xattrs that
-the helper cannot set on Windows (`os.setxattr` unavailable); their identity is
-retained here as provenance, not claimed as a successfully applied filesystem
-attribute. The newer user attachments had no such xattr requirement.
+- Asset hashes in `manifest.json` verify the five shipped music/ambience files.
+  Private transfer identifiers and workstation-specific download notes are not
+  part of the distributed asset metadata.
 
 For integration behavior and local verification, see [AUDIO-INTEGRATION.md](../../AUDIO-INTEGRATION.md).

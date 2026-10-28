@@ -1,7 +1,9 @@
+import { SfxPlayer } from './sfx';
+import type { SfxEvent, SfxOptions } from './sfx';
 import { audioSettings, MENU_AUDIO } from './audioScene';
 import type { AudioScene, AudioSettings, ResultCue } from './audioScene';
 export const AUDIO_FILES = {
- menu: 'bgm_menu.ogg', solo: 'bgm_solo.ogg', duel: 'bgm_duel.ogg',
+ menu: 'bgm_menu.ogg', duel: 'bgm_duel.ogg',
  victory: 'cue_victory.ogg', defeat: 'cue_defeat.ogg', ambience: 'amb_tavern.ogg',
 } as const;
 type Asset = keyof typeof AUDIO_FILES;
@@ -23,7 +25,8 @@ export class GameAudio {
  private resultId?: string;
  private pendingCue?: ResultCue;
  private cue?: Voice;
- private tones = new Set<{osc: OscillatorNode; gain: GainNode}>();
+ private unlocking?: Promise<void>;
+ private sfxPlayer = new SfxPlayer({context:()=>this.context,destination:()=>this.effectsGain,enabled:()=>!this.disposed&&!this.hidden&&this.settings.sound&&!this.settings.muted&&this.settings.volume>0,audible:()=>this.audible()&&this.context?.state==='running',voiceLimit:()=>this.cue||this.pendingCue?5:6});
  private disposed = false;
  private hidden = false;
  private unlocked = false;
@@ -50,6 +53,11 @@ export class GameAudio {
 
  async unlock() {
   if (this.disposed || this.hidden) return;
+  if (this.unlocking) return this.unlocking;
+  const pending=this.unlockContext();this.unlocking=pending;
+  try { await pending; } finally { if(this.unlocking===pending)this.unlocking=undefined; }
+ }
+ private async unlockContext() {
   try {
    if (!this.context) {
     const context = new AudioContext();
@@ -68,10 +76,11 @@ export class GameAudio {
 
  setSettings(settings: AudioSettings) {
   this.settings = audioSettings(settings);
-  if (!settings.sound || settings.muted || settings.volume === 0) { this.cancelCue(); this.cancelTones(); }
+  if (!settings.sound || settings.muted || settings.volume === 0) { this.cancelCue(); this.sfxPlayer.cancel(); }
   this.reconcile();
  }
  setScene(scene: AudioScene) {
+  if(scene.track!==this.scene.track||scene.result?.id!==this.scene.result?.id)this.sfxPlayer.cancel();
   this.scene = scene;
   if (scene.result?.id !== this.resultId) {
    this.cancelCue(); this.resultId = scene.result?.id;
@@ -83,7 +92,7 @@ export class GameAudio {
  setHidden(hidden: boolean) {
   this.hidden = hidden;
   if (hidden) {
-   this.cancelCue(); this.cancelTones();
+   this.cancelCue(); this.sfxPlayer.cancel();
    if (this.master && this.context) { this.master.gain.cancelScheduledValues(this.context.currentTime); this.master.gain.setValueAtTime(0, this.context.currentTime); }
    void this.context?.suspend().catch(() => {});
   } else if (this.context) void this.unlock();
@@ -174,28 +183,16 @@ export class GameAudio {
   try { voice.source.stop(); } catch { /* Already stopped. */ }
   voice.source.disconnect(); voice.gain.disconnect();
  }
- private cancelTones() {
-  for (const {osc,gain} of this.tones) { osc.onended = null; try { osc.stop(); } catch { /* Ended. */ } osc.disconnect(); gain.disconnect(); }
-  this.tones.clear();
- }
+ sfx(event:SfxEvent,options:SfxOptions={}) { this.sfxPlayer.play(event,options,this.unlocking); }
+ cancelSfx(id:string) { this.sfxPlayer.cancelId(id); }
+ /** Legacy callers use the same sample bus; no synthesized duplicate cue remains. */
  tone(kind: 'select' | 'success' | 'fail' | 'chain', enabled: boolean) {
-  if (!enabled || !this.settings.sound || !this.audible() || this.context?.state !== 'running') return;
-  try {
-   const context = this.context;
-   const frequencies = kind === 'chain' ? [392,494,587] : kind === 'success' ? [440,587] : kind === 'fail' ? [180] : [330];
-   frequencies.forEach((freq,i) => {
-    const osc = context.createOscillator(), gain = context.createGain(), time = context.currentTime + i * .12;
-    osc.type = 'sine'; osc.frequency.value = freq;
-    gain.gain.setValueAtTime(0,time); gain.gain.linearRampToValueAtTime(.035,time+.015); gain.gain.exponentialRampToValueAtTime(.001,time+.22);
-    osc.connect(gain); gain.connect(this.effectsGain!);
-    const tone = {osc,gain}; this.tones.add(tone);
-    osc.onended = () => { this.tones.delete(tone); osc.disconnect(); gain.disconnect(); };
-    osc.start(time); osc.stop(time+.23);
-   });
-  } catch { /* Sound is optional. */ }
+  if(!enabled)return;
+  const event={select:'ui_press',success:'number_correct',fail:'number_wrong',chain:'chain'} as const;
+  this.sfx(event[kind],kind==='chain'?{state:'low'}:{});
  }
  dispose() {
-  this.disposed = true; this.detach?.(); this.cancelCue(); this.cancelTones();
+  this.disposed = true; this.detach?.(); this.cancelCue(); this.sfxPlayer.dispose();
   for (const load of this.loads.values()) load.abort(); this.loads.clear();
   for (const voice of this.voices.values()) this.stop(voice); this.voices.clear();
   void this.context?.close().catch(() => {});

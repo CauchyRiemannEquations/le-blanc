@@ -52,16 +52,15 @@ it('tabletop slots never depend on revealed cards; inspection only tilts private
  for(let slot=0;slot<5;slot++){
   const down=nearCardPose(slot,5,false,false),inspect=nearCardPose(slot,5,true,false),up=nearCardPose(slot,5,false,true);
   expect(down.position).toEqual(up.position);expect(inspect.position[0]).toBe(down.position[0]);expect(inspect.position[2]).toBe(down.position[2]);expect(inspect.position[1]).toBeGreaterThan(down.position[1]);
-  expect(nearCardPose(slot,5,true,true)).toEqual(up);expect(nearCardPose(slot,5,true,true,true)).toEqual(nearCardPose(slot,5,false,true,true));
+  expect(nearCardPose(slot,5,true,true)).toEqual(up);
  }
  duelScene(view,true);duelScene(view,false);expect(game).toEqual(before);
 });
 
-it('near duel faces point at the opponent; private inspection and solo references face the viewer',()=>{
+it('near duel faces point at the opponent; private inspection faces the viewer',()=>{
  for(let slot=0;slot<5;slot++){
   expect(nearCardPose(slot,5,false,false).rotation[2]).toBe(Math.PI);
   expect(nearCardPose(slot,5,false,true).rotation[2]).toBe(Math.PI);
   expect(nearCardPose(slot,5,true,false).rotation[2]).toBe(0);
-  expect(nearCardPose(slot,5,false,true,true).rotation[2]).toBe(0);
  }
 });

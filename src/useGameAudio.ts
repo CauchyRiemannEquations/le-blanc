@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { mountAudio } from './audio';
+import { attachUiSfx } from './uiSfx';
 import type { GameAudio } from './soundtrack';
 import type { AudioScene, AudioSettings } from './audioScene';
 export function useGameAudio(settings: AudioSettings, scene: AudioScene) {
@@ -7,4 +8,5 @@ export function useGameAudio(settings: AudioSettings, scene: AudioScene) {
  useEffect(() => { const mounted = mountAudio(); ref.current = mounted.audio; return () => { mounted.dispose(); ref.current = null; }; }, []);
  useEffect(() => { ref.current?.setSettings(settings); }, [settings.sound, settings.music, settings.ambience, settings.muted, settings.volume]);
  useEffect(() => { ref.current?.setScene(scene); }, [scene.track, scene.result?.id, scene.result?.cue]);
+ useEffect(attachUiSfx, []);
 }

@@ -2,60 +2,40 @@
   "format": "Ogg Vorbis q5",
   "channels": 2,
   "sampleRate": 48000,
-  "sourceReadmeLibraryId": "libfile_eed3058a7d54819190a04dbce01703b3",
   "files": [
     {
       "file": "bgm_menu.ogg",
-      "libraryFileId": "libfile_5ba2b7d55d2881918d5b794797ba99e4",
       "bytes": 1267366,
       "seconds": 104,
       "loop": true,
-      "libraryVersion": 0,
       "sha256": "c6f261987222624cd39877826d43eeb7c91285fecdef3f279b962dbb2c344718"
     },
     {
-      "file": "bgm_solo.ogg",
-      "libraryFileId": "libfile_d075feecfaec8191950b9e8ee05e492a",
-      "bytes": 1942209,
-      "seconds": 160,
-      "loop": true,
-      "libraryVersion": 0,
-      "sha256": "e9c4d287ff08b86c822ae4c6435d8c767458b05c17268f2c50a7a11a7630d12a"
-    },
-    {
       "file": "bgm_duel.ogg",
-      "libraryFileId": "libfile_185960cfed2c81919b5b8784f343b733",
       "bytes": 1742868,
       "seconds": 144,
       "loop": true,
-      "libraryVersion": 0,
       "sha256": "777af51fb998b565deb402da86fe3254326e04d539644a500e6bb2505c32aeab"
     },
     {
       "file": "cue_victory.ogg",
-      "libraryFileId": "libfile_ae21fe3c14188191929ef64f4ee9f0b5",
       "bytes": 81010,
       "seconds": 6,
       "loop": false,
-      "libraryVersion": 0,
       "sha256": "f33e48c5946d2a998c33448202ac7fff8465431c11c9ae0f8ee1116eca32e39c"
     },
     {
       "file": "cue_defeat.ogg",
-      "libraryFileId": "libfile_4221d9d0460481919c2b94ce6b1e0d4b",
       "bytes": 56630,
       "seconds": 4.5,
       "loop": false,
-      "libraryVersion": 0,
       "sha256": "24cd2a43d7596597272d87e1b4e013709f265d01c62cf08a9960864fe247dba3"
     },
     {
       "file": "amb_tavern.ogg",
-      "libraryFileId": "libfile_f44495d224288191a961a3ad22893895",
       "bytes": 1230392,
       "seconds": 96,
       "loop": true,
-      "libraryVersion": 0,
       "sha256": "bc1aeaa8a21588aad0a345050fe52ea631e4515bec789b32738766106f7ec09e"
     }
   ]

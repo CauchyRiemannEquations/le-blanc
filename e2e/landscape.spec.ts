@@ -7,7 +7,7 @@ for(const viewport of [{width:800,height:360},{width:844,height:390},{width:1440
  await expect(page.locator('.menu-keyart img')).toBeVisible();
  await expect.poll(()=>page.locator('.menu-keyart img').evaluate((img:HTMLImageElement)=>img.complete&&img.naturalWidth>0)).toBe(true);
  await expect(page.locator('canvas')).toHaveCount(0);
- for(const name of ['듀얼 모드','솔로 모드']){const b=await page.getByRole('button',{name,exact:true}).boundingBox();expect(b!.y+b!.height).toBeLessThanOrEqual(viewport.height);}
+ for(const name of ['듀얼 모드','플레이 방법']){const b=await page.getByRole('button',{name,exact:true}).boundingBox();expect(b!.y+b!.height).toBeLessThanOrEqual(viewport.height);}
  await page.getByRole('button',{name:'듀얼 모드',exact:true}).click();await page.getByRole('button',{name:/AI 대전/}).click();await page.getByRole('button',{name:'대전 시작',exact:true}).click();
  const canvas=page.locator('canvas[data-renderer="three-webgl"]');await expect(canvas).toBeVisible();await expect(page.getByTestId('dealing-screen')).toHaveCount(0);
  await canvas.evaluate(el=>el.setAttribute('data-identity','same-table'));

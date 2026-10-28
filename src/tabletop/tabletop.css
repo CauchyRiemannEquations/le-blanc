@@ -39,33 +39,13 @@
 .game-screen:has(.tabletop) .game-footer .icon-button{display:inline-flex}
 .game-screen[data-dealing=true] .table-center,.game-screen[data-dealing=true] .game-footer,.game-screen[data-dealing=true] .game-header,.game-screen[data-dealing=true] .player-meta{display:none}
 .overlay-clock{top:12px;right:max(20px,env(safe-area-inset-right));left:auto;transform:none;padding:0;border:0;background:none;color:#eedfc5}.overlay-clock .turn-clock{color:#f3e6ce;background:#20170f;border:1px solid #b1966d44;padding:10px 14px;border-radius:6px}.overlay-clock .turn-clock.urgent{color:#efad9d}
-/* Solo uses the same table, with permanent compact public clues. */
-.app .solo-play:has(.tabletop){display:block;position:relative;height:100dvh;min-height:0;max-width:none;margin:0;padding:0;overflow:hidden;background:#100c09;color:#f1e4ce}
-.solo-play:has(.tabletop) .solo-header{position:absolute;inset:12px 20px auto;max-width:none;height:44px;z-index:4;color:#eee0c4}.solo-play:has(.tabletop) .solo-header .brand-small{display:none}
-.solo-play:has(.tabletop) .solo-header button{background:#1c140ee8;color:#e3d0ad;border:1px solid #927b5744;border-radius:6px}
-.solo-play:has(.tabletop) .solo-heading{position:absolute;left:80px;top:15px;z-index:3;text-align:left;margin:0;display:flex;gap:12px;align-items:center}
-.solo-play:has(.tabletop) .solo-heading h1{font-size:17px;margin:0}.solo-play:has(.tabletop) .solo-heading p,.solo-play:has(.tabletop) .solo-kicker{color:#d0b990;font-size:11px}
-.solo-play:has(.tabletop) .solo-clues{position:absolute;left:24px;top:72px;z-index:3;text-align:left;max-width:270px;width:auto;margin:0;display:block;color:#dfceb0;background:#1a120bd9;border-left:2px solid #a38758;padding:10px 14px;font-size:12px;line-height:1.8;pointer-events:none}
-.solo-play:has(.tabletop) .solo-clues p{white-space:normal}.solo-play:has(.tabletop) .solo-range{color:#b8a581}
-.solo-play:has(.tabletop) .solo-feedback{position:absolute;bottom:82px;right:22px;z-index:3;max-width:360px;text-align:right;color:#e2ceb0;font-size:12px;background:#160f09ba;border-radius:4px;padding:5px 10px;min-height:0;margin:0;pointer-events:none}
-.solo-play:has(.tabletop) .solo-workspace{position:absolute;right:20px;bottom:18px;z-index:4;max-width:none;width:auto;padding:0;margin:0}
-.solo-play:has(.solo-tool) .solo-workspace{inset:0 0 0 auto;width:min(39vw,380px);background:#ede4d2f5;color:#30261f;overflow:auto;padding:18px;box-shadow:-12px 0 45px #0004}
-.solo-play:has(.solo-tool) .solo-header{right:calc(min(39vw,380px) + 16px)}
-.solo-play:has(.solo-tool) .solo-heading{display:block}.solo-play:has(.solo-tool) .solo-heading>.solo-kicker{display:none}.solo-play:has(.solo-tool) .solo-heading p{margin:3px 0}
-.solo-play:has(.solo-tool) .solo-feedback{right:calc(min(39vw,380px) + 20px);max-width:38vw;bottom:20px}
-.solo-play:has(.tabletop) .solo-tool{border:0;padding:0}.solo-play:has(.tabletop) .solo-keypad{grid-template-columns:repeat(5,1fr)}
-.solo-play:has(.tabletop) .solo-question-list{max-height:none}.solo-play:has(.tabletop) .solo-tools button{min-height:44px;padding:12px 18px;background:#21170fed;border-color:#ac906255;color:#ead8b4}
-.solo-play:has(.tabletop) .solo-tools button:first-child{background:#e8d9bd;color:#2c2119}
 @media (orientation:landscape) and (max-height:500px){
  .game-screen:has(.tabletop) .game-header,.game-screen:has(.tabletop) .game-footer{top:8px}.game-screen:has(.tabletop) .player-meta{top:12px;font-size:10px}.game-screen:has(.tabletop) .table-center{bottom:10px;right:16px}.game-screen:has(.tabletop) .game-actions button{min-width:108px;min-height:44px;font-size:12px;padding:10px 14px}.tabletop-hand-bar{bottom:10px;left:16px}
  .action-backdrop:has(.tabletop) .overlay{padding:12px}.action-backdrop:has(.tabletop) .overlay h2{font-size:16px}.action-backdrop:has(.tabletop) .overlay-head{margin-bottom:6px}.action-backdrop:has(.tabletop) .choice-list>button{min-height:64px}.action-backdrop:has(.tabletop) .number-grid button{min-height:40px;height:40px}.action-backdrop:has(.tabletop) .sheet-foot{margin:6px 0}.action-backdrop:has(.tabletop) .step-label{margin:6px 0}.action-backdrop:has(.tabletop) .cancel-action{display:none}
- .solo-play:has(.tabletop) .solo-clues{top:63px;max-width:185px;font-size:10px;padding:6px 9px}.solo-play:has(.tabletop) .solo-heading h1{font-size:14px}.solo-play:has(.solo-tool) .solo-workspace{padding:12px}.solo-play:has(.tabletop) .solo-feedback{font-size:10px;bottom:65px;max-width:300px}.solo-play:has(.solo-tool) .solo-feedback{bottom:14px;max-width:28vw;left:175px;right:auto}.solo-play:has(.tabletop) .solo-keypad button{min-height:40px}.solo-play:has(.tabletop) .solo-heading{gap:8px}
 }
 @media (orientation:portrait){
  .game-screen:has(.tabletop) .game-header{inset:10px 12px auto}.game-screen:has(.tabletop) .game-footer{left:64px;top:10px}.game-screen:has(.tabletop) .player-meta{top:68px}.game-screen:has(.tabletop) .table-center{right:12px;bottom:76px;max-width:85vw}.game-screen:has(.tabletop) .game-actions button{min-width:120px;padding:12px}.tabletop-hand-bar{left:12px;bottom:16px}
  .action-backdrop:has(.tabletop) .overlay{inset:54% 0 0;width:100%;height:46%;padding:12px 16px;border-left:0;border-top:1px solid #a6906c66}.action-backdrop:has(.tabletop) .tabletop-hand-bar{top:calc(54% - 50px);bottom:auto}.action-backdrop:has(.tabletop) .overlay h2{font-size:17px}
- .solo-play:has(.tabletop) .solo-heading{top:62px;left:18px;display:block}.solo-play:has(.tabletop) .solo-clues{top:130px;left:18px;max-width:260px;font-size:11px}.solo-play:has(.tabletop) .solo-workspace{bottom:16px;right:12px}.solo-play:has(.tabletop) .solo-feedback{bottom:76px;right:12px;max-width:90vw}
- .solo-play:has(.solo-tool) .solo-workspace{inset:54% 0 0;width:100%;padding:12px 16px}.solo-play:has(.solo-tool) .solo-header{right:16px}.solo-play:has(.solo-tool) .solo-heading{top:14px;left:76px}.solo-play:has(.solo-tool) .solo-clues{top:64px;font-size:10px;padding:4px 8px}.solo-play:has(.solo-tool) .solo-feedback{display:none}.solo-play:has(.solo-tool) .tabletop-hand-bar{top:calc(54% - 48px);bottom:auto}
 }
 
 /* Floating table actions: the original canvas and its camera never change. */
@@ -96,26 +76,6 @@
 
 .app .table-action .overlay,.app .table-action .overlay.wide{position:absolute;inset:0!important;width:100%;height:100dvh;min-height:0;max-height:100dvh;max-width:none;border:0;border-radius:0;background:transparent;box-shadow:none;padding:0;overflow:visible}
 .app:has(.table-action) .game-screen .game-header,.app:has(.table-action) .game-screen .game-footer,.app:has(.table-action) .game-screen .player-meta,.app:has(.table-action) .game-screen .table-center{visibility:hidden}
-
-/* Solo tools float on the same fixed camera too. */
-.app .solo-play:has(.solo-tool) .solo-workspace{inset:0;width:100%;height:100%;padding:0;background:none;box-shadow:none;overflow:visible;pointer-events:none}
-.solo-play:has(.solo-tool) .solo-tool{pointer-events:none;color:#ead7b5}
-.solo-play:has(.solo-tool) .solo-tool>*{pointer-events:auto}
-.app .solo-play:has(.solo-tool) .solo-header{right:20px}.solo-play:has(.solo-tool) .solo-header>button:last-child{visibility:hidden}
-.app .solo-play:has(.solo-tool) .solo-heading{display:flex;top:15px;left:80px;gap:12px}.app .solo-play:has(.solo-tool) .solo-heading>.solo-kicker{display:inline}.app .solo-play:has(.solo-tool) .solo-heading p{margin:0}
-.app .solo-play:has(.solo-tool) .solo-tool-head{position:absolute;top:12px;right:20px;min-height:44px;background:#24190feb;border:1px solid #a38b6344;border-radius:6px;padding:0 10px;gap:20px;color:#e5cfa8}.app .solo-play:has(.solo-tool) .solo-tool-head button{color:#d7bb8e;min-height:44px}
-.app .solo-play:has(.solo-tool) .solo-tabs{position:absolute;right:20px;top:65px;background:#21170fe6;border-radius:6px;padding:0 6px}.app .solo-play:has(.solo-tool) .solo-tabs button{color:#bea680;min-height:40px}.app .solo-play:has(.solo-tool) .solo-tabs button[aria-pressed=true]{color:#f2ddb6;border-color:#cfaf72}
-.app .solo-play:has(.solo-tool) .solo-keypad{position:absolute;bottom:14px;left:20px;right:210px;display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;margin:0;padding:5px 2px;scrollbar-width:thin;scrollbar-color:#ad9165 #21170f}
-.app .solo-play:has(.solo-tool) .solo-keypad button{min-width:44px;width:44px;min-height:44px;height:44px;background:#23190ff5;border:1px solid #b79a6777;color:#f2dfbc;flex-shrink:0;font:24px 'Bodoni Moda Variable',serif}.app .solo-play:has(.solo-tool) .solo-keypad button[aria-pressed=true]{background:#e4cfaa;color:#2c1f14}.app .solo-play:has(.solo-tool) .solo-keypad button:disabled{color:#8c795b;opacity:.5}
-.app .solo-play:has(.solo-tool) .solo-tool>.primary,.app .solo-play:has(.solo-tool) .solo-question-confirm>.primary{position:absolute;right:20px;bottom:20px;width:180px;min-height:44px;padding:10px;font-size:12px;background:#e9d7b7;color:#2b1e13;border-color:#e9d7b7}
-.app .solo-play:has(.solo-tool) .solo-feedback{display:none}
-.app .solo-play:has(.solo-tool) .solo-tool>.solo-note{position:absolute;bottom:75px;left:20px;color:#d1b78d;font-size:11px;background:#20150ddb;border-radius:4px;padding:4px 8px}
-.app .solo-play:has(.solo-tool) .solo-question-list{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);width:min(600px,80vw);max-height:42dvh;overflow:auto;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px;background:#21170fed;border:1px solid #a48c6355;border-radius:8px;box-shadow:0 5px 24px #0004}
-.app .solo-play:has(.solo-tool) .solo-question-list button{padding:10px;border:1px solid #a48c6333;border-radius:4px;background:#322217;color:#edd9b7;font-size:12px;min-height:60px}.app .solo-play:has(.solo-tool) .solo-question-list small{color:#b9a07b}
-.app .solo-play:has(.solo-tool) .solo-question-confirm{position:absolute;inset:0;pointer-events:none}.app .solo-play:has(.solo-tool) .solo-question-confirm>*{pointer-events:auto}.app .solo-play:has(.solo-tool) .solo-question-confirm>p{position:absolute;top:64px;left:50%;transform:translateX(-50%);padding:4px 12px;background:#1a120bd9;border-radius:4px;color:#efdcbc;width:max-content;max-width:65vw;font-size:13px}.app .solo-play:has(.solo-tool) .solo-question-confirm>p+p{top:105px;font-size:11px}.app .solo-play:has(.solo-tool) .solo-question-confirm>.text-button{position:absolute;left:20px;bottom:20px;background:#21170fee;color:#ddc49c;border:1px solid #9b825966;border-radius:6px;padding:8px 16px}
-@media(orientation:portrait){.app .solo-play:has(.solo-tool) .solo-heading{top:62px;left:18px;display:block}.app .solo-play:has(.solo-tool) .solo-clues{top:130px;font-size:11px;padding:10px 14px}.app .solo-play:has(.solo-tool) .solo-keypad{left:12px;right:12px;bottom:76px}.app .solo-play:has(.solo-tool) .solo-question-list{grid-template-columns:1fr;max-height:30dvh;bottom:20px}.app .solo-play:has(.solo-tool) .solo-question-confirm>p{top:auto;bottom:170px;max-width:94vw}.app .solo-play:has(.solo-tool) .solo-question-confirm>p+p{bottom:135px;top:auto}.app .solo-play:has(.solo-tool) .tabletop-hand-bar{top:auto;bottom:150px}.app .solo-play:has(.solo-tool) .solo-tool>.solo-note{bottom:145px}}
-
-@media(orientation:landscape){.app .solo-play:has(.solo-tool) .tabletop-hand-bar{left:20px;bottom:85px;top:auto}.app .solo-play:has(.solo-tool) .solo-tool>.solo-note{left:160px;max-width:50vw}}
 
 /* The question menu stays on the table; only its numeric parameter is editable. */
 .tabletop-boot{z-index:1}.near-hits .card-hit{pointer-events:none!important;cursor:default}
