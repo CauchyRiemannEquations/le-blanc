@@ -1,0 +1,21 @@
+import {test,expect} from '@playwright/test';
+for(const viewport of [{width:800,height:360},{width:844,height:390},{width:1440,height:900},{width:390,height:844}])test(`Carl HUD and attack cancellation ${viewport.width}`,async({page})=>{
+ await page.setViewportSize(viewport);
+ await page.addInitScript(()=>{Date.now=()=>4242;Math.random=()=>.1;localStorage.setItem('leblanc-settings-v1',JSON.stringify({sound:false,reduced:true}));});
+ await page.goto('/');await page.getByRole('button',{name:'듀얼 모드',exact:true}).click();await page.getByRole('button',{name:'AI 대전',exact:true}).click();await page.getByRole('button',{name:'대전 시작',exact:true}).click();
+ await expect(page.locator('.opponent-name')).toHaveText('Carl');await expect(page.locator('.decode-counter')).toHaveCount(0);
+ await expect(page.locator('.game-header .turn-clock')).toBeVisible();
+ const timer=await page.locator('.game-header .turn-clock').boundingBox();
+ await page.getByRole('button',{name:'공격하기',exact:true}).click();
+ const cancel=page.getByRole('button',{name:'공격 취소',exact:true});
+ const box=(await cancel.boundingBox())!;expect(box.x).toBeGreaterThan(viewport.width*.7);expect(box.y).toBeGreaterThan(viewport.height-85);await cancel.click();await expect(page.getByRole('dialog')).toHaveCount(0);
+ await page.getByRole('button',{name:'공격하기',exact:true}).click();await page.getByRole('button',{name:/^숫자 공격/}).click();await page.getByRole('group',{name:'공격 또는 질문 대상'}).getByRole('button',{name:/^1번 타일/}).click();
+ const submit=(await page.locator('.table-action .overlay>.primary').boundingBox())!;expect(submit.x+submit.width).toBeLessThan(box.x);
+ const pad=(await page.getByRole('group',{name:'숫자 선택',exact:true}).boundingBox())!;expect(pad.width).toBeGreaterThan(100);
+ await page.screenshot({path:`screenshots/hud-attack-${viewport.width}.png`});await cancel.click();await expect(page.getByRole('button',{name:'공격하기',exact:true})).toBeVisible();
+ await page.getByRole('button',{name:'질문하기',exact:true}).click();await page.getByRole('button',{name:'간격',exact:true}).click();const targets=page.getByRole('group',{name:'공격 또는 질문 대상'});await targets.getByRole('button',{name:/^1번 타일/}).click();await targets.getByRole('button',{name:/^2번 타일/}).click();await page.getByRole('button',{name:'질문 확정',exact:true}).click();await page.getByRole('button',{name:'확인',exact:true}).click();
+ await expect(page.getByRole('button',{name:'확인 · 계속',exact:true})).toBeVisible({timeout:15000});
+ const clock=(await page.locator('.overlay-clock').boundingBox())!,name=(await page.locator('.player-meta').boundingBox())!;
+ expect(clock.x).toBeCloseTo(timer!.x,0);expect(clock.y).toBeCloseTo(timer!.y,0);expect(clock.x).toBeGreaterThan(name.x+name.width);expect(clock.x+clock.width).toBeLessThanOrEqual(viewport.width);
+ await page.screenshot({path:`screenshots/hud-result-${viewport.width}.png`});
+});

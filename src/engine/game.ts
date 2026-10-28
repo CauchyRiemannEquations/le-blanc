@@ -5,7 +5,7 @@ export const DEFAULT_RULES:Rules = {version:2,gapPolicy:'continue-once',min:1,ma
 export function questionsRemaining(limit:number|null,used:number):number|null {return limit===null?null:Math.max(0,limit-used);}
 export const other = (id:PlayerId):PlayerId => id === 0 ? 1 : 0;
 export function seededRandom(seed:number) { return () => { let t = seed += 0x6D2B79F5; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-export function createGame(seed = Date.now(), rules:Partial<Rules> = {}, names:[string,string]=['나','카를'], first:PlayerId=0):GameState {
+export function createGame(seed = Date.now(), rules:Partial<Rules> = {}, names:[string,string]=['나','Carl'], first:PlayerId=0):GameState {
   const config = {...DEFAULT_RULES,...rules};
   if(config.version!==2||!['continue-once','legacy'].includes(config.gapPolicy)||!Number.isInteger(config.min)||!Number.isInteger(config.max)||config.min<1||config.max-config.min+1 < config.handSize*2 || config.handSize<2 || (config.questions!==null&&(!Number.isInteger(config.questions)||config.questions<0)) || config.initialReveal.some(i=>i<0||i>=config.handSize) || config.initialReveal.length>=config.handSize)throw new Error('게임 설정이 올바르지 않습니다.');
   const random=seededRandom(seed), deck=Array.from({length:config.max-config.min+1},(_,i)=>i+config.min);

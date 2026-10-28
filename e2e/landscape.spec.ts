@@ -20,7 +20,7 @@ for(const viewport of [{width:800,height:360},{width:844,height:390},{width:1440
  await cards.nth(0).click();await cards.nth(1).click();
  const pad=await page.getByRole('group',{name:'간격 선택',exact:true}).boundingBox();expect(pad!.y).toBeGreaterThan(after!.y+after!.height);
  await expect(page.locator('.hand-slots')).toHaveCount(0);
- await page.getByRole('button',{name:'공격 바꾸기',exact:true}).click();await page.getByRole('button',{name:'닫기',exact:true}).click();
+ await page.getByRole('button',{name:'공격 바꾸기',exact:true}).click();await page.getByRole('button',{name:'공격 취소',exact:true}).click();
  await page.getByRole('button',{name:'질문하기',exact:true}).click();await page.getByRole('button',{name:'간격',exact:true}).click();
  await expect(canvas).toHaveAttribute('data-identity','same-table');expect(await page.getByRole('group',{name:'공격 또는 질문 대상'}).getByRole('button').first().boundingBox()).toEqual(before);
  await page.screenshot({path:`screenshots/landscape-question-${viewport.width}.png`});

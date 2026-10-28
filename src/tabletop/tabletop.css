@@ -22,10 +22,9 @@
 .game-screen:has(.tabletop) .game-header>*{pointer-events:auto}
 .game-screen:has(.tabletop) .game-header .brand-small{display:none}
 .game-screen:has(.tabletop) .game-header .icon-button{height:44px;margin:0;color:#eddfc4;background:#19120ccc;border:1px solid #b1966d44;border-radius:6px}
-.game-screen:has(.tabletop) .turn-clock{color:#f3e6ce;background:#19120ccc;border:1px solid #b1966d44;padding:10px 14px;border-radius:6px;grid-column:3}
+.game-screen:has(.tabletop) .turn-clock{color:#f3e6ce;background:#19120ccc;border:1px solid #b1966d44;padding:10px 14px;border-radius:6px;grid-column:3;align-self:start;margin:0}
 .game-screen:has(.tabletop) .player-meta{position:absolute;top:22px;left:50%;transform:translateX(-50%);height:auto;z-index:3;gap:12px;color:#f0e1c8;pointer-events:none;background:#18120dbb;padding:7px 16px;border-radius:20px}
 .game-screen:has(.tabletop) .player-avatar,.game-screen:has(.tabletop) .player-subtitle{display:none}
-.game-screen:has(.tabletop) .decode-counter b,.game-screen:has(.tabletop) .decode-counter span{color:#c7b899}
 .game-screen:has(.tabletop) .table-center{position:absolute;inset:auto 20px 18px auto;width:auto;max-width:min(450px,55vw);min-height:0;padding:0;z-index:4;text-align:right;color:#eadcc4}
 .game-screen:has(.tabletop) .table-center>.eyebrow{color:#d1b78b;font-size:10px;letter-spacing:1px}
 .game-screen:has(.tabletop) .table-center h2{color:#eddfc8;font-size:14px;margin:4px 0 10px;text-shadow:0 1px 8px #000}
@@ -39,7 +38,7 @@
 .game-screen:has(.tabletop) .game-footer button{position:static;color:#e4d4b6;background:#19120ccc;border:1px solid #b1966d44;border-radius:6px;padding:10px 12px;min-height:44px}
 .game-screen:has(.tabletop) .game-footer .icon-button{display:inline-flex}
 .game-screen[data-dealing=true] .table-center,.game-screen[data-dealing=true] .game-footer,.game-screen[data-dealing=true] .game-header,.game-screen[data-dealing=true] .player-meta{display:none}
-.overlay-clock{top:14px;right:auto;left:50%;transform:translateX(-50%);color:#eedfc5}.overlay-clock .turn-clock{color:#eedfc5;background:#20170f;padding:8px;border-radius:6px}
+.overlay-clock{top:12px;right:max(20px,env(safe-area-inset-right));left:auto;transform:none;padding:0;border:0;background:none;color:#eedfc5}.overlay-clock .turn-clock{color:#f3e6ce;background:#20170f;border:1px solid #b1966d44;padding:10px 14px;border-radius:6px}.overlay-clock .turn-clock.urgent{color:#efad9d}
 /* Solo uses the same table, with permanent compact public clues. */
 .app .solo-play:has(.tabletop){display:block;position:relative;height:100dvh;min-height:0;max-width:none;margin:0;padding:0;overflow:hidden;background:#100c09;color:#f1e4ce}
 .solo-play:has(.tabletop) .solo-header{position:absolute;inset:12px 20px auto;max-width:none;height:44px;z-index:4;color:#eee0c4}.solo-play:has(.tabletop) .solo-header .brand-small{display:none}
@@ -128,3 +127,20 @@
 .question-parameter>span{font-size:11px}.question-parameter button{min-width:44px;min-height:44px;border:1px solid #9e845b66;border-radius:4px;background:#322318;color:#ecd8b4;display:grid;place-items:center}.question-parameter button:disabled{opacity:.35}.question-parameter output{min-width:28px;text-align:center;font-size:22px}
 .app .table-action .question-confirmation{pointer-events:none;border:0}
 @media(orientation:portrait){.app .table-action .question-options-list{bottom:80px;flex-direction:column;gap:6px}.app .table-action .question-options-list button{min-height:58px;padding:8px}.app .table-action .question-rule-note{bottom:65px;font-size:9px}.app .table-action .question-parameter{left:50%;transform:translateX(-50%);bottom:76px;white-space:nowrap}.app .table-action .question-confirmation{bottom:148px}}
+
+/* Timer retains its HUD position; attack cancellation stays within thumb reach. */
+.table-action .overlay-head{right:116px}
+.table-action:where(.attack-kind,.attack-target,.attack-value) .overlay-head{padding:10px 14px;min-height:44px}
+.table-action .overlay>.action-cancel{position:absolute;right:max(18px,env(safe-area-inset-right));bottom:max(20px,env(safe-area-inset-bottom));display:inline-flex;align-items:center;justify-content:center;gap:6px;width:80px;min-height:44px;margin:0;padding:10px;background:#21170ff2;color:#efdfc4;border:1px solid #b49a6a88;border-radius:6px;font-size:12px}
+.table-action:where(.attack-target,.attack-value) .overlay>.primary{right:110px}
+.table-action:where(.attack-target,.attack-value) .overlay .number-grid{right:304px}
+@media(orientation:landscape) and (max-height:500px){.overlay-clock{top:8px}}
+@media(orientation:portrait){
+ .overlay-clock{top:10px;right:max(12px,env(safe-area-inset-right))}
+ .table-action .overlay-head{right:108px}
+ .table-action .overlay>.action-cancel{right:max(10px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom))}
+ .table-action:where(.attack-target,.attack-value) .overlay>.primary{right:102px}
+ .table-action:where(.attack-target,.attack-value) .overlay .number-grid{right:10px}
+ .table-action:where(.attack-target,.attack-value) .tabletop-hand-bar{bottom:144px;top:auto}
+ .table-action.attack-kind .choice-list{bottom:80px}
+}
