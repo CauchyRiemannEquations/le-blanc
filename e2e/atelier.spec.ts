@@ -18,7 +18,7 @@ test('3D tabletop: fixed slots, private inspection, gap continue, chain and stab
 });
 
 test('WebGL loss keeps a safe playable fallback',async({page})=>{
- await page.goto('/');await page.getByRole('button',{name:'솔로 모드'}).click();await page.getByTestId('stage-first-mark').click();const canvas=page.locator('canvas[data-renderer="three-webgl"]');await expect(canvas).toBeVisible();await canvas.evaluate(c=>c.dispatchEvent(new Event('webglcontextlost',{cancelable:true})));await expect(page.getByText('3D 화면을 사용할 수 없어 간소화된 암호판을 표시합니다.')).toBeVisible();await page.getByRole('button',{name:'1번 타일, 비공개',exact:true}).click();await page.getByRole('button',{name:'숫자 2',exact:true}).click();await page.getByRole('button',{name:'2 · 해독하기'}).click();await expect(page.getByRole('button',{name:'1번 타일, 2',exact:true})).toBeVisible();
+ await page.goto('/');await page.getByRole('button',{name:'솔로 모드'}).click();await page.getByTestId('stage-intro-evidence-v2').click();const canvas=page.locator('canvas[data-renderer="three-webgl"]');await expect(canvas).toBeVisible();await canvas.evaluate(c=>c.dispatchEvent(new Event('webglcontextlost',{cancelable:true})));await expect(page.getByText('3D 화면을 사용할 수 없어 간소화된 암호판을 표시합니다.')).toBeVisible();await page.getByRole('button',{name:'1번 타일, 비공개',exact:true}).click();await page.getByRole('button',{name:'숫자 2',exact:true}).click();await page.getByRole('button',{name:'2 · 해독하기'}).click();await expect(page.getByRole('button',{name:'1번 타일, 2',exact:true})).toBeVisible();
 });
 
 test('penalty flips an original near slot without removing or reordering any cards',async({page})=>{

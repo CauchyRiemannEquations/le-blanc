@@ -10,3 +10,50 @@
 @media(max-width:374px){.solo-play .solo-clues{gap:0 4px;font-size:10px}.solo-play .solo-keypad button{min-height:44px}}
 
 @media(max-width:600px) and (max-height:700px){.solo-play .solo-table{position:sticky;top:0;z-index:2}.solo-play .solo-heading h1{font-size:18px}.solo-play .solo-table .tile{height:70px}.solo-play .solo-table{padding-top:12px}.solo-play .solo-clues{margin-top:16px}}
+
+/* Solo v2: explicit link input on the existing fixed table. */
+.app .solo-list .solo-stage-list small{display:block;margin-top:2px;color:#bda782;font-size:9px}
+.solo-archive{position:absolute;bottom:0;left:210px;min-height:44px;color:#dcc6a2}
+.app .solo-play:has(.solo-tool) .solo-gap-caption{position:absolute;bottom:80px;right:20px;margin:0;padding:7px 12px;background:#21170fee;border:1px solid #a48c6355;border-radius:5px;color:#ead7b5;font-size:12px;pointer-events:none}
+.app .solo-play:has(.tabletop) .solo-tools{gap:8px}
+.app .solo-play:has(.tabletop) .solo-tools button{min-height:44px;padding:10px 16px}
+@media(orientation:portrait){.app .solo-play:has(.solo-tool) .solo-gap-caption{bottom:142px;left:12px;right:12px;text-align:center}.app .solo-play:has(.tabletop) .solo-tools{gap:5px}.app .solo-play:has(.tabletop) .solo-tools button{padding:10px 12px}}
+
+@media(orientation:portrait){.app .solo-play:has(.solo-tool) .tabletop-hand-bar{display:none}}
+@media(orientation:portrait) and (max-height:650px){
+ .app .solo-play:has(.tabletop) .solo-heading,.app .solo-play:has(.solo-tool) .solo-heading{top:62px;left:18px;right:18px;display:flex;flex-wrap:wrap;gap:2px 9px;align-items:center}
+ .app .solo-play:has(.tabletop) .solo-heading h1{font-size:14px}
+ .app .solo-play:has(.tabletop) .solo-heading .solo-kicker{font-size:9px}
+ .app .solo-play:has(.tabletop) .solo-heading p{font-size:10px;margin:0}
+ .app .solo-play:has(.tabletop) .solo-clues,.app .solo-play:has(.solo-tool) .solo-clues{top:106px;left:18px;right:18px;width:auto;max-width:none;max-height:108px;overflow-y:auto;pointer-events:auto;scrollbar-width:thin;display:grid;grid-template-columns:1fr 1fr;gap:2px 8px;padding:6px 8px;font-size:10px;line-height:1.5}
+}
+/* Completion fits the table viewport; the optional walkthrough expands below it. */
+.app .solo-screen.solo-result{width:100%;max-width:none;height:100dvh;min-height:100dvh;margin:0;padding:8px 5vw 24px;overflow:auto}
+.app .solo-screen.solo-result>.solo-header{height:44px;max-width:1100px}
+.app .solo-screen.solo-result>section.solo-result{width:100%;max-width:1100px;margin:12px auto 0;padding:0;background:none}
+.solo-solution{text-align:left;color:#d6bf98;font-size:12px;line-height:1.8}
+.solo-solution summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px}
+.solo-solution summary:before{content:'＋'}.solo-solution[open] summary:before{content:'−'}
+.solo-solution p{margin:0;padding:0 0 12px}
+@media(orientation:landscape){
+ .app .solo-screen.solo-result>section.solo-result{display:grid;grid-template-columns:1fr 1.3fr;gap:8px 6vw;align-items:center;text-align:left}
+ .app .solo-screen.solo-result>section.solo-result>.solo-kicker{grid-column:1;grid-row:1}
+ .app .solo-screen.solo-result>section.solo-result>h1{grid-column:1;grid-row:2;font-size:28px}
+ .app .solo-screen.solo-result>section.solo-result>.solo-result-stars{grid-column:1;grid-row:3;font-size:28px;line-height:1.2}
+ .app .solo-screen.solo-result>section.solo-result>p:not(.solo-note){grid-column:1;grid-row:4;font-size:12px}
+ .app .solo-screen.solo-result>section.solo-result>.solo-note{grid-column:1;grid-row:5;font-size:10px}
+ .app .solo-screen.solo-result>section.solo-result>.tile-stage{grid-column:2;grid-row:1/8;width:100%;align-self:center}
+ .app .solo-screen.solo-result>section.solo-result>.primary{grid-column:1;grid-row:6}
+ .app .solo-screen.solo-result>section.solo-result>.text-button{grid-column:1;grid-row:7;background:transparent;color:#d6bf98}
+ .app .solo-screen.solo-result>section.solo-result>.solo-solution{grid-column:1/-1;grid-row:8}
+ .app .solo-result .tile{width:100%;max-width:90px;height:auto;aspect-ratio:2/3}
+ .app .solo-result .tile-slot{min-width:0}
+ .app .solo-result .connections{height:auto;max-height:100px}
+}
+@media(orientation:landscape) and (max-height:500px){
+ .app .solo-screen.solo-result>section.solo-result{margin:4px auto 0;gap:4px 5vw}
+ .app .solo-screen.solo-result>section.solo-result>h1{font-size:22px}
+ .app .solo-screen.solo-result>section.solo-result>.solo-result-stars{font-size:24px}
+ .app .solo-screen.solo-result>section.solo-result>p:not(.solo-note){font-size:10px;line-height:1.5}
+ .app .solo-screen.solo-result>section.solo-result>.solo-note{font-size:9px;line-height:1.5}
+}

@@ -1,4 +1,4 @@
-import type {Condition,Pair,PublicStage,Stage} from './types';
+import type {Condition,Pair,PublicStage} from './types';
 
 export const gap=(board:readonly number[],[a,b]:Pair)=>board[b]-board[a];
 /** Shared by the judge, enumeration and proof checker; never parses display text. */
@@ -24,7 +24,7 @@ export function describe(c:Condition):string {
  }
 }
 export function targets(c:Condition):number[]{return [...new Set('tile' in c?[c.tile]:'pair' in c?c.pair:[...c.left,...c.right])].sort((a,b)=>a-b);}
-export function publicStage(s:Stage):PublicStage {
+export function publicStage(s:PublicStage):PublicStage {
  // Explicit allow-list: no answer, reference walkthrough or strategy tree escapes.
  return structuredClone({id:s.id,version:s.version,rulesVersion:s.rulesVersion,title:s.title,subtitle:s.subtitle,min:s.min,max:s.max,count:s.count,excluded:s.excluded,initialOpen:s.initialOpen,clues:s.clues,questions:s.questions,parQuestions:s.parQuestions,focus:s.focus});
 }
