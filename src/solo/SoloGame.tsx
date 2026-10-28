@@ -1,4 +1,5 @@
-import {useGameAudio} from '../music';
+import {MENU_AUDIO} from '../audioScene';
+import type {AudioScene} from '../audioScene';
 import MenuNavigation from '../components/MenuNavigation';
 import {useEffect,useMemo,useRef,useState} from 'react';
 import {useReducedMotion} from 'motion/react';
@@ -14,7 +15,7 @@ import type {SoloAction,SoloSave,Stage} from './types';
 import {ClueLetter,HintLetter} from './SoloLetters';
 import './solo.css';
 
-export default function SoloGame({onBack,onSettings,reduced,music}:{onBack:()=>void;onSettings:()=>void;reduced:boolean;music:boolean}){
+export default function SoloGame({onBack,onSettings,reduced,onAudioScene}:{onAudioScene:(scene:AudioScene)=>void;onBack:()=>void;onSettings:()=>void;reduced:boolean}){
  const [save,setSave]=useState(loadSave),[screen,setScreen]=useState<'list'|'play'|'result'>('list'),[tool,setTool]=useState<'number'|'question'|'gap'|null>(null),[panel,setPanel]=useState<'record'|'help'|'hint'|'archive'|null>(null),[tile,setTile]=useState(0),[value,setValue]=useState<number|null>(null),[memo,setMemo]=useState(false),[question,setQuestion]=useState<string|null>(null),[selected,setSelected]=useState<number[]>([]),[message,setMessage]=useState(''),[busy,setBusy]=useState(false),[replace,setReplace]=useState<Stage|null>(null);
  const [storageError,setStorageError]=useState('');
  const lock=useRef(false),timer=useRef<ReturnType<typeof setTimeout>|null>(null),systemReduced=useReducedMotion();
@@ -42,7 +43,8 @@ export default function SoloGame({onBack,onSettings,reduced,music}:{onBack:()=>v
   else {setTile(i);setTool('number');setMemo(false);setValue(null);setMessage('');}
  }
  function openTool(next:'question'|'gap'){setTool(next);setQuestion(null);setSelected([]);setValue(null);setMessage('');}
- useGameAudio(screen==='list'?'menu':screen==='result'?'victory':'solo',music);
+ useEffect(()=>{onAudioScene(screen==='list'?MENU_AUDIO:{track:'solo',...(screen==='result'&&run?{result:{id:run.id,cue:'victory' as const}}:{})});},[screen,run?.id,onAudioScene]);
+ useEffect(()=>()=>onAudioScene(MENU_AUDIO),[onAudioScene]);
  const best=(id:string)=>Math.max(0,...save.records.filter(r=>r.stageId===id).map(r=>r.stars));
  return <main className={`solo-screen solo-${screen}`}>
   {storageError?<p role="alert">{storageError}</p>:null}

@@ -1,4 +1,5 @@
-import {useGameAudio} from '../music';
+import {duelAudio,MENU_AUDIO} from '../audioScene';
+import type {AudioScene} from '../audioScene';
 import MenuNavigation from './MenuNavigation';
 import SharedQuestion from './SharedQuestion';
 import FinalBoard from './FinalBoard';
@@ -15,7 +16,7 @@ import Overlay from './Overlay';
 import TurnClock from './TurnClock';
 import MenuTable from '../tabletop/MenuTable';
 import {playTone} from '../audio';
-export default function OnlineGame({onBack,onSettings,reduced,sound,music}:{onBack:()=>void;onSettings:()=>void;reduced:boolean;sound:boolean;music:boolean}) {
+export default function OnlineGame({onBack,onSettings,reduced,sound,onAudioScene}:{onAudioScene:(scene:AudioScene)=>void;onBack:()=>void;onSettings:()=>void;reduced:boolean;sound:boolean}) {
  const [initialReveal,setInitialReveal]=useState(true);
  const [room,setRoom]=useState<RoomView|null>(null),[name,setName]=useState('플레이어'),[code,setCode]=useState(()=>new URLSearchParams(location.search).get('room')??''),[error,setError]=useState(''),[busy,setBusy]=useState(false),[offset,setOffset]=useState(0),[sheet,setSheet]=useState<'question'|'attack'|null>(null),[notice,setNotice]=useState<Outcome|null>(null),[journal,setJournal]=useState(false),[leaving,setLeaving]=useState(false),[dealt,setDealt]=useState(false),[offline,setOffline]=useState(!navigator.onLine),[copied,setCopied]=useState(false);
  const current=useRef(room),pending=useRef(false),lastSequence=useRef(0);current.current=room;
@@ -25,7 +26,8 @@ export default function OnlineGame({onBack,onSettings,reduced,sound,music}:{onBa
  useEffect(()=>{if(!room?.code)return;let dispose:(()=>void)|undefined,cancelled=false;void watchRoom(room.code,next=>{if(!cancelled)receive(next);},setError).then(unsubscribe=>{if(cancelled)unsubscribe();else dispose=unsubscribe;}).catch(e=>setError(String(e)));return()=>{cancelled=true;dispose?.();};},[room?.code]);
  useEffect(()=>{if(room?.status!=='playing')return;let lastSync=Date.now();const timer=setInterval(()=>{const now=Date.now(),r=current.current;if(!r||pending.current||!navigator.onLine)return;const due=r.deadline!==null&&now+offset>=r.deadline;if(now-lastSync>=(due?1500:20_000)){lastSync=now;void request(()=>syncOnlineRoom(r.code));}},250);return()=>clearInterval(timer);},[room?.status,offset]);
  const view=room?.game,myTurn=!!room&&!!view&&view.active===room.player&&room.status==='playing',expired=room?.deadline!==null&&room?.deadline!==undefined&&Date.now()+offset>=room.deadline;
- useGameAudio(view?.result?(view.result.winner===room?.player?'victory':'defeat'):room?.status==='playing'?'duel':'menu',music);
+ useEffect(()=>{onAudioScene(!room||room.status==='waiting'||room.status==='closed'?MENU_AUDIO:duelAudio(view?.result,room.player,room.code));},[room?.status,room?.code,room?.player,view?.result?.winner,onAudioScene]);
+ useEffect(()=>()=>onAudioScene(MENU_AUDIO),[onAudioScene]);
  async function leave(){if(room){pending.current=false;try{await leaveOnlineRoom(room.code);}catch(e){setError(String(e));return;}}sessionStorage.removeItem('leblanc-online-room');onBack();}
  const dealing=!dealt&&room?.status==='playing'&&view?.history.length===0;
  const choose=(action:Action)=>{if(room&&myTurn&&!expired&&!dealing){setSheet(null);void request(()=>sendOnlineAction(room,action));}};
