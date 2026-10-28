@@ -96,3 +96,18 @@ html,body,#root,.app,.app-content{min-height:100%;margin:0}.app .ambient{backgro
 .app .final-hand .tile-slot{max-width:96px}
 .app .final-hand .tile{height:auto;aspect-ratio:2/3}
 .app .result-screen .result-body>h2{color:#d1bd9a}
+
+/* Navigation belongs to the menu's action group, not a separate top bar. */
+.app .menu-utilities{display:flex;align-items:center;justify-content:flex-start;align-self:stretch;gap:20px;margin:8px 0 0;grid-column:1/-1}
+.app .menu-utilities button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;min-width:44px;padding:6px 2px;border:0;background:none;color:#dcc6a2;font-size:12px;white-space:nowrap}
+.app .menu-utilities button:hover{color:#fff0d4}
+.app .menu-utilities button:focus-visible{outline:2px solid #dcc6a2;outline-offset:3px;border-radius:3px}
+.app .title-actions .menu-utilities{margin-top:0}
+.app .online-lobby .menu-utilities{margin-top:0}
+@media(orientation:landscape) and (max-height:500px){
+ .app{--menu-y:min(58dvh,calc(100dvh - 202px))}
+ .app .title-screen .wordmark,.app .menu-wordmark{top:8%}
+ .app .title-screen .wordmark h1,.app .menu-wordmark{font-size:52px;line-height:.9}
+ .app .menu-utilities{margin-top:4px}
+ .app .online-lobby .menu-body{max-height:calc(100dvh - 32px);bottom:12px}
+}

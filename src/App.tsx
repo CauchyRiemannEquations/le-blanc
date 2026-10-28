@@ -1,8 +1,9 @@
+import MenuNavigation from './components/MenuNavigation';
 import SharedQuestion from './components/SharedQuestion';
 import FinalBoard from './components/FinalBoard';
 import { lazy,Suspense,useEffect,useRef,useState } from 'react';
 import { AnimatePresence,MotionConfig,motion } from 'motion/react';
-import { ArrowLeft,ArrowRight,BookOpen,Eye,HelpCircle,LockKeyhole,MessageCircle,ScanLine,Settings2,Sparkles,Volume2,VolumeX,X } from 'lucide-react';
+import { ArrowLeft,ArrowRight,BookOpen,Eye,HelpCircle,LockKeyhole,MessageCircle,ScanLine,Sparkles,Volume2,VolumeX,X } from 'lucide-react';
 import { applyAction,createGame,expireTurn,other,viewGame,observe } from './engine/game';
 import { chooseAction } from './ai/inference';
 import { questionLabel } from './engine/questions';
@@ -46,16 +47,15 @@ export default function App() {
  return <MotionConfig reducedMotion={settings.reduced?'always':'user'}><div className={`app ${settings.reduced?'reduced-motion':''}`}>
   <div className="ambient" aria-hidden="true"/><div className="grain" aria-hidden="true"/>
   <div className="app-content" inert={blocking?true:undefined}>
-  {screen==='solo'?<Suspense fallback={<main className="screen">암호판을 준비합니다…</main>}><SoloGame reduced={settings.reduced} onBack={()=>setScreen('title')}/></Suspense>:null}
-  {screen==='online'?<Suspense fallback={<main className="screen curtain"><p>온라인 대전 연결 중…</p></main>}><OnlineGame reduced={settings.reduced} sound={settings.sound} onBack={()=>{history.replaceState(null,'',location.pathname);setScreen('mode');}}/></Suspense>:null}
+  {screen==='solo'?<Suspense fallback={<main className="screen">암호판을 준비합니다…</main>}><SoloGame onSettings={()=>openPanel('settings')} reduced={settings.reduced} onBack={()=>setScreen('title')}/></Suspense>:null}
+  {screen==='online'?<Suspense fallback={<main className="screen curtain"><p>온라인 대전 연결 중…</p></main>}><OnlineGame onSettings={()=>openPanel('settings')} reduced={settings.reduced} sound={settings.sound} onBack={()=>{history.replaceState(null,'',location.pathname);setScreen('mode');}}/></Suspense>:null}
   {screen==='title'?<main className="title-screen screen"><MenuTable reduced={settings.reduced}/>
 
-   <div className="title-composition"><motion.div className="wordmark" initial={settings.reduced?false:{opacity:0,y:12}} animate={{opacity:1,y:0}} transition={{duration:.5}}><h1><span>LE</span><span>BLANC</span></h1></motion.div><div className="title-actions"><button className="primary start-button" onClick={()=>setScreen('solo')}>솔로 모드 <ArrowRight size={18}/></button><button className="primary start-button" onClick={()=>{setScreen('mode');playTone('select',settings.sound);}}>듀얼 모드 <ArrowRight size={18}/></button></div></div>
-   <footer className="title-footer"><button className="text-button" onClick={()=>setScreen('tutorial')}>플레이 방법</button><button className="icon-button" aria-label="설정" onClick={()=>openPanel('settings')}><Settings2 size={16}/></button></footer>
+   <div className="title-composition"><motion.div className="wordmark" initial={settings.reduced?false:{opacity:0,y:12}} animate={{opacity:1,y:0}} transition={{duration:.5}}><h1><span>LE</span><span>BLANC</span></h1></motion.div><div className="title-actions"><button className="primary start-button" onClick={()=>setScreen('solo')}>솔로 모드 <ArrowRight size={18}/></button><button className="primary start-button" onClick={()=>{setScreen('mode');playTone('select',settings.sound);}}>듀얼 모드 <ArrowRight size={18}/></button><MenuNavigation onHelp={()=>setScreen('tutorial')} onSettings={()=>openPanel('settings')}/></div></div>
   </main>:null}
-  {['mode','difficulty','local'].includes(screen)?<main className="menu-screen screen"><MenuTable reduced={settings.reduced}/><header className="menu-header"><button className="icon-button" onClick={menuBack} aria-label="뒤로"><ArrowLeft size={21}/></button><span className="brand-small">LE BLANC</span><button className="icon-button" aria-label="설정" onClick={()=>openPanel('settings')}><Settings2 size={18}/></button></header><div className="menu-wordmark" aria-hidden="true">LE<br/>BLANC</div><div className="menu-body"><h1>{screen==='mode'?'듀얼 모드':screen==='difficulty'?'AI 대전':'같은 기기'}</h1>
+  {['mode','difficulty','local'].includes(screen)?<main className="menu-screen screen"><MenuTable reduced={settings.reduced}/><div className="menu-wordmark" aria-hidden="true">LE<br/>BLANC</div><div className="menu-body"><h1>{screen==='mode'?'듀얼 모드':screen==='difficulty'?'AI 대전':'같은 기기'}</h1>
    {screen==='mode'?<div className="mode-options"><button className="mode-option" onClick={()=>{setMode('ai');setScreen('difficulty');}}><div><h2>AI 대전</h2></div><ArrowRight size={20}/></button><button className="mode-option" aria-label="2인 대전 · 친구와 대전" onClick={()=>setScreen('online')}><div><h2>친구 대전</h2></div><ArrowRight size={20}/></button><button className="text-button" onClick={()=>{setMode('local');setScreen('local');}}>같은 기기로 연습</button></div>:screen==='difficulty'?<><div className="difficulty-options">{(['easy','medium','hard'] as const).map(value=><button key={value} className={`difficulty-option ${level===value?'active':''}`} onClick={()=>setLevel(value)} aria-pressed={level===value}><strong>{levelNames[value]}</strong><span className="radio-dot"/></button>)}</div><button className="primary full" onClick={()=>start('ai')}>대전 시작<ArrowRight size={18}/></button></>:<><label className="match-rule"><input type="checkbox" checked={friendInitial} onChange={e=>setFriendInitial(e.target.checked)}/>가운데 카드 공개</label><button className="primary full" onClick={()=>start('local')}>2인 대전 시작<ArrowRight size={18}/></button></>}
-  </div></main>:null}
+  <MenuNavigation onBack={menuBack} onSettings={()=>openPanel('settings')}/></div></main>:null}
   {screen==='tutorial'?<Tutorial reduced={settings.reduced} onDone={()=>setScreen('mode')}/>:null}
   {screen==='game'&&game&&view&&!curtain?<main className="game-screen screen" data-testid="game-board" data-dealing={dealing}><header className="game-header"><button className="icon-button" aria-label="대전 메뉴" onClick={()=>openPanel('settings')}><ArrowLeft size={20}/></button><span className="brand-small">LE BLANC</span><TurnClock deadline={deadline}/></header><TableMat/>
    <div className="table-frame"><span className="table-corner tl"/><span className="table-corner tr"/><span className="table-corner bl"/><span className="table-corner br"/>

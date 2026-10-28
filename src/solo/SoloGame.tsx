@@ -1,3 +1,4 @@
+import MenuNavigation from '../components/MenuNavigation';
 import {useEffect,useMemo,useRef,useState} from 'react';
 import {useReducedMotion} from 'motion/react';
 import TileRow from '../components/TileRow';
@@ -11,7 +12,7 @@ import {completed,loadSave,newRun,replay,SOLO_KEY} from './storage';
 import type {SoloAction,SoloSave,Stage} from './types';
 import './solo.css';
 
-export default function SoloGame({onBack,reduced}:{onBack:()=>void;reduced:boolean}){
+export default function SoloGame({onBack,onSettings,reduced}:{onBack:()=>void;onSettings:()=>void;reduced:boolean}){
  const [save,setSave]=useState(loadSave),[screen,setScreen]=useState<'list'|'play'|'result'>('list'),[tool,setTool]=useState<'number'|'question'|null>(null),[panel,setPanel]=useState<'record'|'help'|'hint'|null>(null),[tile,setTile]=useState(0),[value,setValue]=useState<number|null>(null),[memo,setMemo]=useState(false),[question,setQuestion]=useState<string|null>(null),[selected,setSelected]=useState<number[]>([]),[message,setMessage]=useState(''),[busy,setBusy]=useState(false),[replace,setReplace]=useState<Stage|null>(null);
  const [storageError,setStorageError]=useState('');
  const lock=useRef(false),timer=useRef<ReturnType<typeof setTimeout>|null>(null),systemReduced=useReducedMotion();
@@ -33,8 +34,8 @@ export default function SoloGame({onBack,reduced}:{onBack:()=>void;reduced:boole
  const best=(id:string)=>Math.max(0,...save.records.filter(r=>r.stageId===id).map(r=>r.stars));
  return <main className={`solo-screen solo-${screen}`}>
   {storageError?<p role="alert">{storageError}</p>:null}
-  <header className="solo-header"><button disabled={busy} onClick={()=>{if(screen==='list')onBack();else{resetTools();setScreen('list');}}} aria-label={screen==='list'?'메인으로':'스테이지 목록'}>←</button><span className="brand-small">LE BLANC</span><button onClick={()=>setPanel('help')} aria-label="솔로 도움말">?</button></header>
-  {screen==='list'?<><MenuTable reduced={reduce}/><div className="menu-wordmark" aria-hidden="true">LE<br/>BLANC</div><section className="solo-library"><h1>솔로 모드</h1>{run&&!state?.cleared?<button className="primary solo-resume" onClick={()=>{resetTools();setScreen('play');}}>이어하기 · {stage?.title} →</button>:null}<ol className="solo-stage-list">{STAGES.map((s,i)=><li key={s.id}><button data-testid={`stage-${s.id}`} onClick={()=>choose(s)}><span className="solo-stage-no">0{i+1}</span><span><strong>{s.title}</strong></span><span aria-label={`${best(s.id)}성`} className="solo-stars">{best(s.id)?'★'.repeat(best(s.id)):'—'}</span><span>↗</span></button></li>)}</ol></section></>:null}
+  {screen!=='list'?<header className="solo-header"><button disabled={busy} onClick={()=>{resetTools();setScreen('list');}} aria-label="스테이지 목록">←</button><span className="brand-small">LE BLANC</span><button onClick={()=>setPanel('help')} aria-label="솔로 도움말">?</button></header>:null}
+  {screen==='list'?<><MenuTable reduced={reduce}/><div className="menu-wordmark" aria-hidden="true">LE<br/>BLANC</div><section className="solo-library"><h1>솔로 모드</h1>{run&&!state?.cleared?<button className="primary solo-resume" onClick={()=>{resetTools();setScreen('play');}}>이어하기 · {stage?.title} →</button>:null}<ol className="solo-stage-list">{STAGES.map((s,i)=><li key={s.id}><button data-testid={`stage-${s.id}`} onClick={()=>choose(s)}><span className="solo-stage-no">0{i+1}</span><span><strong>{s.title}</strong></span><span aria-label={`${best(s.id)}성`} className="solo-stars">{best(s.id)?'★'.repeat(best(s.id)):'—'}</span><span>↗</span></button></li>)}</ol><MenuNavigation onBack={onBack} onSettings={onSettings}/></section></>:null}
   {screen==='play'&&stage&&state?<>
    <section className="solo-heading"><span className="solo-kicker">암호 0{index+1} / 06</span><h1>{stage.title}</h1><p>질문 {state.questionsUsed} / 목표 {stage.parQuestions}</p></section>
    <Tabletop layout="play" data={{central:state.opened.map((value,slot)=>({id:`solo-${slot}`,slot,value,revealed:value!==null})),hand:stage.excluded.map((value,slot)=>({id:`clue-${slot}`,slot,value,revealed:true})),connections:state.connections,reference:true}} selected={tool==='question'?selected:tool==='number'?[tile]:[]} enabled={i=>!busy&&!state.cleared&&(tool==='question'&&!!q||state.opened[i]===null)} onSelect={i=>{if(tool==='question'&&q){setSelected(a=>a.includes(i)?a.filter(v=>v!==i):[...a,i]);}else{setTile(i);setTool('number');setMemo(false);setValue(null);setMessage('');}}} reduced={reduce} label="암호 타일" eventId={`${run?.id}-${state.events.length}`} revealIds={(latest?.reveals??[]).map(r=>`solo-${r.index}`)}/>
