@@ -9,6 +9,20 @@ function KarlPortrait(){
   <meshBasicMaterial map={portrait} transparent alphaTest={.03} toneMapped={false} color="#b8aa99"/>
  </mesh>;
 }
+/** Camera-facing prop: generated wax/brass detail, grounded in the same 3D table. */
+function Candle(){
+ const candle=useLoader(TextureLoader,'/materials/candle-brass-v1.webp');candle.colorSpace=SRGBColorSpace;
+ const height=1.02,aspect=candle.image.width/candle.image.height;
+ return <group position={[-3.15,0,.15]} name="table-candle">
+  {[1,.84,.68,.5].map((radius,i)=><mesh key={radius} position={[-.05,-.018+i*.001,-.1]} rotation={[-Math.PI/2,0,0]} scale={[.36,.21,1]}>
+   <circleGeometry args={[radius,40]}/><meshBasicMaterial color="#120b05" transparent opacity={.045} depthWrite={false}/>
+  </mesh>)}
+  <sprite name="wax-and-brass-cutout" position={[0,-.015,0]} scale={[height*aspect,height,1]} center={[.5,0]}>
+   <spriteMaterial map={candle} transparent alphaTest={.02} depthWrite={false} toneMapped={false} color="#e0c8a7"/>
+  </sprite>
+  <pointLight position={[0,1,0]} color="#ffbf77" intensity={9} distance={8} decay={2}/>
+ </group>;
+}
 /** Static scenery. No game state, question or card values enter this model. */
 export default function Tavern({opponent}:{opponent:boolean}) {
  const back=useLoader(TextureLoader,'/materials/card-back-vintage.webp');back.colorSpace=SRGBColorSpace;
@@ -22,11 +36,6 @@ export default function Tavern({opponent}:{opponent:boolean}) {
    {Array.from({length:7},(_,i)=><mesh key={i} position={[i%2*.015,i*.025,0]} castShadow><boxGeometry args={[.88,.022,1.38]}/><meshStandardMaterial color={i===6?'#382b25':'#b6a78b'} roughness={.8}/></mesh>)}
    <mesh position={[0,.17,0]} rotation={[-Math.PI/2,0,0]}><planeGeometry args={[.85,1.35]}/><meshStandardMaterial map={back} roughness={.7}/></mesh>
   </group>
-  <group position={[-3.75,0,-.35]} name="table-candle">
-   <mesh position={[0,.055,0]}><cylinderGeometry args={[.23,.29,.1,24]}/><meshStandardMaterial color="#7d5d33" metalness={.55} roughness={.5}/></mesh>
-   <mesh position={[0,.36,0]}><cylinderGeometry args={[.105,.115,.55,20]}/><meshStandardMaterial color="#cabb94" roughness={1}/></mesh>
-   <mesh position={[0,.72,0]} scale={[.045,.12,.045]}><sphereGeometry args={[1,12,10]}/><meshBasicMaterial color="#ffd38d"/></mesh>
-   <pointLight position={[0,1,0]} color="#ffbf77" intensity={9} distance={8} decay={2}/>
-  </group>
+  <Candle/>
  </group>;
 }

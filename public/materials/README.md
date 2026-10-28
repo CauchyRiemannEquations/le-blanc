@@ -29,3 +29,10 @@ Current menus use `title-tavern-v3.webp`, an OpenAI imagegen edit of v2 using th
 ## Vintage surfaces and illustrated Karl
 
 `card-front-vintage.webp`, `card-back-vintage.webp`, and `karl-portrait.webp` were generated with built-in OpenAI imagegen in this conversation at the owner's request. Texture fronts contain no numerals; visible numbers are drawn from the lawful view at runtime. All backs share identical wear. The Karl cutout retains alpha and is a static image plane in the 3D scene, replacing the procedural torso/sleeves/head. Existing materials remain intact. See `VINTAGE-ASSET-PROMPTS.json` and `VINTAGE-RESULT-UPDATE.md` in the repository root for exact prompts, source PNG names, processing and limitations.
+
+
+## Wax candle and brass chamberstick
+
+`candle-brass-v1.webp` (720×768, 110,052 bytes) was generated with built-in OpenAI imagegen on 2026-10-28 at the owner's request. The transparent image replaces the primitive candle/holder/flame in both duel and solo scenes. It is a camera-facing image sprite positioned in the 3D table, with a separate warm point light and subtle layered contact shadow. It is not a new volumetric candle model. Static rendering preserves demand-driven frames and reduced-motion behavior. No secret game state, remote image service, or third-party model is used.
+
+The full prompt and original PNG path are in `CANDLE-ASSET.json`. The original was retained, resized and encoded as WebP with alpha preserved. The existing PWA asset scan includes this file. `node scripts/inspect-candle.mjs` checked duel/solo at 800×360, 1440×900, 390×844 and two-card question selection; the resulting screenshots were inspected for overlap and grounding. Production build and cached offline game/question flow were also checked. No operating server deployment.
