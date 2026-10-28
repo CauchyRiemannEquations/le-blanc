@@ -161,12 +161,53 @@ describe('audio lifecycle',()=>{
   await expect(audio.unlock()).resolves.toBeUndefined();await audio.unlock();await flush();
   expect(context().state).toBe('running');expect(sources('bgm_menu')).toHaveLength(1);
  });
+ it('restores foreground audio even while a previous suspend is still queued',async()=>{
+  await audio.unlock();await flush();
+  let finishSuspend!:()=>void;
+  const suspended=new Promise<void>(resolve=>{finishSuspend=()=>{context().state='suspended';resolve();};});
+  context().suspend.mockImplementation(()=>suspended);
+  context().resume.mockImplementation(()=>suspended.then(()=>{context().state='running';}));
+  audio.setHidden(true);expect(context().gains[0].gain.value).toBe(0);
+  audio.setHidden(false); // Control thread has not applied suspend yet.
+  finishSuspend();await flush();
+  expect(context().state).toBe('running');expect(context().gains[0].gain.value).toBe(.7);
+  expect(sources('bgm_menu')).toHaveLength(1);expect(sources('amb_tavern')).toHaveLength(1);
+ });
+ it('retries a still-pending resume on a later touch activation, restoring every audio bus',async()=>{
+  const doc=new EventTarget(),win=new EventTarget();
+  Object.defineProperty(doc,'hidden',{value:false});vi.stubGlobal('document',doc);vi.stubGlobal('window',win);
+  let activated=false;
+  class GestureContext extends Context {
+   resume=vi.fn(()=>activated?Promise.resolve().then(()=>{this.state='running';}):new Promise<void>(()=>{}));
+  }
+  vi.stubGlobal('AudioContext',GestureContext);audio.attach();
+  // Background restoration/autoplay may start resume before a usable gesture.
+  void audio.unlock();await flush();expect(context().state).toBe('suspended');
+  expect(context().resume).toHaveBeenCalledTimes(1);expect(fetch).not.toHaveBeenCalled();
+  activated=true;
+  const up=new Event('pointerup');Object.defineProperty(up,'pointerType',{value:'touch'});doc.dispatchEvent(up);
+  audio.sfx('ui_press');await flush();
+  expect(context().resume).toHaveBeenCalledTimes(2);expect(context().state).toBe('running');
+  expect(sources('bgm_menu')).toHaveLength(1);expect(sources('amb_tavern')).toHaveLength(1);expect(sources('sfx_ui_press')).toHaveLength(1);
+  expect(context().gains[0].gain.value).toBe(.7);expect(Context.instances).toHaveLength(1);
+ });
+ it('unlocks touch on release rather than unactivated pointerdown, with click and touchend fallbacks',async()=>{
+  const doc=new EventTarget(),win=new EventTarget();
+  Object.defineProperty(doc,'hidden',{value:false});vi.stubGlobal('document',doc);vi.stubGlobal('window',win);audio.attach();
+  const down=new Event('pointerdown');Object.defineProperty(down,'pointerType',{value:'touch'});doc.dispatchEvent(down);await flush();
+  expect(Context.instances).toHaveLength(0);
+  const up=new Event('pointerup');Object.defineProperty(up,'pointerType',{value:'touch'});doc.dispatchEvent(up);
+  await flush();expect(context().state).toBe('running');expect(sources('bgm_menu')).toHaveLength(1);
+  context().state='suspended';doc.dispatchEvent(new Event('touchend'));await flush();expect(context().state).toBe('running');
+  context().state='suspended';doc.dispatchEvent(new Event('click'));audio.sfx('ui_press');await flush();expect(context().state).toBe('running');
+  expect(sources('sfx_ui_press')).toHaveLength(1);expect(sources('bgm_menu')).toHaveLength(1);expect(Context.instances).toHaveLength(1);
+ });
  it('registers and removes lifecycle listeners, closes even with a late fetch',async()=>{
   const doc=new EventTarget(),win=new EventTarget();
   Object.defineProperty(doc,'hidden',{value:false});vi.stubGlobal('document',doc);vi.stubGlobal('window',win);
   const remove=vi.spyOn(doc,'removeEventListener');
   audio.attach();doc.dispatchEvent(new Event('pointerdown'));await flush();
-  audio.dispose();expect(remove).toHaveBeenCalledTimes(3);expect(context().close).toHaveBeenCalledOnce();
+  audio.dispose();expect(remove).toHaveBeenCalledTimes(6);expect(context().close).toHaveBeenCalledOnce();
   doc.dispatchEvent(new Event('keydown'));await flush();expect(Context.instances).toHaveLength(1);
  });
 });

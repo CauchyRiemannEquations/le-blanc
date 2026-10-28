@@ -15,7 +15,8 @@ describe('duel-only entry points',()=>{
   vi.stubGlobal('matchMedia',()=>({matches:true}));
   vi.stubGlobal('localStorage',{getItem,setItem,removeItem,clear});
   const html=renderToStaticMarkup(createElement(App));
-  expect(html).toContain('듀얼 모드');
+  expect(html).toContain('시작하기');
+  expect(html).not.toContain('듀얼 모드');
   expect(html).toContain('플레이 방법');
   expect(html).toContain('설정');
   expect(html).not.toMatch(/솔로|solo-stage|solo-screen/);

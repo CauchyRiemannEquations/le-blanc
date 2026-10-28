@@ -5,7 +5,7 @@ import type {GameState} from '../src/engine/types';
 import type {RoomView} from '../src/online/types';
 
 async function startDuel(page:Page) {
- await page.getByRole('button',{name:'듀얼 모드',exact:true}).click();
+ await page.getByRole('button',{name:'시작하기',exact:true}).click();
  await page.getByRole('button',{name:'AI 대전',exact:true}).click();
  await page.getByRole('button',{name:'대전 시작',exact:true}).click();
  await expect(page.getByTestId('game-board')).toBeVisible();
@@ -31,7 +31,7 @@ test('real audio sources follow menu, duel victory and replay without duplicate 
   AudioBufferSourceNode.prototype.start=function(...args:Parameters<typeof original>){starts.push({duration:this.buffer?.duration??0,loop:this.loop});(window as any).__realContext=this.context;(window as any).__contexts.add(this.context);return original.apply(this,args);};
  });
  const played=(seconds:number)=>page.evaluate(seconds=>(window as any).__realAudio.some((s:any)=>Math.abs(s.duration-seconds)<.05),seconds);
- await page.goto('/');await page.getByRole('button',{name:'듀얼 모드',exact:true}).click();
+ await page.goto('/');await page.getByRole('button',{name:'시작하기',exact:true}).click();
  await expect.poll(()=>played(104),{timeout:15000}).toBe(true);await expect.poll(()=>played(96)).toBe(true);
  await page.getByRole('button',{name:'AI 대전',exact:true}).click();await page.getByRole('button',{name:'대전 시작',exact:true}).click();
  await expect.poll(()=>played(144),{timeout:15000}).toBe(true);await winDuel(page);
@@ -137,13 +137,13 @@ test('duel result once, replay, settings, hidden tabs and tutorial menu music (m
  await expect(page.getByRole('heading',{name:'듀얼 모드',exact:true})).toBeVisible();expect(await count(page,'bgm_menu')).toBe(before);
 });
 test('AI and shared-device duel use duel music without restarts on overlays/back events',async({page})=>{
- await mockAudio(page);await page.goto('/');await page.getByRole('button',{name:'듀얼 모드',exact:true}).click();
+ await mockAudio(page);await page.goto('/');await page.getByRole('button',{name:'시작하기',exact:true}).click();
  await page.getByRole('button',{name:/AI 대전/}).click();await page.getByRole('button',{name:'대전 시작'}).click();
  await expect.poll(()=>count(page,'bgm_duel')).toBe(1);await expect(page.getByTestId('game-board')).toBeVisible();
  await page.getByRole('button',{name:'대전 메뉴'}).click();
  await page.getByRole('switch',{name:'배경음악',exact:true}).click();await page.getByRole('switch',{name:'배경음악',exact:true}).click();
  await page.getByRole('button',{name:'대전 나가기',exact:true}).click();await page.getByRole('button',{name:'끝내고 메인 메뉴로'}).click();
- await page.getByRole('button',{name:'듀얼 모드',exact:true}).click();await page.getByRole('button',{name:/^같은 기기/}).click();
+ await page.getByRole('button',{name:'시작하기',exact:true}).click();await page.getByRole('button',{name:/^같은 기기/}).click();
  const starts=await count(page,'bgm_duel');await page.getByRole('button',{name:'2인 대전 시작'}).click();
  await expect(page.getByTestId('privacy-curtain')).toBeVisible();
  expect(await count(page,'bgm_duel')).toBeGreaterThanOrEqual(starts);

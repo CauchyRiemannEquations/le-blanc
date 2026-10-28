@@ -13,7 +13,7 @@ for(const viewport of [{width:390,height:844},{width:844,height:390},{width:1440
  await page.setViewportSize(viewport);
  const requests:string[]=[];page.on('request',request=>requests.push(request.url()));
  await page.goto('/');
- await expect(page.locator('.title-actions > button')).toHaveText(['듀얼 모드']);
+ await expect(page.locator('.title-actions > button')).toHaveText(['시작하기']);
  await expect(page.getByRole('button',{name:'솔로 모드',exact:true})).toHaveCount(0);
  await expect(page.getByRole('button',{name:'플레이 방법',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'설정',exact:true}).click();
@@ -37,15 +37,15 @@ for(const viewport of [{width:390,height:844},{width:844,height:390},{width:1440
  await expect(page.getByRole('button',{name:'2인 대전 시작',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'돌아가기',exact:true}).click();
  await page.getByRole('button',{name:'돌아가기',exact:true}).click();
- await expect(page.locator('.title-actions > button')).toHaveText(['듀얼 모드']);
+ await expect(page.locator('.title-actions > button')).toHaveText(['시작하기']);
  expect(await page.evaluate(()=>localStorage.getItem('leblanc-solo-v1'))).toBe(legacySave);
  expect(requests.some(url=>/bgm_solo|\/src\/solo\//.test(url))).toBe(false);
- await page.screenshot({path:`../le_blanc_duel_only_evidence/title-${viewport.width}.png`});
+ await page.screenshot({path:`test-results/title-${viewport.width}.png`});
 });
 
 test('old solo save and URL cannot reopen solo; direct friend entry returns to duel menus',async({page})=>{
  await page.goto('/?solo=main-anchor-v2#solo');
- await expect(page.locator('.title-actions > button')).toHaveText(['듀얼 모드']);
+ await expect(page.locator('.title-actions > button')).toHaveText(['시작하기']);
  await expect(page.locator('.solo-screen,[data-mode="solo"]')).toHaveCount(0);
  await page.reload();
  expect(await page.evaluate(()=>localStorage.getItem('leblanc-solo-v1'))).toBe(legacySave);
@@ -55,6 +55,6 @@ test('old solo save and URL cannot reopen solo; direct friend entry returns to d
  await expect(page).toHaveURL(/\/$/);
  await expect(page.getByRole('heading',{name:'듀얼 모드',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'돌아가기',exact:true}).click();
- await expect(page.getByRole('button',{name:'듀얼 모드',exact:true})).toBeVisible();
+ await expect(page.getByRole('button',{name:'시작하기',exact:true})).toBeVisible();
  expect(await page.evaluate(()=>localStorage.getItem('leblanc-solo-v1'))).toBe(legacySave);
 });

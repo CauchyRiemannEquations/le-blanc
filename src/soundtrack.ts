@@ -33,17 +33,26 @@ export class GameAudio {
  private detach?: () => void;
 
  attach() {
-  const gesture = () => { void this.unlock(); };
+  const gesture = () => { void this.unlock(true); };
+  // Touch/pen activation arrives on release, unlike mouse pointerdown.
+  const pointerStart = (event: PointerEvent) => { if (!event.pointerType || event.pointerType === 'mouse') gesture(); };
+  const pointerEnd = (event: PointerEvent) => { if (event.pointerType !== 'mouse') gesture(); };
   const visibility = () => this.setHidden(document.hidden);
   const hide = () => this.setHidden(true);
-  document.addEventListener('pointerdown', gesture, true);
+  document.addEventListener('pointerdown', pointerStart, true);
+  document.addEventListener('pointerup', pointerEnd, true);
+  document.addEventListener('touchend', gesture, true);
+  document.addEventListener('click', gesture, true);
   document.addEventListener('keydown', gesture, true);
   document.addEventListener('visibilitychange', visibility);
   window.addEventListener('pagehide', hide);
   window.addEventListener('pageshow', visibility);
   this.hidden = document.hidden;
   this.detach = () => {
-   document.removeEventListener('pointerdown', gesture, true);
+   document.removeEventListener('pointerdown', pointerStart, true);
+   document.removeEventListener('pointerup', pointerEnd, true);
+   document.removeEventListener('touchend', gesture, true);
+   document.removeEventListener('click', gesture, true);
    document.removeEventListener('keydown', gesture, true);
    document.removeEventListener('visibilitychange', visibility);
    window.removeEventListener('pagehide', hide);
@@ -51,9 +60,12 @@ export class GameAudio {
   };
  }
 
- async unlock() {
+ async unlock(fromGesture = false) {
   if (this.disposed || this.hidden) return;
-  if (this.unlocking) return this.unlocking;
+  // A blocked resume can stay pending indefinitely. A later activating gesture
+  // must retry synchronously instead of awaiting that old promise forever.
+  // Background reconciliation still coalesces calls to avoid recursive retries.
+  if (this.unlocking && !fromGesture) return this.unlocking;
   const pending=this.unlockContext();this.unlocking=pending;
   try { await pending; } finally { if(this.unlocking===pending)this.unlocking=undefined; }
  }

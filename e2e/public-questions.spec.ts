@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 import {configureQuestion} from './questionHelper';
 for(const viewport of [{width:800,height:360},{width:1440,height:900}])test(`public Carl question and shared journal ${viewport.width}`,async({page})=>{
  await page.setViewportSize(viewport);await page.addInitScript(()=>{Date.now=()=>4242;Math.random=()=>.1;localStorage.setItem('leblanc-settings-v1',JSON.stringify({sound:false,reduced:true}));});
- await page.goto('/');await page.getByRole('button',{name:'듀얼 모드',exact:true}).click();await page.getByRole('button',{name:'AI 대전',exact:true}).click();await page.getByRole('button',{name:'대전 시작',exact:true}).click();
+ await page.goto('/');await page.getByRole('button',{name:'시작하기',exact:true}).click();await page.getByRole('button',{name:'AI 대전',exact:true}).click();await page.getByRole('button',{name:'대전 시작',exact:true}).click();
  await page.getByRole('button',{name:'질문하기',exact:true}).click();await configureQuestion(page,'합의 배수',4);await page.getByRole('button',{name:'질문 확정',exact:true}).click();
  await expect(page.locator('.shared-question .question-target')).toHaveText('나 → Carl · 1번 ↔ 2번');await page.getByRole('button',{name:'확인',exact:true}).click();
  await expect(page.getByRole('button',{name:'확인 · 계속',exact:true})).toBeVisible();const question=page.locator('.shared-question');await expect(question).toBeVisible();await expect(question.locator('.question-target')).toContainText('Carl → 나');await expect(question.locator('.outcome-word')).toHaveText(/YES|NO/);

@@ -3,7 +3,7 @@ import {createGame} from '../src/engine/game';
 
 test('3D tabletop: fixed slots, private inspection, gap continue, chain and stable demand rendering',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.addInitScript(()=>{Date.now=()=>4242;Math.random=()=>.1;localStorage.setItem('leblanc-settings-v1',JSON.stringify({sound:false,reduced:false,initial:true}));});
- await page.goto('/');await page.getByRole('button',{name:'듀얼 모드',exact:true}).click();await page.getByRole('button',{name:/AI 대전/}).click();await page.getByRole('button',{name:'대전 시작',exact:true}).click();await page.getByRole('button',{name:'건너뛰기'}).click();
+ await page.goto('/');await page.getByRole('button',{name:'시작하기',exact:true}).click();await page.getByRole('button',{name:/AI 대전/}).click();await page.getByRole('button',{name:'대전 시작',exact:true}).click();await page.getByRole('button',{name:'건너뛰기'}).click();
  const canvas=page.locator('canvas[data-renderer="three-webgl"]');await expect(canvas).toBeVisible();
  const slots=async()=>JSON.parse((await canvas.getAttribute('data-slots'))??'[]') as {id:string;x:number;z:number;revealed:boolean}[];
  await expect.poll(async()=>(await slots()).length).toBe(10);const initial=await slots(),clock=await page.getByRole('timer').getAttribute('aria-label');
@@ -19,7 +19,7 @@ test('3D tabletop: fixed slots, private inspection, gap continue, chain and stab
 
 test('WebGL loss keeps a safe playable duel fallback',async({page})=>{
  await page.addInitScript(()=>{Date.now=()=>4242;Math.random=()=>.1;localStorage.setItem('leblanc-settings-v1',JSON.stringify({sound:false,reduced:true}));});
- await page.goto('/');await page.getByRole('button',{name:'듀얼 모드',exact:true}).click();await page.getByRole('button',{name:'AI 대전',exact:true}).click();await page.getByRole('button',{name:'대전 시작',exact:true}).click();
+ await page.goto('/');await page.getByRole('button',{name:'시작하기',exact:true}).click();await page.getByRole('button',{name:'AI 대전',exact:true}).click();await page.getByRole('button',{name:'대전 시작',exact:true}).click();
  const canvas=page.locator('canvas[data-renderer="three-webgl"]');await expect(canvas).toBeVisible();
  await canvas.evaluate(c=>c.dispatchEvent(new Event('webglcontextlost',{cancelable:true})));
  await expect(page.getByText('3D 화면을 사용할 수 없어 간소화된 암호판을 표시합니다.')).toBeVisible();
@@ -34,7 +34,7 @@ test('WebGL loss keeps a safe playable duel fallback',async({page})=>{
 
 test('penalty flips an original near slot without removing or reordering any cards',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.addInitScript(()=>{Date.now=()=>4242;Math.random=()=>.1;localStorage.setItem('leblanc-settings-v1',JSON.stringify({sound:false,reduced:true,initial:true}));});
- await page.goto('/');await page.getByRole('button',{name:'듀얼 모드',exact:true}).click();await page.getByRole('button',{name:/AI 대전/}).click();await page.getByRole('button',{name:'대전 시작',exact:true}).click();
+ await page.goto('/');await page.getByRole('button',{name:'시작하기',exact:true}).click();await page.getByRole('button',{name:/AI 대전/}).click();await page.getByRole('button',{name:'대전 시작',exact:true}).click();
  const canvas=page.locator('canvas[data-renderer="three-webgl"]'),slots=async()=>JSON.parse((await canvas.getAttribute('data-slots'))??'[]') as {id:string;x:number;z:number;revealed:boolean}[];
  await expect.poll(async()=>(await slots()).length).toBe(10);const before=await slots();
  await page.getByRole('button',{name:'공격하기',exact:true}).click();await page.getByRole('button',{name:/^숫자 공격/}).click();await page.getByRole('group',{name:'공격 또는 질문 대상'}).getByRole('button').nth(0).click();await page.getByRole('group',{name:'숫자 선택',exact:true}).getByRole('button',{name:'4',exact:true}).click();await page.getByRole('button',{name:'1번은 4 · 공격'}).click();await page.getByRole('button',{name:'무작위 타일 공개'}).click();
