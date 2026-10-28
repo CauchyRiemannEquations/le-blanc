@@ -113,4 +113,8 @@ html,body,#root,.app,.app-content{min-height:100%;margin:0}.app .ambient{backgro
 }
 
 /* Same printed number geometry as the 3D card, including the 6/9 orientation mark. */
+.app .online-lobby>.menu-utilities{position:absolute;z-index:3;left:6vw;right:6vw;bottom:max(12px,env(safe-area-inset-bottom));margin:0;height:44px}
+.app .online-lobby .menu-body{bottom:76px;max-height:calc(100dvh - 100px);overflow-y:auto}
+.app .online-lobby .menu-body>*{flex-shrink:0}
+@media(orientation:portrait){.app .online-lobby>.menu-utilities{left:8vw;right:8vw}.app .online-lobby .menu-body{top:auto;bottom:76px;max-height:calc(100dvh - 100px)}}
 .app .tile .card-face-number{position:absolute;inset:0;width:100%;height:100%;padding:0;letter-spacing:0;font-variation-settings:normal;font-variant-numeric:normal;pointer-events:none}

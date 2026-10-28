@@ -2,7 +2,7 @@ import {configureQuestion} from './questionHelper';
 import { test,expect } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
 test('두 기기의 방 입장·공개 질문·재접속·기권',async({browser})=>{
- test.skip(process.env.VITE_USE_FIREBASE_EMULATORS!=='true','Firebase 에뮬레이터 실행 시 검증합니다.');
+ test.skip(process.env.VITE_USE_FIREBASE_EMULATORS!=='true'&&process.env.LE_BLANC_LIVE_TEST!=='true','에뮬레이터 또는 명시적으로 허용한 운영 검증에서 실행합니다.');
  const a=await browser.newContext({viewport:{width:390,height:844}}),b=await browser.newContext({viewport:{width:360,height:800}});
  for(const c of [a,b])await c.addInitScript(()=>localStorage.setItem('leblanc-settings-v1',JSON.stringify({sound:false,reduced:true,initial:true})));
  const p=await a.newPage(),q=await b.newPage();
