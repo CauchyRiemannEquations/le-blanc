@@ -144,3 +144,5 @@
  .table-action:where(.attack-target,.attack-value) .tabletop-hand-bar{bottom:144px;top:auto}
  .table-action.attack-kind .choice-list{bottom:80px}
 }
+
+.shared-question .question-target{font-size:12px;color:#62533d;margin:8px 0 12px}.shared-question.compact p{margin:5px 0;color:#40372a}.shared-question.compact .question-answer{color:#54422c;font-size:16px}.log-entry:has(.shared-question){flex-wrap:wrap}.log-entry .shared-question{flex:1;min-width:180px}

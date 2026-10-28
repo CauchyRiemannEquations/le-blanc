@@ -24,7 +24,7 @@ export const createRoom=onCall(async request=>{
    const now=Date.now(),[existing,newDoc]=await Promise.all([tx.get(profile),tx.get(ref)]);
    if(existing.exists&&typeof existing.data()?.code==='string'){
     const previous=await tx.get(db.doc(`matches/${existing.data()!.code}`));const old=previous.data() as RoomState|undefined;
-    if(old&&(!old.game||old.game.rules.version===2&&old.game.rules.gapPolicy==='continue-once')&&old.members.includes(uid)&&(old.status==='playing'||old.status==='waiting'&&now-old.createdAt<30*60_000))return projectRoom(old,uid,now);
+    if(old&&(!old.game||old.game.rules.version===3&&old.game.rules.gapPolicy==='continue-once')&&old.members.includes(uid)&&(old.status==='playing'||old.status==='waiting'&&now-old.createdAt<30*60_000))return projectRoom(old,uid,now);
    }
    if(now-(existing.data()?.lastCreate??0)<10_000)throw new HttpsError('resource-exhausted','잠시 뒤 새 방을 만들어주세요.');
    if(newDoc.exists)throw new HttpsError('already-exists','방 코드를 다시 생성해주세요.');

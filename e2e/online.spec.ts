@@ -1,7 +1,7 @@
 import {configureQuestion} from './questionHelper';
 import { test,expect } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
-test('두 기기의 방 입장·비밀 질문·재접속·기권',async({browser})=>{
+test('두 기기의 방 입장·공개 질문·재접속·기권',async({browser})=>{
  test.skip(process.env.VITE_USE_FIREBASE_EMULATORS!=='true','Firebase 에뮬레이터 실행 시 검증합니다.');
  const a=await browser.newContext({viewport:{width:390,height:844}}),b=await browser.newContext({viewport:{width:360,height:800}});
  for(const c of [a,b])await c.addInitScript(()=>localStorage.setItem('leblanc-settings-v1',JSON.stringify({sound:false,reduced:true,initial:true})));
@@ -15,8 +15,8 @@ test('두 기기의 방 입장·비밀 질문·재접속·기권',async({browser
   for(const page of [p,q])await expect(page.getByRole('group',{name:'나의 카드'}).getByRole('button',{name:/비공개/})).toHaveCount(5);
   const actor=await p.getByRole('button',{name:'질문하기',exact:true}).isVisible()?p:q,observer=actor===p?q:p;
   await expect(actor.getByRole('timer')).toBeVisible();await actor.getByRole('button',{name:'질문하기',exact:true}).click();await configureQuestion(actor,'합의 배수',4);await actor.getByRole('button',{name:'질문 확정'}).click();
-  await expect(actor.getByRole('dialog')).toContainText('두 숫자의 합은 4의 배수인가?');await expect(observer.getByRole('dialog')).toBeVisible();await expect(observer.getByRole('dialog')).not.toContainText('4의 배수');await expect(observer.getByRole('dialog')).not.toContainText(/YES|NO/);
-  mkdirSync('screenshots',{recursive:true});await actor.screenshot({path:'screenshots/v6-online-private-question.png'});
+  await expect(actor.getByRole('dialog')).toContainText('두 숫자의 합은 4의 배수인가?');await expect(observer.getByRole('dialog')).toBeVisible();await expect(observer.getByRole('dialog')).toContainText('4의 배수');await expect(observer.locator('.shared-question')).toHaveText((await actor.locator('.shared-question').textContent())!);await expect(observer.locator('.shared-question .outcome-word')).toHaveText(/YES|NO/);
+  mkdirSync('screenshots',{recursive:true});await actor.screenshot({path:'screenshots/public-online-question.png'});
   for(const page of [p,q])await page.getByRole('button',{name:'확인',exact:true}).click();
   await observer.reload();await expect(observer.getByTestId('online-board')).toBeVisible();if(await observer.getByRole('button',{name:'확인',exact:true}).isVisible())await observer.getByRole('button',{name:'확인',exact:true}).click();
   await observer.screenshot({path:'screenshots/v6-online-board.png'});expect(await observer.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

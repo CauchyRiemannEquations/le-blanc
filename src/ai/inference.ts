@@ -119,8 +119,20 @@ export function planAttacks(o:AIObservation,candidates:number[][],ranked=rankAtt
     return {...entry,score,payoff:revealed,followupProbability:followup.probability,followupReveals:followup.reveals,setup,anchorProbability,extraChainReveals};
   }).sort((a,b)=>b.score-a.score||b.probability-a.probability);
 }
+/** Conservative estimate of how much the shared questions narrow our public hand.
+ * Never use our unrevealed values or invent the opponent's private deductions.
+ * Opponent questions concern OUR cards, not the candidate hand we are attacking.
+ */
+export function publicQuestionPressure(o:AIObservation):number {
+  if(!o.opponentQuestions.length)return 0;
+  const publicHand:AIObservation={...o,own:o.opponent.flatMap(t=>t.value===null?[]:[{value:t.value,revealed:true}]),
+    opponent:o.own.map(t=>({value:t.revealed?t.value:null,revealed:t.revealed})),
+    connections:o.ownConnections,questions:o.opponentQuestions,opponentQuestions:[],failed:[]};
+  const before=enumerateCandidates(publicHand,false).length,after=enumerateCandidates(publicHand).length;
+  return before>1&&after>0?Math.max(0,Math.min(1,Math.log2(before/after)/Math.log2(before))):0;
+}
 function planAction(o:AIObservation,candidates:number[][],ranked:RatedAttack[],difficulty:'medium'|'hard',random:()=>number):Action {
-  const attacks=planAttacks(o,candidates,ranked);
+  const attacks=planAttacks(o,candidates,ranked),pressure=publicQuestionPressure(o);
   if(!attacks.length)throw new Error('가능한 공격이 없습니다.');
   // Certain revelations should never be delayed just to manufacture a connection.
   const certain=attacks.filter(a=>a.probability===1&&a.payoff>0);
@@ -129,7 +141,7 @@ function planAction(o:AIObservation,candidates:number[][],ranked:RatedAttack[],d
   const best=close[difficulty==='medium'?Math.floor(random()*close.length):0];
   if(o.phase==='continue'){
     const threshold=difficulty==='medium'?.55:o.own.filter(t=>!t.revealed).length===1?.86:.63;
-    return best.score>0&&best.probability>=threshold?best.action:{type:'pass'};
+    return best.score>0&&best.probability>=threshold-.12*pressure?best.action:{type:'pass'};
   }
   if(!certain.length&&o.ownQuestionsLeft!==0){
     // Value both answers by the attacks they enable, rather than spending all question
@@ -143,7 +155,7 @@ function planAction(o:AIObservation,candidates:number[][],ranked:RatedAttack[],d
       const linkInformation=canTargetPair(o,a,b,'gap')&&!o.opponent[a].revealed&&!o.opponent[b].revealed?gapEntropy(candidates)-(yes.length*gapEntropy(yes)+no.length*gapEntropy(no))/candidates.length:0;
       return {...q,score:.78*future+.12*q.information+CONNECTION_POLICY.questionLinkInformationWeight*linkInformation-.12};
     }).sort((a,b)=>b.score-a.score);
-    if(questions[0]&&questions[0].score>best.score)return questions[0].action;
+    if(questions[0]&&questions[0].score-.25*pressure>best.score)return questions[0].action;
   }
   return best.action;
 }

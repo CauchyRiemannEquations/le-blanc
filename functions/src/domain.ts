@@ -2,7 +2,7 @@ import { applyAction,createGame,expireTurn,other,viewGame } from '../../src/engi
 import type { Action,PlayerId } from '../../src/engine/types';
 import { TURN_MS } from '../../src/online/types';
 import type { RoomState,RoomView } from '../../src/online/types';
-function requireCurrentRules(room:RoomState){if(room.game&&(room.game.rules.version!==2||room.game.rules.gapPolicy!=='continue-once'||typeof room.game.gapUsed!=='boolean'))throw new Error('이전 규칙으로 시작한 방입니다. 새 방을 만들어주세요.');}
+function requireCurrentRules(room:RoomState){if(room.game&&(room.game.rules.version!==3||room.game.rules.gapPolicy!=='continue-once'||typeof room.game.gapUsed!=='boolean'))throw new Error('이전 규칙으로 시작한 방입니다. 새 방을 만들어주세요.');}
 export function cleanName(value:unknown):string {if(typeof value!=='string'||!value.trim()||value.trim().length>16)throw new Error('이름은 1~16자로 적어주세요.');return value.trim();}
 export function createRoomState(code:string,uid:string,name:string,now:number,initialReveal:unknown=true):RoomState {if(typeof initialReveal!=='boolean')throw new Error('공개 설정을 확인해주세요.');return {initialReveal,code,members:[uid],names:[cleanName(name)],status:'waiting',game:null,deadline:null,version:0,createdAt:now,missed:[0,0],lastCommand:null};}
 export function joinRoomState(room:RoomState,uid:string,name:string,now:number,seed:number,first:PlayerId):RoomState {

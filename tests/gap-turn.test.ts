@@ -17,10 +17,10 @@ it('number success preserves unused gap; invalid request consumes nothing; timeo
  s=applyAction(s,0,{type:'gap',a:0,b:1,value:19});expect(s.gapUsed).toBe(true);expect(s.phase).toBe('penalty');
  const next=expireTurn(s);expect(next.history.at(-1)!.type).toBe('penalty');expect(next.gapUsed).toBe(false);expect(next.active).toBe(1);
 });
-it('legacy comparison remains opt-in; normal games and observation use rule v2',()=>{
+it('legacy comparison remains opt-in; normal games and observation use rule v3',()=>{
  const s=createGame(42,{gapPolicy:'legacy'}),h=s.players[1].tiles;
  expect(applyAction(s,0,{type:'gap',a:0,b:1,value:h[1].value-h[0].value}).active).toBe(1);
- expect(board().rules.version).toBe(2);expect(observe(board(),0).gapUsed).toBe(false);
+ expect(board().rules.version).toBe(3);expect(observe(board(),0).gapUsed).toBe(false);
 });
 it('online link usage and deadline survive projection/reconnect; duplicate and stale requests rejected',()=>{
  const r=joinRoomState(createRoomState('ABCDEFGH','a','A',0),'b','B',1000,42,0),h=r.game!.players[1].tiles,a={type:'gap' as const,a:0,b:1,value:h[1].value-h[0].value};
