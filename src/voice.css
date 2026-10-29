@@ -1,0 +1,33 @@
+.app .voice-picker{display:flex;align-items:center;gap:8px;margin:8px 0;min-width:0}
+.app .voice-picker label{display:flex;align-items:center;gap:8px;flex:1;font-size:12px;min-width:0}
+.app .voice-picker select,.app .voice-mode select{min-height:40px;flex:1;min-width:0;border:1px solid #a58b61;border-radius:3px;background:#e4d2af;color:#292018;padding:4px 8px;font:inherit}
+.app .voice-picker button{min-height:40px;padding:6px 10px!important;font-size:12px;background:#2a1f16;color:#f3dfba;border:1px solid #a58b61;border-radius:3px;width:auto!important}
+.app .voice-mode{display:flex;gap:12px;align-items:center;font-size:13px;margin:10px 0}
+.app .voice-preview-link{font-size:12px;display:inline-block;color:inherit;padding:12px 0}
+.app .settings-list .voice-picker{border-top:1px solid #9e805a55;padding-top:8px}
+.app .local-voices{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.app .local-voices .voice-picker{flex-wrap:wrap}
+.app .local-voices .voice-picker label{min-width:100%}
+.app .online-lobby .voice-picker{grid-column:1}
+.app .menu-screen.voice-setup .menu-body{max-height:calc(100dvh - 86px);overflow-y:auto;top:72px;padding:0 4px 8px 0;width:min(380px,88vw)}
+.app .menu-screen.voice-setup .menu-wordmark{top:22px;left:var(--menu-x);font-size:26px;line-height:1;letter-spacing:3px}
+.app .menu-screen.voice-setup .menu-body>h1{position:static!important;margin-bottom:8px}
+@media(min-height:600px){.app .menu-screen.voice-setup .menu-wordmark{top:15%}.app .menu-screen.voice-setup .menu-body{top:24%;max-height:70dvh}}
+/* Speech sits at each player's side of the table; the result seal follows it. */
+.question-conversation{position:fixed;inset:0;z-index:90;display:flex;flex-direction:column;justify-content:center;padding:65px max(24px,calc((100vw - 900px)/2)) 66px;background:linear-gradient(#110d0733,#110d0708 45%,#110d074d)}
+.conversation-table{position:relative;flex:1;max-height:390px;min-height:0;display:flex;flex-direction:column;justify-content:space-between;gap:20px}
+.speech-bubble{position:relative;width:min(70%,520px);padding:16px 22px;border:3px double #937447;border-radius:6px;background:#ead9b8;background-image:linear-gradient(#f5e8cfd9,#e2c99fd9),var(--paper-texture);box-shadow:0 8px 28px #0007;color:#2f2317;transition:opacity .16s,transform .16s}
+.speech-bubble:after{content:'';position:absolute;width:14px;height:14px;background:#e6ceaa;border-bottom:1px solid #937447;border-right:1px solid #937447;bottom:-9px;right:28px;transform:rotate(45deg)}
+.speech-bubble.opponent{align-self:flex-start;order:0;margin-bottom:auto}
+.speech-bubble.opponent:after{top:-9px;bottom:auto;left:28px;right:auto;transform:rotate(225deg)}
+.speech-bubble.own{align-self:flex-end;order:1;margin-top:auto}
+.speech-bubble.spoken{opacity:.72;transform:scale(.96)}
+.speech-heading{display:flex;align-items:center;gap:10px;border-bottom:1px solid #9b7b4f55;padding-bottom:7px;margin-bottom:9px;font-size:14px}
+.speech-heading strong{font-family:var(--serif);font-size:18px;letter-spacing:.4px}
+.speech-heading span{font-size:11px;color:#765b3a}
+.app .speech-target{font-size:12px;color:#715634;margin:0 0 4px}
+.app .speech-text{font-size:clamp(18px,2.4vw,25px);font-weight:650;line-height:1.5;margin:0;text-wrap:pretty;color:#302114}
+.app .conversation-skip{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:22px;min-height:44px;padding:10px 20px;border:1px solid #a78a58;border-radius:3px;background:#281c12ed;color:#f1dfba;font-size:14px;white-space:nowrap}
+@media(max-height:480px){.question-conversation{padding-top:47px;padding-bottom:58px}.conversation-table{gap:8px}.speech-bubble{padding:10px 15px;width:min(72%,470px)}.speech-heading{padding-bottom:3px;margin-bottom:5px}.speech-heading strong{font-size:16px}.app .speech-text{font-size:19px}.app .conversation-skip{bottom:8px;min-height:40px}}
+@media(prefers-reduced-motion:reduce){.speech-bubble{transition:none}}
+.conversation-audio-error{position:absolute;bottom:62px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;max-width:calc(100vw - 24px);padding:8px 12px;background:#281c12f5;color:#f1dfba;border:1px solid #a78a58;border-radius:3px;font-size:12px}.conversation-audio-error button{min-height:44px;padding:8px 12px;border:1px solid #a78a58;white-space:nowrap}

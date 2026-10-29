@@ -14,7 +14,13 @@
     "compare:gaps": "tsx scripts/gap-balance.ts",
     "compare:ai": "tsx scripts/compare-ai.ts",
     "build:server": "npm --prefix functions run build",
-    "test:online": "vitest run tests/online.test.ts"
+    "test:online": "vitest run tests/online.test.ts",
+    "voice:discover": "tsx scripts/voice.ts discover",
+    "voice:plan": "tsx scripts/voice.ts plan",
+    "voice:generate": "tsx scripts/voice.ts generate",
+    "voice:verify": "tsx scripts/voice.ts verify",
+    "voice:verify:browser": "tsx scripts/verify-voice-browser.ts",
+    "voice:preview": "vite --host 127.0.0.1 --open /voice-preview.html"
   },
   "dependencies": {
     "@fontsource-variable/bodoni-moda": "^5.3.0",
@@ -30,6 +36,7 @@
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^6.0.0",
+    "@neosapience/typecast-js": "^0.4.15",
     "@playwright/test": "^1.51.0",
     "@types/node": "^22.15.0",
     "@types/react": "^19.1.0",

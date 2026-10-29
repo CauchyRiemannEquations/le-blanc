@@ -1,18 +1,22 @@
 import type { Action, AIObservation, GameState, GameView, GapConnection, Outcome, PlayerId, QuestionKind, QuestionSpec, RevelationEvent, Rules } from './types';
 import { answerQuestion,questionKey,validQuestion } from './questions';
+import {readVoice} from '../voice/types';
+import type {VoiceId} from '../voice/types';
+import {readAppearance,appearanceVoice} from './characters';
+import type {Appearance} from './characters';
 export { answerQuestion,gcd } from './questions';
 export const DEFAULT_RULES:Rules = {version:3,gapPolicy:'continue-once',min:1,max:20,handSize:5,initialReveal:[2],questions:null};
 export function questionsRemaining(limit:number|null,used:number):number|null {return limit===null?null:Math.max(0,limit-used);}
 export const other = (id:PlayerId):PlayerId => id === 0 ? 1 : 0;
 export function seededRandom(seed:number) { return () => { let t = seed += 0x6D2B79F5; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-export function createGame(seed = Date.now(), rules:Partial<Rules> = {}, names:[string,string]=['나','Carl'], first:PlayerId=0):GameState {
+export function createGame(seed = Date.now(), rules:Partial<Rules> = {}, names:[string,string]=['나','Carl'], first:PlayerId=0, appearances:[Appearance,Appearance]=['male','male'],voices:[VoiceId,VoiceId]=[appearanceVoice(appearances[0]),appearanceVoice(appearances[1])]):GameState {
   const config = {...DEFAULT_RULES,...rules};
   if(config.version!==3||!['continue-once','legacy'].includes(config.gapPolicy)||!Number.isInteger(config.min)||!Number.isInteger(config.max)||config.min<1||config.max-config.min+1 < config.handSize*2 || config.handSize<2 || (config.questions!==null&&(!Number.isInteger(config.questions)||config.questions<0)) || config.initialReveal.some(i=>i<0||i>=config.handSize) || config.initialReveal.length>=config.handSize)throw new Error('게임 설정이 올바르지 않습니다.');
   const random=seededRandom(seed), deck=Array.from({length:config.max-config.min+1},(_,i)=>i+config.min);
   for(let i=deck.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}
   const makePlayer=(i:PlayerId):GameState['players'][number]=>({name:names[i],tiles:deck.slice(i*config.handSize,(i+1)*config.handSize).sort((a,b)=>a-b).map((value,index)=>({value,revealed:config.initialReveal.includes(index)})),connections:[],questions:[],failed:[]});
   const players:GameState['players']=[makePlayer(0),makePlayer(1)];
-  return {gapUsed:false,rules:config,players,active:first,phase:'action',turn:1,sequence:0,penaltySeed:seed^0xA5F1523D,history:[],result:null,maxChain:0};
+  return {voices:[readVoice(voices[0]),readVoice(voices[1])],appearances:[readAppearance(appearances[0]),readAppearance(appearances[1])],gapUsed:false,rules:config,players,active:first,phase:'action',turn:1,sequence:0,penaltySeed:seed^0xA5F1523D,history:[],result:null,maxChain:0};
 }
 export function connectedDelta(edges:GapConnection[],start:number,end:number):number|null {
   const queue:[number,number][]=[[start,0]], seen=new Set([start]);
@@ -30,7 +34,7 @@ export function observe(state:GameState,id:PlayerId):AIObservation {
   return structuredClone({gapUsed:state.gapUsed,rules:state.rules,player:id,own:self.tiles,ownConnections:self.connections,opponent:opponent.tiles.map(t=>({value:t.revealed?t.value:null,revealed:t.revealed})),connections:opponent.connections,questions:self.questions,opponentQuestions:opponent.questions,failed:self.failed,ownQuestionsLeft:questionsRemaining(state.rules.questions,self.questions.length),phase:state.phase,turn:state.turn,active:state.active});
 }
 export function viewGame(state:GameState,id:PlayerId):GameView {
-  return {...observe(state,id),names:[state.players[0].name,state.players[1].name],opponentQuestionsLeft:questionsRemaining(state.rules.questions,state.players[other(id)].questions.length),result:state.result?{...state.result}:null,history:structuredClone(state.history)};
+  return {...observe(state,id),voices:[...(state.voices??[appearanceVoice(state.appearances?.[0]??'male'),appearanceVoice(state.appearances?.[1]??'male')])],appearances:[...(state.appearances??['male','male'])],names:[state.players[0].name,state.players[1].name],opponentQuestionsLeft:questionsRemaining(state.rules.questions,state.players[other(id)].questions.length),result:state.result?{...state.result}:null,history:structuredClone(state.history)};
 }
 function reveal(state:GameState,id:PlayerId,index:number,reason:RevelationEvent['reason'],events:RevelationEvent[],from?:number) {
   const tile=state.players[id].tiles[index];if(tile.revealed)return;tile.revealed=true;events.push({player:id,index,value:tile.value,reason,from});

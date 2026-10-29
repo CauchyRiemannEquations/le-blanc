@@ -1,0 +1,113 @@
+{
+  "environment": "Windows Node 24; single process, 20 warmed opening positions per scenario; not physical mobile",
+  "rows": [
+    {
+      "version": "before",
+      "difficulty": "easy",
+      "initialReveal": true,
+      "samples": 20,
+      "meanMs": 0.88,
+      "p95Ms": 1.22,
+      "maxMs": 1.94
+    },
+    {
+      "version": "after",
+      "difficulty": "easy",
+      "initialReveal": true,
+      "samples": 20,
+      "meanMs": 0.65,
+      "p95Ms": 1.21,
+      "maxMs": 1.26
+    },
+    {
+      "version": "before",
+      "difficulty": "medium",
+      "initialReveal": true,
+      "samples": 20,
+      "meanMs": 13.78,
+      "p95Ms": 17.38,
+      "maxMs": 17.72
+    },
+    {
+      "version": "after",
+      "difficulty": "medium",
+      "initialReveal": true,
+      "samples": 20,
+      "meanMs": 5.34,
+      "p95Ms": 6.95,
+      "maxMs": 7.04
+    },
+    {
+      "version": "before",
+      "difficulty": "hard",
+      "initialReveal": true,
+      "samples": 20,
+      "meanMs": 17.47,
+      "p95Ms": 22.07,
+      "maxMs": 22.89
+    },
+    {
+      "version": "after",
+      "difficulty": "hard",
+      "initialReveal": true,
+      "samples": 20,
+      "meanMs": 9.64,
+      "p95Ms": 12.68,
+      "maxMs": 13.02
+    },
+    {
+      "version": "before",
+      "difficulty": "easy",
+      "initialReveal": false,
+      "samples": 20,
+      "meanMs": 6.24,
+      "p95Ms": 6.81,
+      "maxMs": 7.6
+    },
+    {
+      "version": "after",
+      "difficulty": "easy",
+      "initialReveal": false,
+      "samples": 20,
+      "meanMs": 2.5,
+      "p95Ms": 2.99,
+      "maxMs": 3.09
+    },
+    {
+      "version": "before",
+      "difficulty": "medium",
+      "initialReveal": false,
+      "samples": 20,
+      "meanMs": 172.7,
+      "p95Ms": 221.46,
+      "maxMs": 222.09
+    },
+    {
+      "version": "after",
+      "difficulty": "medium",
+      "initialReveal": false,
+      "samples": 20,
+      "meanMs": 35.68,
+      "p95Ms": 46.41,
+      "maxMs": 46.8
+    },
+    {
+      "version": "before",
+      "difficulty": "hard",
+      "initialReveal": false,
+      "samples": 20,
+      "meanMs": 221.14,
+      "p95Ms": 255,
+      "maxMs": 256.35
+    },
+    {
+      "version": "after",
+      "difficulty": "hard",
+      "initialReveal": false,
+      "samples": 20,
+      "meanMs": 68.77,
+      "p95Ms": 82.75,
+      "maxMs": 87.51
+    }
+  ]
+}

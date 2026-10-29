@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-29T02:01:42.420Z",
+  "generated": 12,
+  "reused": 0,
+  "failed": 0,
+  "calls": 12,
+  "attemptedCharacters": 152,
+  "stopped": false,
+  "before": {
+    "plan_credits": 200000,
+    "used_credits": 0
+  },
+  "after": {
+    "plan_credits": 200000,
+    "used_credits": 0
+  },
+  "scope": "audition"
+}

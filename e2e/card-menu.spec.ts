@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 for(const viewport of [{width:800,height:360},{width:844,height:390},{width:1440,height:900},{width:360,height:800}])test(`menu anchors and friend setup ${viewport.width}`,async({page})=>{
- await page.setViewportSize(viewport);await page.addInitScript(()=>{Date.now=()=>4242;Math.random=()=>.1;localStorage.setItem('leblanc-settings-v1',JSON.stringify({sound:false,reduced:true,initial:false}));});await page.goto('/');
+ await page.setViewportSize(viewport);await page.addInitScript(()=>{Date.now=()=>4242;Math.random=()=>.1;localStorage.setItem('leblanc-settings-v1',JSON.stringify({sound:false,voice:'ael',reduced:true,initial:false}));});await page.goto('/');
  await page.getByRole('button',{name:'설정',exact:true}).click();await expect(page.getByText('가운데 카드 공개',{exact:true})).toHaveCount(0);await page.getByRole('button',{name:'닫기',exact:true}).click();
  async function checkNavigation(back=false){
   await expect(page.locator('main>header')).toHaveCount(0);

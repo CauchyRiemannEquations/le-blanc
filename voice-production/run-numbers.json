@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-29T02:06:27.669Z",
+  "generated": 4,
+  "reused": 0,
+  "failed": 0,
+  "calls": 4,
+  "attemptedCharacters": 66,
+  "stopped": false,
+  "before": {
+    "plan_credits": 200000,
+    "used_credits": 152
+  },
+  "after": {
+    "plan_credits": 200000,
+    "used_credits": 152
+  },
+  "scope": "numbers"
+}

@@ -1,0 +1,82 @@
+/* Parchment notices and a readable shared ledger on the tavern table. */
+.app .tavern-dispatch,.app .deduction-journal{align-items:center;padding:20px;background:#130d076b;backdrop-filter:blur(3px)}
+.app .tavern-dispatch .overlay,.app .deduction-journal .overlay{position:relative;width:600px;max-width:100%;min-height:0;max-height:calc(100dvh - 40px);margin:0;padding:20px 30px 24px;border:4px double #87643d;border-radius:4px;color:#2d2117;background-color:#e5d0aa;background-image:linear-gradient(#f1e3c9c9,#dfc69fc9),var(--paper-texture);background-size:auto,700px;box-shadow:0 0 0 5px #2e2018,0 24px 70px #0009}
+.app .tavern-dispatch .overlay:before,.app .deduction-journal .overlay:before{display:none}
+.app .tavern-dispatch .overlay-head,.app .deduction-journal .overlay-head{min-height:32px;margin:0 0 16px;padding:0 0 9px;border-bottom:3px double #99734480;gap:12px}
+.app .tavern-dispatch .overlay-head>.eyebrow,.app .deduction-journal .overlay-head>.eyebrow{font-size:12px;letter-spacing:1px;font-weight:600;color:#60482e}
+.app .tavern-dispatch .overlay-head .icon-button,.app .deduction-journal .overlay-head .icon-button{order:-1;width:44px;height:44px;margin:-7px 0 -7px -10px;color:#48331f}
+.app .tavern-dispatch .overlay-head:has(.icon-button),.app .deduction-journal .overlay-head{justify-content:flex-start}
+.app .tavern-dispatch .outcome{padding:0;text-align:left}
+.app .tavern-dispatch .shared-question{margin:0}
+.app .tavern-dispatch .question-target,.app .deduction-journal .question-target{font-size:14px;line-height:1.8;font-weight:500;color:#59432a;margin:0 0 14px}
+.question-card-pair{display:inline-block;padding:2px 9px;border:1px solid #96734788;border-radius:2px;background:#fff4d94a;font-weight:700;white-space:nowrap}
+.app .tavern-dispatch .shared-question .question-sentence{font-size:clamp(22px,2.6vw,29px);line-height:1.55;font-weight:750;letter-spacing:-.6px;text-wrap:pretty;color:#2b1b10;margin:0 0 20px}
+.app .shared-question .answer-stamp{display:inline-flex;align-items:center;gap:10px;max-width:100%;padding:5px 14px;border:3px double currentColor;border-radius:2px;color:#344e3e;background:#38503b09;transform:rotate(-1deg)}
+.app .shared-question .answer-stamp.negative{color:#743b2b;background:#743b2b08;transform:rotate(1deg)}
+.app .shared-question .answer-stamp>span{font-size:12px;font-weight:600;line-height:1.5;color:inherit}
+.app .shared-question .answer-stamp .outcome-word,.app .shared-question .answer-stamp .question-answer{display:inline;font:600 20px/1.15 var(--serif);letter-spacing:1px;color:inherit;margin:0}
+.app .tavern-dispatch .outcome .next-turn-note{font-size:12px;line-height:1.6;color:#60482e;margin:16px 0 0;padding-top:12px;border-top:1px solid #9e79475c}
+.app .tavern-dispatch .outcome>.primary{min-height:46px;margin:16px 0 0;background:#37261b;border:1px solid #7e6041;border-radius:3px;color:#f4e6cb;box-shadow:inset 0 0 0 2px #f0d9ac1c;font-size:14px}
+.app .tavern-dispatch .turn-notice{text-align:center;padding:8px 0}
+.app .turn-notice .turn-notice-mark{display:block;font:36px/1 var(--serif);color:#8a642f;margin:0 0 8px}
+.app .turn-notice .eyebrow{font-size:12px;letter-spacing:3px;color:#765436}
+.app .tavern-dispatch .turn-notice h2{font-size:28px;line-height:1.5;color:#312014;margin:12px 0}
+.app .tavern-dispatch .turn-notice p{font-size:14px;line-height:1.7;color:#654c32;margin:0}
+
+.app .deduction-journal .overlay{display:flex;flex-direction:column;width:720px;overflow:hidden;max-height:calc(100dvh - 40px)}
+.app .deduction-journal .overlay-head{flex-shrink:0;margin-bottom:12px}
+.journal-heading{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-direction:row-reverse;flex-shrink:0}
+.journal-heading>span{font:500 14px var(--serif);letter-spacing:3px;color:#795c39}
+.app .journal-heading h2{font-size:26px;letter-spacing:-.8px;color:#302015;margin:0}
+.app .deduction-journal .journal-tabs{display:flex;gap:8px;margin:18px 0 0;border-bottom:1px solid #99734480;flex-shrink:0}
+.app .deduction-journal .journal-tabs button{display:flex;justify-content:center;align-items:center;gap:7px;flex:1;min-width:0;min-height:46px;padding:10px 6px;font-size:14px;font-weight:600;color:#6d5234;border:1px solid transparent;border-bottom:0;border-radius:3px 3px 0 0}
+.app .deduction-journal .journal-tabs .active{color:#f4e5c8;background:#513b29;border-color:#513b29}
+.app .deduction-journal .journal-tabs button>span{font:500 13px var(--serif);min-width:20px;padding:2px;border-radius:2px;background:#a5824c24}
+.app .deduction-journal .journal-tabs .active>span{background:#ead4ad22}
+.app .deduction-journal .journal-context{font-size:13px;line-height:1.6;color:#5e472e;margin:12px 0;flex-shrink:0}
+.app .deduction-journal .journal-entries{min-height:0;max-height:52dvh;overflow:auto;overscroll-behavior:contain;padding:2px 8px 2px 2px;scrollbar-width:thin;scrollbar-color:#87643d #ad89552b;outline-offset:-2px}
+.app .deduction-journal .clue-entry,.app .deduction-journal .log-entry{position:relative;display:block;padding:15px 18px;margin:0 0 12px;border:1px solid #96734770;border-left:3px solid #997344;background:#fff5de4d;border-radius:2px;box-shadow:0 2px 3px #6243210a}
+.app .deduction-journal .record-turn{display:block;font-size:11px;line-height:1.4;letter-spacing:1px;font-family:inherit;color:#795a36;margin:0 0 6px}
+.app .deduction-journal .question-target{margin:0 0 10px;font-size:13px}
+.app .deduction-journal .shared-question .question-sentence{font-size:17px;font-weight:650;line-height:1.65;letter-spacing:-.25px;color:#302015;margin:0 0 12px;flex:none}
+.app .deduction-journal .answer-stamp{padding:3px 10px;gap:8px}
+.app .deduction-journal .answer-stamp .question-answer{font-size:18px}
+.app .deduction-journal .record-actor{font-size:13px;font-weight:600;color:#60482e}
+.app .deduction-journal .record-text{font-size:16px;line-height:1.7;color:#302015;margin:6px 0 0}
+.app .deduction-journal .record-chain{display:block;font:600 18px var(--serif);color:#425139;margin-top:10px}
+.app .deduction-journal .empty-note{font-size:14px;line-height:1.7;padding:30px 0;color:#6d5234}
+.app .deduction-journal .excluded-guesses{padding:12px 18px;background:#fff5de4d;border:1px solid #96734770}
+.app .deduction-journal .excluded-guesses h3{font-size:14px;margin:0 0 10px;color:#60482e}
+.app .deduction-journal .failed-note{font-size:15px;line-height:1.7;color:#743b2b;margin:5px 0}
+
+.app .curtain:has(.handover-card){height:100dvh;min-height:0;padding:20px;overflow:auto;background:linear-gradient(#1a100ac4,#1a100ae8),url('/materials/walnut-dark.webp') center/cover}
+.handover-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:15px;width:520px;max-width:100%;padding:32px;border:4px double #9f7d4b;outline:5px solid #2e2018;border-radius:3px;background:linear-gradient(#efdfc0cd,#d8bd94cd),var(--paper-texture);box-shadow:0 20px 70px #0007}
+.app .handover-card>svg{color:#805d30}
+.app .handover-card>.eyebrow{font-size:12px;letter-spacing:3px;color:#6d4f2f}
+.app .handover-card h1{font-size:30px;line-height:1.5;font-weight:600;margin:0;color:#302015}
+.app .handover-card p{font-size:15px;line-height:1.8;margin:0;color:#61482d}
+.app .handover-card p strong{font-weight:700;color:#302015}
+.app .handover-card .primary{min-height:46px;min-width:0;width:100%;margin:5px 0 0;background:#37261b;color:#f4e6cb;border:1px solid #7e6041;border-radius:3px}
+.app .handover-card .text-button{min-height:44px;margin:0;color:#6d4f2f}
+
+@media(orientation:landscape) and (max-height:500px){
+ .app .tavern-dispatch,.app .deduction-journal{padding:12px}
+ .app .tavern-dispatch .overlay,.app .deduction-journal .overlay{max-height:calc(100dvh - 24px);padding:12px 22px 14px}
+ .app .tavern-dispatch .overlay-head,.app .deduction-journal .overlay-head{margin-bottom:10px;min-height:26px;padding-bottom:5px}
+ .app .tavern-dispatch .question-target{margin-bottom:8px;font-size:13px}
+ .app .tavern-dispatch .shared-question .question-sentence{font-size:22px;line-height:1.45;margin-bottom:12px}
+ .app .tavern-dispatch .outcome .next-turn-note{margin-top:10px;padding-top:7px}
+ .app .tavern-dispatch .outcome>.primary{margin-top:10px;min-height:44px}
+ .app .tavern-dispatch .turn-notice{padding:0}
+ .app .tavern-dispatch .turn-notice h2{font-size:25px;margin:8px 0}
+ .app .deduction-journal .journal-heading{display:none}
+ .app .deduction-journal .journal-tabs{margin-top:0}
+ .app .deduction-journal .journal-tabs button{min-height:44px}
+ .app .deduction-journal .journal-context{margin:8px 0;font-size:12px}
+ .app .deduction-journal .journal-entries{max-height:none}
+ .app .deduction-journal .clue-entry,.app .deduction-journal .log-entry{padding:12px 16px}
+ .app .handover-card{display:grid;grid-template-columns:44px 1fr;gap:8px 18px;padding:20px 28px;text-align:left}
+ .app .handover-card>svg{grid-row:1/3;align-self:center}
+ .app .handover-card h1{font-size:25px}
+ .app .handover-card p,.app .handover-card .primary,.app .handover-card .text-button{grid-column:1/-1;text-align:center}
+}

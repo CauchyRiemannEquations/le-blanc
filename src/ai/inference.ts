@@ -33,9 +33,19 @@ export function rankAttacks(o:AIObservation,candidates:number[][]):RatedAttack[]
 }
 export function rankQuestions(o:AIObservation,candidates:number[][],expanded=true):RatedQuestion[] {
   const result:RatedQuestion[]=[];
-  const options=expanded?questionOptions(o.rules):questionOptions(o.rules).slice(0,3);
-  for(const spec of options)for(let a=0;a<o.rules.handSize;a++)for(let b=a+1;b<o.rules.handSize;b++)if(canTargetPair(o,a,b,spec)){
-    const p=candidates.filter(c=>answerQuestion(spec,c[a],c[b])).length/candidates.length;
+  const options=questionOptions(o.rules,expanded);
+  // Many candidate hands share the same values at a target pair. Count those
+  // once, then evaluate each threshold with the same weighted distribution.
+  const pairs=[];
+  for(let a=0;a<o.rules.handSize;a++)for(let b=a+1;b<o.rules.handSize;b++){
+    if(o.opponent[a].revealed&&o.opponent[b].revealed)continue;
+    const counts=new Map<string,{left:number;right:number;count:number}>();
+    for(const c of candidates){const key=`${c[a]}:${c[b]}`,entry=counts.get(key);if(entry)entry.count++;else counts.set(key,{left:c[a],right:c[b],count:1});}
+    pairs.push({a,b,values:[...counts.values()]});
+  }
+  for(const spec of options)for(const {a,b,values} of pairs)if(canTargetPair(o,a,b,spec)){
+    let yes=0;for(const {left,right,count} of values)if(answerQuestion(spec,left,right))yes+=count;
+    const p=yes/candidates.length;
     const information=p>0&&p<1?-p*Math.log2(p)-(1-p)*Math.log2(1-p):0;
     if(information>0)result.push({action:{type:'question',...spec,a,b},information});
   }return result.sort((a,b)=>b.information-a.information);

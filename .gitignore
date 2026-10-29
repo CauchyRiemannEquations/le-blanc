@@ -11,3 +11,8 @@ playwright-report/
 *-debug.log
 functions/lib/
 functions/node_modules/
+
+voice-production/account.json
+voice-production/discovery.json
+voice-production/.generation.lock
+.vercel/

@@ -1,3 +1,4 @@
+import {DEAL_INTERVAL_MS,DEAL_DAMPING} from './dealTiming';
 import {CARD_FACE,needsOrientationMark} from '../cardFace';
 import {useEffect,useMemo,useRef} from 'react';
 import type {RefObject} from 'react';
@@ -44,11 +45,11 @@ function Card({card,position,rotation,selected,reduced,delay=0,scale=1,onClick,d
  useEffect(()=>{invalidate();},[...position,...rotation,selected,reduced,dealing,invalidate]);
  useFrame((_,dt)=>{
   if(!group.current||!flip.current)return;
-  if(dealing&&!reduced){dealStart.current??=performance.now();const elapsed=performance.now()-dealStart.current-dealOrder*170;group.current.visible=elapsed>=0;if(elapsed<0){invalidate();return;}if(dealMotion.current.start()&&soundAllowed(dealEpoch.current))playSfx('card_deal',{id:`${soundScope}:deal-${dealCycle.current}:${card.id}:start`});}else group.current.visible=true;
+  if(dealing&&!reduced){dealStart.current??=performance.now();const elapsed=performance.now()-dealStart.current-dealOrder*DEAL_INTERVAL_MS;group.current.visible=elapsed>=0;if(elapsed<0){invalidate();return;}if(dealMotion.current.start()&&soundAllowed(dealEpoch.current))playSfx('card_deal',{id:`${soundScope}:deal-${dealCycle.current}:${card.id}:start`});}else group.current.visible=true;
   if(!reduced&&performance.now()<started.current){invalidate();return;}
   const reveal=pendingReveal.current;
   if(reveal){pendingReveal.current=null;if(soundAllowed(reveal.epoch)){const cues=publicRevealCues(reveal.order,reduced,finalResult);if(cues.length)onPublicSound(reveal.id);for(const cue of cues)playSfx(cue.event,{state:cue.state,id:`${soundScope}:outcome-${reveal.id}:${card.id}:${cue.event}`});}}
-  let moving=false;const speed=reduced?1:1-Math.exp(-dt*12);
+  let moving=false;const speed=reduced?1:1-Math.exp(-dt*(dealing?DEAL_DAMPING:12));
   flip.current.rotation.y=THREE.MathUtils.lerp(flip.current.rotation.y,angle,speed);
   if(Math.abs(flip.current.rotation.y-angle)<.001)flip.current.rotation.y=angle;else moving=true;
   // Lift during a flip to keep the thick card above the tabletop, then settle in its original slot.
@@ -107,7 +108,7 @@ export default function Scene(p:SceneProps){
  },[camera,size.width,size.height,p.data.central.length,p.selected,p.data.hand,p.peek,p.placement,p.onLayout,invalidate,spread]);
  useEffect(()=>{p.onReady();},[p.onReady]);
  useEffect(()=>{const hide=()=>{if(document.hidden)visibilityEpoch.current++;else invalidate();};document.addEventListener('visibilitychange',hide);return()=>document.removeEventListener('visibilitychange',hide);},[invalidate]);
- useEffect(()=>{gl.domElement.dataset.renderer='three-webgl';},[gl]);
+ useEffect(()=>{gl.domElement.dataset.renderer='three-webgl';gl.domElement.dataset.appearance=p.data.appearance??'male';},[gl,p.data.appearance]);
  useFrame(()=>{
   gl.domElement.dataset.frames=String(Number(gl.domElement.dataset.frames??0)+1);
   gl.domElement.dataset.slots=JSON.stringify([...p.data.central,...p.data.hand].flatMap(c=>{const node=scene.getObjectByName(c.id);return node?[{id:c.id,x:node.position.x,z:node.position.z,revealed:c.revealed}]:[];}));
@@ -115,7 +116,7 @@ export default function Scene(p:SceneProps){
  const near=p.data.hand;
  return <>
   <color attach="background" args={['#100c09']}/><ambientLight intensity={.65}/><hemisphereLight args={['#ffe5bc','#241811',1.05]}/><directionalLight position={[-3,7,4]} color="#ffe0b1" intensity={2.4} castShadow shadow-mapSize={[1024,1024]} shadow-camera-left={-7} shadow-camera-right={7} shadow-camera-top={7} shadow-camera-bottom={-7} shadow-bias={-.002}/>
-  <Tavern/>
+  <Tavern appearance={p.data.appearance}/>
   <mesh receiveShadow position={[0,-.23,.15]}><boxGeometry args={[11,.4,8]}/><meshStandardMaterial map={textures[0]} color="#d1b394" roughness={.85}/></mesh>
   {[-3.4,-1.7,0,1.7,3.4].map(x=><mesh key={x} position={[x,-.025,.15]}><boxGeometry args={[.012,.008,7.95]}/><meshStandardMaterial color="#25180f" roughness={1}/></mesh>)}
   {p.data.central.map(c=><Card key={c.id} card={c} eventId={p.eventId} eventSfx={p.eventSfx} finalResult={p.finalResult} soundScope={p.soundScope} revealOrder={p.revealIds.indexOf(c.id)} visibilityEpoch={visibilityEpoch} onPublicSound={p.onPublicSound} dealing={p.dealing} dealOrder={c.slot*2} scale={spread} position={[centralX(c.slot,p.data.central.length)*spread,p.selected.includes(c.slot)?.2:.07,-1.5]} rotation={[-Math.PI/2,0,0]} selected={p.selected.includes(c.slot)} reduced={p.reduced} delay={Math.max(0,p.revealIds.indexOf(c.id))} onClick={()=>p.onSelect?.(c.slot)}/>)}

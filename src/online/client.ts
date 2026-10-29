@@ -4,6 +4,8 @@ import { getFirestore,doc,onSnapshot,connectFirestoreEmulator } from 'firebase/f
 import { getFunctions,httpsCallable,connectFunctionsEmulator } from 'firebase/functions';
 import type { Action } from '../engine/types';
 import type { RoomView } from './types';
+import type {VoiceId} from '../voice/types';
+import type {Appearance} from '../engine/characters';
 const emulator=import.meta.env.DEV&&import.meta.env.VITE_USE_FIREBASE_EMULATORS==='true';
 export const onlineConfigured=emulator||!!import.meta.env.VITE_FIREBASE_API_KEY;
 let services:ReturnType<typeof setup>|undefined;
@@ -16,8 +18,8 @@ function setup(){
 }
 async function ready(){if(!onlineConfigured)throw new Error('온라인 서버 연결 설정이 필요합니다.');services??=setup();await services.auth.authStateReady();if(!services.auth.currentUser){signingIn??=signInAnonymously(services.auth).finally(()=>{signingIn=undefined;});await signingIn;}return services;}
 async function call(name:string,data:unknown){const {functions}=await ready();return (await httpsCallable<unknown,RoomView>(functions,name)(data)).data;}
-export const createOnlineRoom=(name:string,initialReveal=true)=>call('createRoom',{name,initialReveal});
-export const joinOnlineRoom=(code:string,name:string)=>call('joinRoom',{code,name});
+export const createOnlineRoom=(name:string,initialReveal=true,appearance:Appearance='male',voice:VoiceId='jongdae')=>call('createRoom',{name,initialReveal,appearance,voice});
+export const joinOnlineRoom=(code:string,name:string,appearance:Appearance='male',voice:VoiceId='jongdae')=>call('joinRoom',{code,name,appearance,voice});
 export const syncOnlineRoom=(code:string)=>call('roomCommand',{code,operation:'sync'});
 export const leaveOnlineRoom=(code:string)=>call('roomCommand',{code,operation:'leave'});
 export const sendOnlineAction=(room:RoomView,action:Action)=>call('roomCommand',{code:room.code,operation:'act',version:room.version,id:crypto.randomUUID(),action});

@@ -1,7 +1,7 @@
 import {test,expect} from '@playwright/test';
 for(const viewport of [{width:800,height:360},{width:844,height:390},{width:1440,height:900},{width:390,height:844}])test(`Carl HUD and attack cancellation ${viewport.width}`,async({page})=>{
  await page.setViewportSize(viewport);
- await page.addInitScript(()=>{Date.now=()=>4242;Math.random=()=>.1;localStorage.setItem('leblanc-settings-v1',JSON.stringify({sound:false,reduced:true}));});
+ await page.addInitScript(()=>{Date.now=()=>4242;Math.random=()=>.1;localStorage.setItem('leblanc-settings-v1',JSON.stringify({sound:false,voice:'ael',reduced:true}));});
  await page.goto('/');await page.getByRole('button',{name:'시작하기',exact:true}).click();await page.getByRole('button',{name:'AI 대전',exact:true}).click();await page.getByRole('button',{name:'대전 시작',exact:true}).click();
  await expect(page.locator('.opponent-name')).toHaveText('Carl');await expect(page.locator('.decode-counter')).toHaveCount(0);
  await expect(page.locator('.game-header .turn-clock')).toBeVisible();

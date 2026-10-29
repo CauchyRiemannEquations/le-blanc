@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-10-29T02:50:06.102Z",
+  "source": "api-page",
+  "generated_by": "codex",
+  "voices": {
+    "jongdae": {
+      "status": "resolved",
+      "voice_id": "tc_67e38d8c771b5511659c4534",
+      "model": "ssfm-v30",
+      "emotions": [
+        "angry",
+        "happy",
+        "normal",
+        "sad",
+        "tonedown",
+        "toneup",
+        "whisper"
+      ]
+    },
+    "ael": {
+      "status": "resolved",
+      "voice_id": "tc_676cda78bde49be9d17f38e0",
+      "model": "ssfm-v30",
+      "emotions": [
+        "angry",
+        "happy",
+        "normal",
+        "sad",
+        "tonedown",
+        "toneup",
+        "whisper"
+      ]
+    }
+  }
+}

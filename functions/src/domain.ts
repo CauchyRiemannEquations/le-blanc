@@ -2,18 +2,23 @@ import { applyAction,createGame,expireTurn,other,viewGame } from '../../src/engi
 import type { Action,PlayerId } from '../../src/engine/types';
 import { TURN_MS } from '../../src/online/types';
 import type { RoomState,RoomView } from '../../src/online/types';
+import {readVoice} from '../../src/voice/types';
+import type {VoiceId} from '../../src/voice/types';
+import {readAppearance,appearanceVoice} from '../../src/engine/characters';
 function requireCurrentRules(room:RoomState){if(room.game&&(room.game.rules.version!==3||room.game.rules.gapPolicy!=='continue-once'||typeof room.game.gapUsed!=='boolean'))throw new Error('이전 규칙으로 시작한 방입니다. 새 방을 만들어주세요.');}
 export function cleanName(value:unknown):string {if(typeof value!=='string'||!value.trim()||value.trim().length>16)throw new Error('이름은 1~16자로 적어주세요.');return value.trim();}
-export function createRoomState(code:string,uid:string,name:string,now:number,initialReveal:unknown=true):RoomState {if(typeof initialReveal!=='boolean')throw new Error('공개 설정을 확인해주세요.');return {initialReveal,code,members:[uid],names:[cleanName(name)],status:'waiting',game:null,deadline:null,version:0,createdAt:now,missed:[0,0],lastCommand:null};}
-export function joinRoomState(room:RoomState,uid:string,name:string,now:number,seed:number,first:PlayerId):RoomState {
+export function createRoomState(code:string,uid:string,name:string,now:number,initialReveal:unknown=true,appearance?:unknown,voice?:unknown):RoomState {if(typeof initialReveal!=='boolean')throw new Error('공개 설정을 확인해주세요.');return {voices:[readVoice(voice===undefined?appearanceVoice(readAppearance(appearance)):voice)],appearances:[readAppearance(appearance)],initialReveal,code,members:[uid],names:[cleanName(name)],status:'waiting',game:null,deadline:null,version:0,createdAt:now,missed:[0,0],lastCommand:null};}
+export function joinRoomState(room:RoomState,uid:string,name:string,now:number,seed:number,first:PlayerId,appearance?:unknown,voice?:unknown):RoomState {
  if(room.members.includes(uid))return room;
  if(room.status!=='waiting'||room.members.length!==1)throw new Error('이미 시작했거나 닫힌 방입니다.');
  if(now-room.createdAt>30*60_000)throw new Error('입장 시간이 지난 방입니다. 새 방을 만들어주세요.');
- const next=structuredClone(room);next.members.push(uid);next.names.push(cleanName(name));next.game=createGame(seed,{initialReveal:next.initialReveal===false?[]:[2]},next.names as [string,string],first);next.status='playing';next.deadline=now+TURN_MS+3000;next.version++;return next;
+ const appearances:[ReturnType<typeof readAppearance>,ReturnType<typeof readAppearance>]=[readAppearance(room.appearances?.[0]),readAppearance(appearance)];
+ const voices:[VoiceId,VoiceId]=[readVoice(room.voices?.[0]??appearanceVoice(appearances[0])),readVoice(voice===undefined?appearanceVoice(appearances[1]):voice)];
+ const next=structuredClone(room);next.voices=voices;next.members.push(uid);next.names.push(cleanName(name));next.appearances=appearances;next.game=createGame(seed,{initialReveal:next.initialReveal===false?[]:[2]},next.names as [string,string],first,appearances,voices);next.status='playing';next.deadline=now+TURN_MS+3000;next.version++;return next;
 }
 export function projectRoom(room:RoomState,uid:string,now:number):RoomView {
  requireCurrentRules(room);const player=room.members.indexOf(uid);if(player<0)throw new Error('이 방의 참가자가 아닙니다.');
- return {initialReveal:room.game?room.game.rules.initialReveal.length>0:room.initialReveal!==false,code:room.code,status:room.status,player:player as PlayerId,names:[...room.names],game:room.game?viewGame(room.game,player as PlayerId):null,deadline:room.deadline,version:room.version,serverTime:now,finalBoards:room.game?.phase==='over'?room.game.players.map(p=>({values:p.tiles.map(t=>t.value)})):null};
+ return {voices:room.members.map((_,i)=>room.voices?.[i]??appearanceVoice(room.appearances?.[i]??'male')),appearances:room.members.map((_,i)=>room.appearances?.[i]??'male'),initialReveal:room.game?room.game.rules.initialReveal.length>0:room.initialReveal!==false,code:room.code,status:room.status,player:player as PlayerId,names:[...room.names],game:room.game?viewGame(room.game,player as PlayerId):null,deadline:room.deadline,version:room.version,serverTime:now,finalBoards:room.game?.phase==='over'?room.game.players.map(p=>({values:p.tiles.map(t=>t.value)})):null};
 }
 export function closeGame(room:RoomState,loser:PlayerId,text:string):RoomState {
  const next=structuredClone(room),g=next.game!;

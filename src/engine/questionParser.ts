@@ -21,6 +21,8 @@ export function parseQuestion(text:string,rules:Rules):QuestionVerdict {
  let q:QuestionSpec|undefined;
  let m=s.match(/^(?:차이|간격)(?:가|는|이|은)?(\d+)(?:보다)?(이하|미만|이상|초과|작은가|큰가|작아|커|작다|크다)$/u);
  if(m){const n=Number(m[1]),comparison=m[2],less=['미만','작은가','작아','작다'].includes(comparison),greater=['초과','큰가','커','크다'].includes(comparison);q={kind:'distance',parameter:less||comparison==='이상'?n-1:n,negate:greater||comparison==='이상'};}
+ else if((m=s.match(/^합(?:이|은)?(\d+)(이하|이상)$/u)))q={kind:'sumAtMost',parameter:Number(m[1])-(m[2]==='이상'?1:0),negate:m[2]==='이상'};
+ else if((m=s.match(/^중(\d+)의배수가(하나라도있는가|하나도없는가)$/u)))q={kind:'containsMultiple',parameter:Number(m[1]),negate:m[2]==='하나도없는가'};
  else if((m=s.match(/^합(?:이|은)?(\d+)(?:의)?배수(?:가아닌가|가아니|가아니다)?$/u)))q={kind:'sumMultiple',parameter:Number(m[1]),negate:s.includes('아니')};
  else if(/^(?:서로소|서로소야|공약수(?:가|는)?1(?:뿐|뿐이|만|만있|뿐이다))$/u.test(s))q={kind:'coprime'};
  else if(/^(?:1보다큰공약수(?:가)?있(?:는가|나|어|다)?|공약수(?:가|는)?1보다큰가)$/u.test(s))q={kind:'coprime',negate:true};
@@ -28,8 +30,8 @@ export function parseQuestion(text:string,rules:Rules):QuestionVerdict {
  else if((m=s.match(/^큰(?:숫자|수)(?:가|는)?작은(?:숫자|수)(?:의)?(\d+)배$/u)))q={kind:'ratio',parameter:Number(m[1])};
  if(!q){
   if(/^(차이|간격)(?:가|는|이|은)?\d+$/u.test(s))return rejected('정확한 차이를 맞히려면 간격 공격을 선택하세요. 질문은 “차이가 5 이하인가?”처럼 범위로 물어보세요.');
-  return rejected('이 문장은 해석하지 못했습니다. 아래 예시처럼 차이, 합의 배수, 서로소, 배수 관계 중 하나를 물어보세요.');
+  return rejected('이 문장은 해석하지 못했습니다. 간격, 합의 크기, 합의 배수, 배수 포함, 서로소 중 하나를 물어보세요.');
  }
- if(!validQuestion(q,rules))return rejected(`차이 기준은 1~${rules.max-rules.min-1}, 합의 배수는 2~${Math.min(10,rules.max)}, 배율은 2~${Math.min(5,Math.floor(rules.max/rules.min))} 사이에서 정해주세요.`);
+ if(!validQuestion(q,rules))return rejected(`차이 기준은 1~${rules.max-rules.min-1}, 합의 크기는 ${2*rules.min+1}~${2*rules.max-2}, 합의 배수·배수 포함은 2~${Math.min(10,rules.max)}, 배율은 2~${Math.min(5,Math.floor(rules.max/rules.min))} 사이의 정수로 정해주세요.`);
  return {ok:true,question:q,label:questionLabel(q),...(targets?{targets}:{})};
 }

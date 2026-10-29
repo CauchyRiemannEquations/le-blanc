@@ -1,6 +1,8 @@
+import type {VoiceId} from '../voice/types';
+import type {Appearance} from './characters';
 export type PlayerId = 0 | 1;
 export type Difficulty = 'easy' | 'medium' | 'hard';
-export type QuestionKind = 'near' | 'sum3' | 'coprime' | 'distance' | 'sumMultiple' | 'multiple' | 'ratio';
+export type QuestionKind = 'near' | 'sum3' | 'coprime' | 'distance' | 'sumAtMost' | 'sumMultiple' | 'containsMultiple' | 'multiple' | 'ratio';
 export interface QuestionSpec { kind:QuestionKind; parameter?:number; negate?:boolean }
 /** null means no question limit; finite caps remain available for balance experiments. */
 export interface Rules { version:3; gapPolicy:'continue-once'|'legacy'; min: number; max: number; handSize: number; initialReveal: number[]; questions: number|null }
@@ -15,7 +17,7 @@ export type Action = ({type:'question'; a:number; b:number} & QuestionSpec) | {t
 export interface RevelationEvent { player: PlayerId; index: number; value:number; reason:'number'|'gap'|'chain'|'penalty'; from?:number }
 export interface Outcome { id:number; actor:PlayerId; type:Action['type']|'timeout'|'resign'; success?:boolean; answer?:boolean; question?:QuestionKind; parameter?:number; negate?:boolean; a?:number; b?:number; value?:number; reveals:RevelationEvent[]; text:string }
 export interface GameResult { winner:PlayerId; turns:number; maxChain:number; finalChain:number }
-export interface GameState { gapUsed:boolean; rules:Rules; players:[Player,Player]; active:PlayerId; phase:'action'|'continue'|'penalty'|'over'; turn:number; sequence:number; penaltySeed:number; history:Outcome[]; result:GameResult|null; maxChain:number }
+export interface GameState { voices?:[VoiceId,VoiceId]; appearances?:[Appearance,Appearance]; gapUsed:boolean; rules:Rules; players:[Player,Player]; active:PlayerId; phase:'action'|'continue'|'penalty'|'over'; turn:number; sequence:number; penaltySeed:number; history:Outcome[]; result:GameResult|null; maxChain:number }
 export interface VisibleTile { value:number|null; revealed:boolean }
 export interface AIObservation { gapUsed:boolean; rules:Rules; player:PlayerId; own:Tile[]; ownConnections:GapConnection[]; opponent:VisibleTile[]; connections:GapConnection[]; questions:QuestionResult[]; opponentQuestions:QuestionResult[]; failed:FailedGuess[]; ownQuestionsLeft:number|null; phase:GameState['phase']; turn:number; active:PlayerId; }
-export interface GameView extends AIObservation { names:[string,string]; history:Outcome[]; result:GameResult|null; opponentQuestionsLeft:number|null }
+export interface GameView extends AIObservation { voices?:[VoiceId,VoiceId]; appearances?:[Appearance,Appearance]; names:[string,string]; history:Outcome[]; result:GameResult|null; opponentQuestionsLeft:number|null }

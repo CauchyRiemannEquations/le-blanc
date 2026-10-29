@@ -1,9 +1,10 @@
+import type {Appearance} from '../engine/characters';
 import type {GameView,GapConnection,VisibleTile} from '../engine/types';
 export interface SceneCard extends VisibleTile {id:string;slot:number}
-export interface SceneData {central:SceneCard[];hand:SceneCard[];connections:GapConnection[];handConnections?:GapConnection[]}
+export interface SceneData {appearance?:Appearance;central:SceneCard[];hand:SceneCard[];connections:GapConnection[];handConnections?:GapConnection[]}
 /** No renderer receives GameState or a hidden opponent value, even for a back face. */
 export function duelScene(view:GameView,peek:boolean):SceneData {
- return {central:view.opponent.map((t,slot)=>({id:`opponent-${slot}`,slot,revealed:t.revealed,value:t.revealed?t.value:null})),hand:view.own.map((t,slot)=>({id:`own-${slot}`,slot,revealed:t.revealed,value:t.revealed||peek?t.value:null})),connections:view.connections.map(e=>({...e})),handConnections:view.ownConnections.map(e=>({...e}))};
+ return {appearance:view.appearances?.[view.player===0?1:0]??'male',central:view.opponent.map((t,slot)=>({id:`opponent-${slot}`,slot,revealed:t.revealed,value:t.revealed?t.value:null})),hand:view.own.map((t,slot)=>({id:`own-${slot}`,slot,revealed:t.revealed,value:t.revealed||peek?t.value:null})),connections:view.connections.map(e=>({...e})),handConnections:view.ownConnections.map(e=>({...e}))};
 }
 export const centralX=(slot:number,count:number)=>(slot-(count-1)/2)*1.12;
 /** Slot position depends only on original index, never revelation or remaining cards. */

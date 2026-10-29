@@ -15,7 +15,7 @@ test('두 기기의 방 입장·공개 질문·재접속·기권',async({browser
   for(const page of [p,q])await expect(page.getByRole('group',{name:'나의 카드'}).getByRole('button',{name:/비공개/})).toHaveCount(5);
   const actor=await p.getByRole('button',{name:'질문하기',exact:true}).isVisible()?p:q,observer=actor===p?q:p;
   await expect(actor.getByRole('timer')).toBeVisible();await actor.getByRole('button',{name:'질문하기',exact:true}).click();await configureQuestion(actor,'합의 배수',4);await actor.getByRole('button',{name:'질문 확정'}).click();
-  await expect(actor.getByRole('dialog')).toContainText('두 숫자의 합은 4의 배수인가?');await expect(observer.getByRole('dialog')).toBeVisible();await expect(observer.getByRole('dialog')).toContainText('4의 배수');await expect(observer.locator('.shared-question')).toHaveText((await actor.locator('.shared-question').textContent())!);await expect(observer.locator('.shared-question .outcome-word')).toHaveText(/YES|NO/);
+  await expect(actor.locator('.shared-question')).toContainText('두 숫자의 합이 4의 배수인가?',{timeout:20000});await expect(observer.getByRole('dialog')).toBeVisible();await expect(observer.getByRole('dialog')).toContainText('4의 배수');await expect(observer.locator('.shared-question')).toHaveText((await actor.locator('.shared-question').textContent())!);await expect(observer.locator('.shared-question .outcome-word')).toHaveText(/YES|NO/);
   mkdirSync('screenshots',{recursive:true});await actor.screenshot({path:'screenshots/public-online-question.png'});
   for(const page of [p,q])await page.getByRole('button',{name:'확인',exact:true}).click();
   await observer.reload();await expect(observer.getByTestId('online-board')).toBeVisible();if(await observer.getByRole('button',{name:'확인',exact:true}).isVisible())await observer.getByRole('button',{name:'확인',exact:true}).click();

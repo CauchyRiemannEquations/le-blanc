@@ -1,5 +1,8 @@
 # 질문 입력 · 무작위 공개 · 문구 수정
 
+> 과거 변경·검증 기록입니다. 현재 질문 5종과 공개 규칙은 [FIVE-QUESTIONS.md](FIVE-QUESTIONS.md)를 참고하세요.
+
+
 > 이 문서는 질문권 4회가 있던 버전의 기록입니다. 최신 기본 규칙은 질문 무제한이며 [UNLIMITED-UPDATE.md](UNLIMITED-UPDATE.md)를 참고하세요. 아래 저장된 밸런스 원자료는 그대로 보존했습니다. 당시 소스는 Git 커밋 `531fa4ca4609bade22674933c2aa6454e97e6a25`입니다.
 
 

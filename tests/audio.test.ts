@@ -53,6 +53,22 @@ describe('settings and result perspective',()=>{
  });
 });
 describe('audio lifecycle',()=>{
+ it('ducks BGM for character speech and restores it on skip/mute',async()=>{
+  await audio.unlock();await flush();audio.setSettings({...enabled,dialogue:'all',voiceVolume:.8});
+  const file=`/audio/voice/files/${'a'.repeat(64)}.mp3`;
+  vi.mocked(fetch).mockImplementation(async(url)=>({ok:true,json:async()=>({version:1,assets:[{voice:'ael',lineIds:['Q'],status:'ready',file}]}),arrayBuffer:async()=>String(url).endsWith('manifest.json')?new TextEncoder().encode(JSON.stringify({version:1,assets:[{voice:'ael',lineIds:['Q'],status:'ready',file}]})).buffer:String(url)}) as never);
+  audio.dialogue({id:'voice:1',ttl:12000,utterances:[{speaker:0,lines:['Q']}]},['ael','jongdae'],0);await flush();
+  expect(context().gains[1].gain.value).toBe(.16);expect(sources('.mp3')).toHaveLength(1);
+  audio.cancelDialogue();expect(context().gains[1].gain.value).toBe(.65);expect(sources('.mp3')[0].stop).toHaveBeenCalledOnce();
+  audio.dialogue({id:'voice:2',ttl:12000,utterances:[{speaker:0,lines:['Q']}]},['ael','jongdae'],0);await flush();
+  audio.setSettings({...enabled,dialogue:'off'});expect(context().gains[1].gain.value).toBe(.65);
+ });
+ it('retries a pending muted resume when volume becomes audible again',async()=>{
+  await audio.unlock();await flush();audio.setSettings({...enabled,volume:0});
+  context().resume.mockImplementationOnce(()=>new Promise(()=>{}));void audio.unlock(true);await flush();
+  const attempts=context().resume.mock.calls.length;audio.setSettings(enabled);await flush();
+  expect(context().resume.mock.calls.length).toBeGreaterThan(attempts);expect(context().state).toBe('running');
+ });
  it('waits for a gesture, uses full loops and does not restart for rerenders/turns',async()=>{
   audio.setScene({track:'menu'});expect(fetch).not.toHaveBeenCalled();
   await audio.unlock();await flush();

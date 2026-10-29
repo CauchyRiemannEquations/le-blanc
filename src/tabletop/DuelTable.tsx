@@ -1,3 +1,4 @@
+import {preloadVoice} from '../audio';
 import {lazy,Suspense,useEffect,useMemo,useState} from 'react';
 import type {GameView,Outcome} from '../engine/types';
 import {duelScene} from './model';
@@ -7,6 +8,7 @@ const Tabletop=lazy(()=>import('./Tabletop'));
 interface Props {view:GameView;reduced:boolean;event?:Outcome|null;eventSfx?:boolean;selected?:number[];onSelect?:(i:number)=>void;enabled?:(i:number)=>boolean;label?:string;layout?:'play'|'tool';dealing?:boolean;onDealt?:()=>void}
 export default function DuelTable({view,reduced,event,eventSfx=true,selected,onSelect,enabled,label,layout,dealing=false,onDealt}:Props){
  const interaction=useTableInteraction();
+ useEffect(()=>{for(const voice of new Set(view.voices??(['jongdae','jongdae'] as const)))preloadVoice(['AMB_01','INF_04','INF_05'],voice);},[view.voices?.[0],view.voices?.[1]]);
  const [peek,setPeek]=useState(false);const sequence=view.history.at(-1)?.id??0,resetKey=`${view.player}-${view.turn}-${sequence}`;
  useEffect(()=>setPeek(false),[resetKey]);
  useEffect(()=>{const hide=()=>{if(document.hidden)setPeek(false);};document.addEventListener('visibilitychange',hide);return()=>document.removeEventListener('visibilitychange',hide);},[]);

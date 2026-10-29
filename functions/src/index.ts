@@ -28,7 +28,7 @@ export const createRoom=onCall(async request=>{
    }
    if(now-(existing.data()?.lastCreate??0)<10_000)throw new HttpsError('resource-exhausted','잠시 뒤 새 방을 만들어주세요.');
    if(newDoc.exists)throw new HttpsError('already-exists','방 코드를 다시 생성해주세요.');
-   const room=createRoomState(code,uid,name,now,request.data?.initialReveal??true);save(tx,ref,room,now);tx.set(profile,{code,lastCreate:now});return projectRoom(room,uid,now);
+   const room=createRoomState(code,uid,name,now,request.data?.initialReveal??true,request.data?.appearance,request.data?.voice);save(tx,ref,room,now);tx.set(profile,{code,lastCreate:now});return projectRoom(room,uid,now);
   });
  }catch(e){convert(e);}
 });
@@ -37,7 +37,7 @@ export const joinRoom=onCall(async request=>{
   const code=codeOf(request.data?.code),name=cleanName(request.data?.name),ref=db.doc(`matches/${code}`);
   return await db.runTransaction(async tx=>{
    const now=Date.now(),doc=await tx.get(ref);if(!doc.exists)throw new HttpsError('not-found','방을 찾지 못했습니다. 코드를 확인해주세요.');
-   const room=joinRoomState(doc.data() as RoomState,uid,name,now,randomInt(0x7fffffff),randomInt(2) as PlayerId);save(tx,ref,room,now);return projectRoom(room,uid,now);
+   const room=joinRoomState(doc.data() as RoomState,uid,name,now,randomInt(0x7fffffff),randomInt(2) as PlayerId,request.data?.appearance,request.data?.voice);save(tx,ref,room,now);return projectRoom(room,uid,now);
   });
  }catch(e){convert(e);}
 });

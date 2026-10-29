@@ -1,0 +1,7890 @@
+[
+  {
+    "id": "AMB_01",
+    "event": "start",
+    "role": "first",
+    "display": "대결을 시작합니다.",
+    "scripts": {
+      "jongdae": "좋아. 슬슬 시작해 보자.",
+      "ael": "좋아. 이제 시작해 볼까?"
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "atmosphere",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {}
+  },
+  {
+    "id": "INF_04",
+    "event": "question.true",
+    "role": "respondent",
+    "display": "예.",
+    "scripts": {
+      "jongdae": "맞아.",
+      "ael": "응, 맞아."
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {}
+  },
+  {
+    "id": "INF_05",
+    "event": "question.false",
+    "role": "respondent",
+    "display": "아니오.",
+    "scripts": {
+      "jongdae": "아니야.",
+      "ael": "아니야."
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {}
+  },
+  {
+    "id": "REA_01",
+    "event": "number.correct",
+    "role": "respondent",
+    "display": "정답입니다.",
+    "scripts": {
+      "jongdae": "맞았네. 잘 짚었어.",
+      "ael": "맞았어. 제법인데?"
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {}
+  },
+  {
+    "id": "REA_02",
+    "event": "number.wrong",
+    "role": "respondent",
+    "display": "오답입니다.",
+    "scripts": {
+      "jongdae": "아니야. 그 숫자는 아니야.",
+      "ael": "틀렸어. 그 숫자가 아니야."
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {}
+  },
+  {
+    "id": "GAP_OK",
+    "event": "gap.correct",
+    "role": "respondent",
+    "display": "간격이 맞습니다.",
+    "scripts": {
+      "jongdae": "맞아. 그 간격이야.",
+      "ael": "맞아. 그 간격이야."
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {}
+  },
+  {
+    "id": "GAP_NO",
+    "event": "gap.wrong",
+    "role": "respondent",
+    "display": "간격이 틀렸습니다.",
+    "scripts": {
+      "jongdae": "아니야. 그 간격은 아니야.",
+      "ael": "아니야. 그 간격은 아니야."
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {}
+  },
+  {
+    "id": "END_01",
+    "event": "result",
+    "role": "winner",
+    "display": "승리.",
+    "scripts": {
+      "jongdae": "이번 판은 내가 가져가네.",
+      "ael": "이번 판은 내 승리네."
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "atmosphere",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {}
+  },
+  {
+    "id": "END_02",
+    "event": "result",
+    "role": "loser",
+    "display": "패배.",
+    "scripts": {
+      "jongdae": "졌네. 이번엔 네 승리군.",
+      "ael": "졌어. 이번 판은 네 승리야."
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "atmosphere",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {}
+  },
+  {
+    "id": "INF_01",
+    "event": "unmapped",
+    "role": "test",
+    "display": "미확정 조건 템플릿. 실제 질문은 Q_*로 별도 확정.",
+    "scripts": {
+      "jongdae": "",
+      "ael": ""
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "unresolved",
+    "scope": "game",
+    "reason": "미확정 조건 템플릿. 실제 질문은 Q_*로 별도 확정.",
+    "ranges": {}
+  },
+  {
+    "id": "INF_02",
+    "event": "unmapped",
+    "role": "test",
+    "display": "정확한 수치 질문은 현재 게임에 없음.",
+    "scripts": {
+      "jongdae": "",
+      "ael": ""
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "unresolved",
+    "scope": "game",
+    "reason": "정확한 수치 질문은 현재 게임에 없음.",
+    "ranges": {}
+  },
+  {
+    "id": "INF_03",
+    "event": "unmapped",
+    "role": "test",
+    "display": "카드 개수 질문은 현재 게임에 없음.",
+    "scripts": {
+      "jongdae": "",
+      "ael": ""
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "unresolved",
+    "scope": "game",
+    "reason": "카드 개수 질문은 현재 게임에 없음.",
+    "ranges": {}
+  },
+  {
+    "id": "INF_06",
+    "event": "unmapped",
+    "role": "test",
+    "display": "질문은 모두 예/아니오. 정확한 합이나 차이를 답하지 않음.",
+    "scripts": {
+      "jongdae": "",
+      "ael": ""
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "unresolved",
+    "scope": "game",
+    "reason": "질문은 모두 예/아니오. 정확한 합이나 차이를 답하지 않음.",
+    "ranges": {}
+  },
+  {
+    "id": "INF_07",
+    "event": "unmapped",
+    "role": "test",
+    "display": "카드 개수 결과 없음.",
+    "scripts": {
+      "jongdae": "",
+      "ael": ""
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "unresolved",
+    "scope": "game",
+    "reason": "카드 개수 결과 없음.",
+    "ranges": {}
+  },
+  {
+    "id": "AMB_02",
+    "event": "unmapped",
+    "role": "test",
+    "display": "선택 단계 분위기 대사는 기본 생략.",
+    "scripts": {
+      "jongdae": "",
+      "ael": ""
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "optional",
+    "scope": "game",
+    "reason": "선택 단계 분위기 대사는 기본 생략.",
+    "ranges": {}
+  },
+  {
+    "id": "END_03",
+    "event": "unmapped",
+    "role": "test",
+    "display": "승자·패자 대사 이후 마무리는 생략.",
+    "scripts": {
+      "jongdae": "",
+      "ael": ""
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "optional",
+    "scope": "game",
+    "reason": "승자·패자 대사 이후 마무리는 생략.",
+    "ranges": {}
+  },
+  {
+    "id": "REA_01_ALT",
+    "event": "unmapped",
+    "role": "test",
+    "display": "대안 대사는 이번 제작 제외.",
+    "scripts": {
+      "jongdae": "",
+      "ael": ""
+    },
+    "variables": {},
+    "variant": "alternative",
+    "importance": "information",
+    "status": "optional",
+    "scope": "game",
+    "reason": "대안 대사는 이번 제작 제외.",
+    "ranges": {}
+  },
+  {
+    "id": "REA_02_ALT",
+    "event": "unmapped",
+    "role": "test",
+    "display": "대안 대사는 이번 제작 제외.",
+    "scripts": {
+      "jongdae": "",
+      "ael": ""
+    },
+    "variables": {},
+    "variant": "alternative",
+    "importance": "information",
+    "status": "optional",
+    "scope": "game",
+    "reason": "대안 대사는 이번 제작 제외.",
+    "ranges": {}
+  },
+  {
+    "id": "END_01_ALT",
+    "event": "unmapped",
+    "role": "test",
+    "display": "대안 대사는 이번 제작 제외.",
+    "scripts": {
+      "jongdae": "",
+      "ael": ""
+    },
+    "variables": {},
+    "variant": "alternative",
+    "importance": "information",
+    "status": "optional",
+    "scope": "game",
+    "reason": "대안 대사는 이번 제작 제외.",
+    "ranges": {}
+  },
+  {
+    "id": "END_02_ALT",
+    "event": "unmapped",
+    "role": "test",
+    "display": "대안 대사는 이번 제작 제외.",
+    "scripts": {
+      "jongdae": "",
+      "ael": ""
+    },
+    "variables": {},
+    "variant": "alternative",
+    "importance": "information",
+    "status": "optional",
+    "scope": "game",
+    "reason": "대안 대사는 이번 제작 제외.",
+    "ranges": {}
+  },
+  {
+    "id": "PAIR_0_1",
+    "event": "pair",
+    "role": "actor",
+    "display": "1번과 2번 카드.",
+    "scripts": {
+      "jongdae": "첫 번째 카드와 두 번째 카드에 대해 말할게.",
+      "ael": "첫 번째 카드와 두 번째 카드에 대해 말할게."
+    },
+    "variables": {
+      "a": 0,
+      "b": 1
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "b": {
+        "min": 0,
+        "max": 4
+      }
+    }
+  },
+  {
+    "id": "PAIR_0_2",
+    "event": "pair",
+    "role": "actor",
+    "display": "1번과 3번 카드.",
+    "scripts": {
+      "jongdae": "첫 번째 카드와 세 번째 카드에 대해 말할게.",
+      "ael": "첫 번째 카드와 세 번째 카드에 대해 말할게."
+    },
+    "variables": {
+      "a": 0,
+      "b": 2
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "b": {
+        "min": 0,
+        "max": 4
+      }
+    }
+  },
+  {
+    "id": "PAIR_0_3",
+    "event": "pair",
+    "role": "actor",
+    "display": "1번과 4번 카드.",
+    "scripts": {
+      "jongdae": "첫 번째 카드와 네 번째 카드에 대해 말할게.",
+      "ael": "첫 번째 카드와 네 번째 카드에 대해 말할게."
+    },
+    "variables": {
+      "a": 0,
+      "b": 3
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "b": {
+        "min": 0,
+        "max": 4
+      }
+    }
+  },
+  {
+    "id": "PAIR_0_4",
+    "event": "pair",
+    "role": "actor",
+    "display": "1번과 5번 카드.",
+    "scripts": {
+      "jongdae": "첫 번째 카드와 다섯 번째 카드에 대해 말할게.",
+      "ael": "첫 번째 카드와 다섯 번째 카드에 대해 말할게."
+    },
+    "variables": {
+      "a": 0,
+      "b": 4
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "b": {
+        "min": 0,
+        "max": 4
+      }
+    }
+  },
+  {
+    "id": "PAIR_1_2",
+    "event": "pair",
+    "role": "actor",
+    "display": "2번과 3번 카드.",
+    "scripts": {
+      "jongdae": "두 번째 카드와 세 번째 카드에 대해 말할게.",
+      "ael": "두 번째 카드와 세 번째 카드에 대해 말할게."
+    },
+    "variables": {
+      "a": 1,
+      "b": 2
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "b": {
+        "min": 0,
+        "max": 4
+      }
+    }
+  },
+  {
+    "id": "PAIR_1_3",
+    "event": "pair",
+    "role": "actor",
+    "display": "2번과 4번 카드.",
+    "scripts": {
+      "jongdae": "두 번째 카드와 네 번째 카드에 대해 말할게.",
+      "ael": "두 번째 카드와 네 번째 카드에 대해 말할게."
+    },
+    "variables": {
+      "a": 1,
+      "b": 3
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "b": {
+        "min": 0,
+        "max": 4
+      }
+    }
+  },
+  {
+    "id": "PAIR_1_4",
+    "event": "pair",
+    "role": "actor",
+    "display": "2번과 5번 카드.",
+    "scripts": {
+      "jongdae": "두 번째 카드와 다섯 번째 카드에 대해 말할게.",
+      "ael": "두 번째 카드와 다섯 번째 카드에 대해 말할게."
+    },
+    "variables": {
+      "a": 1,
+      "b": 4
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "b": {
+        "min": 0,
+        "max": 4
+      }
+    }
+  },
+  {
+    "id": "PAIR_2_3",
+    "event": "pair",
+    "role": "actor",
+    "display": "3번과 4번 카드.",
+    "scripts": {
+      "jongdae": "세 번째 카드와 네 번째 카드에 대해 말할게.",
+      "ael": "세 번째 카드와 네 번째 카드에 대해 말할게."
+    },
+    "variables": {
+      "a": 2,
+      "b": 3
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "b": {
+        "min": 0,
+        "max": 4
+      }
+    }
+  },
+  {
+    "id": "PAIR_2_4",
+    "event": "pair",
+    "role": "actor",
+    "display": "3번과 5번 카드.",
+    "scripts": {
+      "jongdae": "세 번째 카드와 다섯 번째 카드에 대해 말할게.",
+      "ael": "세 번째 카드와 다섯 번째 카드에 대해 말할게."
+    },
+    "variables": {
+      "a": 2,
+      "b": 4
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "b": {
+        "min": 0,
+        "max": 4
+      }
+    }
+  },
+  {
+    "id": "PAIR_3_4",
+    "event": "pair",
+    "role": "actor",
+    "display": "4번과 5번 카드.",
+    "scripts": {
+      "jongdae": "네 번째 카드와 다섯 번째 카드에 대해 말할게.",
+      "ael": "네 번째 카드와 다섯 번째 카드에 대해 말할게."
+    },
+    "variables": {
+      "a": 3,
+      "b": 4
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "b": {
+        "min": 0,
+        "max": 4
+      }
+    }
+  },
+  {
+    "id": "Q_distance_3_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 3 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 삼 이하인가?",
+      "ael": "두 숫자의 차이가 삼 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 3,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_3_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 4 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 사 이상인가?",
+      "ael": "두 숫자의 차이가 사 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 3,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_20_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 20 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십 이하인가?",
+      "ael": "두 숫자의 합이 이십 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 20,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_20_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 21 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십일 이상인가?",
+      "ael": "두 숫자의 합이 이십일 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 20,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_3_yes",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 3의 배수인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼의 배수인가?",
+      "ael": "두 숫자의 합이 삼의 배수인가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 3,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_3_not",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 3의 배수가 아닌가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼의 배수가 아닌가?",
+      "ael": "두 숫자의 합이 삼의 배수가 아닌가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 3,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_3_yes",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 3의 배수가 하나라도 있는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 삼의 배수가 하나라도 있는가?",
+      "ael": "두 숫자 중 삼의 배수가 하나라도 있는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 3,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_3_not",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 3의 배수가 하나도 없는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 삼의 배수가 하나도 없는가?",
+      "ael": "두 숫자 중 삼의 배수가 하나도 없는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 3,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_coprime_none_yes",
+    "event": "question.coprime",
+    "role": "actor",
+    "display": "두 숫자의 공약수가 1뿐인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 공약수가 일뿐인가?",
+      "ael": "두 숫자의 공약수가 일뿐인가?"
+    },
+    "variables": {
+      "kind": "coprime",
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {}
+  },
+  {
+    "id": "Q_coprime_none_not",
+    "event": "question.coprime",
+    "role": "actor",
+    "display": "두 숫자에 1보다 큰 공약수가 있는가?",
+    "scripts": {
+      "jongdae": "두 숫자에 일보다 큰 공약수가 있는가?",
+      "ael": "두 숫자에 일보다 큰 공약수가 있는가?"
+    },
+    "variables": {
+      "kind": "coprime",
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {}
+  },
+  {
+    "id": "Q_distance_1_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 1 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 일 이하인가?",
+      "ael": "두 숫자의 차이가 일 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 1,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_1_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 2 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 이 이상인가?",
+      "ael": "두 숫자의 차이가 이 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 1,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_2_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 2 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 이 이하인가?",
+      "ael": "두 숫자의 차이가 이 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 2,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_2_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 3 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 삼 이상인가?",
+      "ael": "두 숫자의 차이가 삼 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 2,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_4_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 4 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 사 이하인가?",
+      "ael": "두 숫자의 차이가 사 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 4,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_4_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 5 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 오 이상인가?",
+      "ael": "두 숫자의 차이가 오 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 4,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_5_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 5 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 오 이하인가?",
+      "ael": "두 숫자의 차이가 오 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 5,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_5_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 6 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 육 이상인가?",
+      "ael": "두 숫자의 차이가 육 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 5,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_6_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 6 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 육 이하인가?",
+      "ael": "두 숫자의 차이가 육 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 6,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_6_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 7 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 칠 이상인가?",
+      "ael": "두 숫자의 차이가 칠 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 6,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_7_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 7 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 칠 이하인가?",
+      "ael": "두 숫자의 차이가 칠 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 7,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_7_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 8 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 팔 이상인가?",
+      "ael": "두 숫자의 차이가 팔 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 7,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_8_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 8 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 팔 이하인가?",
+      "ael": "두 숫자의 차이가 팔 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 8,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_8_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 9 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 구 이상인가?",
+      "ael": "두 숫자의 차이가 구 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 8,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_9_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 9 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 구 이하인가?",
+      "ael": "두 숫자의 차이가 구 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 9,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_9_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 10 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십 이상인가?",
+      "ael": "두 숫자의 차이가 십 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 9,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_10_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 10 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십 이하인가?",
+      "ael": "두 숫자의 차이가 십 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 10,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_10_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 11 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십일 이상인가?",
+      "ael": "두 숫자의 차이가 십일 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 10,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_11_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 11 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십일 이하인가?",
+      "ael": "두 숫자의 차이가 십일 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 11,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_11_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 12 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십이 이상인가?",
+      "ael": "두 숫자의 차이가 십이 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 11,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_12_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 12 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십이 이하인가?",
+      "ael": "두 숫자의 차이가 십이 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 12,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_12_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 13 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십삼 이상인가?",
+      "ael": "두 숫자의 차이가 십삼 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 12,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_13_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 13 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십삼 이하인가?",
+      "ael": "두 숫자의 차이가 십삼 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 13,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_13_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 14 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십사 이상인가?",
+      "ael": "두 숫자의 차이가 십사 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 13,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_14_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 14 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십사 이하인가?",
+      "ael": "두 숫자의 차이가 십사 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 14,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_14_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 15 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십오 이상인가?",
+      "ael": "두 숫자의 차이가 십오 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 14,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_15_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 15 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십오 이하인가?",
+      "ael": "두 숫자의 차이가 십오 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 15,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_15_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 16 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십육 이상인가?",
+      "ael": "두 숫자의 차이가 십육 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 15,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_16_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 16 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십육 이하인가?",
+      "ael": "두 숫자의 차이가 십육 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 16,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_16_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 17 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십칠 이상인가?",
+      "ael": "두 숫자의 차이가 십칠 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 16,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_17_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 17 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십칠 이하인가?",
+      "ael": "두 숫자의 차이가 십칠 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 17,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_17_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 18 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십팔 이상인가?",
+      "ael": "두 숫자의 차이가 십팔 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 17,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_18_yes",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 18 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십팔 이하인가?",
+      "ael": "두 숫자의 차이가 십팔 이하인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 18,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_distance_18_not",
+    "event": "question.distance",
+    "role": "actor",
+    "display": "두 숫자의 차이가 19 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 차이가 십구 이상인가?",
+      "ael": "두 숫자의 차이가 십구 이상인가?"
+    },
+    "variables": {
+      "kind": "distance",
+      "parameter": 18,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 1,
+        "max": 18
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_3_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 3 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼 이하인가?",
+      "ael": "두 숫자의 합이 삼 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 3,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_3_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 4 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 사 이상인가?",
+      "ael": "두 숫자의 합이 사 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 3,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_4_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 4 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 사 이하인가?",
+      "ael": "두 숫자의 합이 사 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 4,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_4_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 5 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 오 이상인가?",
+      "ael": "두 숫자의 합이 오 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 4,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_5_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 5 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 오 이하인가?",
+      "ael": "두 숫자의 합이 오 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 5,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_5_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 6 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 육 이상인가?",
+      "ael": "두 숫자의 합이 육 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 5,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_6_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 6 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 육 이하인가?",
+      "ael": "두 숫자의 합이 육 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 6,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_6_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 7 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 칠 이상인가?",
+      "ael": "두 숫자의 합이 칠 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 6,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_7_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 7 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 칠 이하인가?",
+      "ael": "두 숫자의 합이 칠 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 7,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_7_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 8 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 팔 이상인가?",
+      "ael": "두 숫자의 합이 팔 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 7,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_8_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 8 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 팔 이하인가?",
+      "ael": "두 숫자의 합이 팔 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 8,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_8_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 9 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 구 이상인가?",
+      "ael": "두 숫자의 합이 구 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 8,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_9_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 9 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 구 이하인가?",
+      "ael": "두 숫자의 합이 구 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 9,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_9_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 10 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십 이상인가?",
+      "ael": "두 숫자의 합이 십 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 9,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_10_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 10 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십 이하인가?",
+      "ael": "두 숫자의 합이 십 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 10,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_10_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 11 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십일 이상인가?",
+      "ael": "두 숫자의 합이 십일 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 10,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_11_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 11 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십일 이하인가?",
+      "ael": "두 숫자의 합이 십일 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 11,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_11_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 12 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십이 이상인가?",
+      "ael": "두 숫자의 합이 십이 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 11,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_12_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 12 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십이 이하인가?",
+      "ael": "두 숫자의 합이 십이 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 12,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_12_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 13 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십삼 이상인가?",
+      "ael": "두 숫자의 합이 십삼 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 12,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_13_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 13 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십삼 이하인가?",
+      "ael": "두 숫자의 합이 십삼 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 13,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_13_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 14 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십사 이상인가?",
+      "ael": "두 숫자의 합이 십사 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 13,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_14_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 14 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십사 이하인가?",
+      "ael": "두 숫자의 합이 십사 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 14,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_14_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 15 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십오 이상인가?",
+      "ael": "두 숫자의 합이 십오 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 14,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_15_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 15 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십오 이하인가?",
+      "ael": "두 숫자의 합이 십오 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 15,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_15_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 16 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십육 이상인가?",
+      "ael": "두 숫자의 합이 십육 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 15,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_16_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 16 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십육 이하인가?",
+      "ael": "두 숫자의 합이 십육 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 16,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_16_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 17 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십칠 이상인가?",
+      "ael": "두 숫자의 합이 십칠 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 16,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_17_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 17 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십칠 이하인가?",
+      "ael": "두 숫자의 합이 십칠 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 17,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_17_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 18 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십팔 이상인가?",
+      "ael": "두 숫자의 합이 십팔 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 17,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_18_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 18 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십팔 이하인가?",
+      "ael": "두 숫자의 합이 십팔 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 18,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_18_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 19 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십구 이상인가?",
+      "ael": "두 숫자의 합이 십구 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 18,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_19_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 19 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십구 이하인가?",
+      "ael": "두 숫자의 합이 십구 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 19,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_19_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 20 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십 이상인가?",
+      "ael": "두 숫자의 합이 이십 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 19,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_21_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 21 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십일 이하인가?",
+      "ael": "두 숫자의 합이 이십일 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 21,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_21_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 22 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십이 이상인가?",
+      "ael": "두 숫자의 합이 이십이 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 21,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_22_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 22 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십이 이하인가?",
+      "ael": "두 숫자의 합이 이십이 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 22,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_22_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 23 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십삼 이상인가?",
+      "ael": "두 숫자의 합이 이십삼 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 22,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_23_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 23 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십삼 이하인가?",
+      "ael": "두 숫자의 합이 이십삼 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 23,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_23_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 24 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십사 이상인가?",
+      "ael": "두 숫자의 합이 이십사 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 23,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_24_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 24 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십사 이하인가?",
+      "ael": "두 숫자의 합이 이십사 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 24,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_24_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 25 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십오 이상인가?",
+      "ael": "두 숫자의 합이 이십오 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 24,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_25_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 25 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십오 이하인가?",
+      "ael": "두 숫자의 합이 이십오 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 25,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_25_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 26 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십육 이상인가?",
+      "ael": "두 숫자의 합이 이십육 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 25,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_26_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 26 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십육 이하인가?",
+      "ael": "두 숫자의 합이 이십육 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 26,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_26_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 27 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십칠 이상인가?",
+      "ael": "두 숫자의 합이 이십칠 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 26,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_27_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 27 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십칠 이하인가?",
+      "ael": "두 숫자의 합이 이십칠 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 27,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_27_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 28 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십팔 이상인가?",
+      "ael": "두 숫자의 합이 이십팔 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 27,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_28_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 28 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십팔 이하인가?",
+      "ael": "두 숫자의 합이 이십팔 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 28,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_28_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 29 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십구 이상인가?",
+      "ael": "두 숫자의 합이 이십구 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 28,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_29_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 29 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이십구 이하인가?",
+      "ael": "두 숫자의 합이 이십구 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 29,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_29_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 30 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십 이상인가?",
+      "ael": "두 숫자의 합이 삼십 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 29,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_30_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 30 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십 이하인가?",
+      "ael": "두 숫자의 합이 삼십 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 30,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_30_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 31 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십일 이상인가?",
+      "ael": "두 숫자의 합이 삼십일 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 30,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_31_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 31 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십일 이하인가?",
+      "ael": "두 숫자의 합이 삼십일 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 31,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_31_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 32 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십이 이상인가?",
+      "ael": "두 숫자의 합이 삼십이 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 31,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_32_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 32 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십이 이하인가?",
+      "ael": "두 숫자의 합이 삼십이 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 32,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_32_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 33 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십삼 이상인가?",
+      "ael": "두 숫자의 합이 삼십삼 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 32,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_33_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 33 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십삼 이하인가?",
+      "ael": "두 숫자의 합이 삼십삼 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 33,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_33_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 34 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십사 이상인가?",
+      "ael": "두 숫자의 합이 삼십사 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 33,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_34_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 34 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십사 이하인가?",
+      "ael": "두 숫자의 합이 삼십사 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 34,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_34_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 35 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십오 이상인가?",
+      "ael": "두 숫자의 합이 삼십오 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 34,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_35_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 35 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십오 이하인가?",
+      "ael": "두 숫자의 합이 삼십오 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 35,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_35_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 36 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십육 이상인가?",
+      "ael": "두 숫자의 합이 삼십육 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 35,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_36_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 36 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십육 이하인가?",
+      "ael": "두 숫자의 합이 삼십육 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 36,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_36_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 37 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십칠 이상인가?",
+      "ael": "두 숫자의 합이 삼십칠 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 36,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_37_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 37 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십칠 이하인가?",
+      "ael": "두 숫자의 합이 삼십칠 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 37,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_37_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 38 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십팔 이상인가?",
+      "ael": "두 숫자의 합이 삼십팔 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 37,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_38_yes",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 38 이하인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십팔 이하인가?",
+      "ael": "두 숫자의 합이 삼십팔 이하인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 38,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumAtMost_38_not",
+    "event": "question.sumAtMost",
+    "role": "actor",
+    "display": "두 숫자의 합이 39 이상인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 삼십구 이상인가?",
+      "ael": "두 숫자의 합이 삼십구 이상인가?"
+    },
+    "variables": {
+      "kind": "sumAtMost",
+      "parameter": 38,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 3,
+        "max": 38
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_2_yes",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 2의 배수인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이의 배수인가?",
+      "ael": "두 숫자의 합이 이의 배수인가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 2,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_2_not",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 2의 배수가 아닌가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 이의 배수가 아닌가?",
+      "ael": "두 숫자의 합이 이의 배수가 아닌가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 2,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_4_yes",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 4의 배수인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 사의 배수인가?",
+      "ael": "두 숫자의 합이 사의 배수인가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 4,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_4_not",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 4의 배수가 아닌가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 사의 배수가 아닌가?",
+      "ael": "두 숫자의 합이 사의 배수가 아닌가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 4,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_5_yes",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 5의 배수인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 오의 배수인가?",
+      "ael": "두 숫자의 합이 오의 배수인가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 5,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_5_not",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 5의 배수가 아닌가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 오의 배수가 아닌가?",
+      "ael": "두 숫자의 합이 오의 배수가 아닌가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 5,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_6_yes",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 6의 배수인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 육의 배수인가?",
+      "ael": "두 숫자의 합이 육의 배수인가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 6,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_6_not",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 6의 배수가 아닌가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 육의 배수가 아닌가?",
+      "ael": "두 숫자의 합이 육의 배수가 아닌가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 6,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_7_yes",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 7의 배수인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 칠의 배수인가?",
+      "ael": "두 숫자의 합이 칠의 배수인가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 7,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_7_not",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 7의 배수가 아닌가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 칠의 배수가 아닌가?",
+      "ael": "두 숫자의 합이 칠의 배수가 아닌가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 7,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_8_yes",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 8의 배수인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 팔의 배수인가?",
+      "ael": "두 숫자의 합이 팔의 배수인가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 8,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_8_not",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 8의 배수가 아닌가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 팔의 배수가 아닌가?",
+      "ael": "두 숫자의 합이 팔의 배수가 아닌가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 8,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_9_yes",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 9의 배수인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 구의 배수인가?",
+      "ael": "두 숫자의 합이 구의 배수인가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 9,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_9_not",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 9의 배수가 아닌가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 구의 배수가 아닌가?",
+      "ael": "두 숫자의 합이 구의 배수가 아닌가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 9,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_10_yes",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 10의 배수인가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십의 배수인가?",
+      "ael": "두 숫자의 합이 십의 배수인가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 10,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_sumMultiple_10_not",
+    "event": "question.sumMultiple",
+    "role": "actor",
+    "display": "두 숫자의 합이 10의 배수가 아닌가?",
+    "scripts": {
+      "jongdae": "두 숫자의 합이 십의 배수가 아닌가?",
+      "ael": "두 숫자의 합이 십의 배수가 아닌가?"
+    },
+    "variables": {
+      "kind": "sumMultiple",
+      "parameter": 10,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_2_yes",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 2의 배수가 하나라도 있는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 이의 배수가 하나라도 있는가?",
+      "ael": "두 숫자 중 이의 배수가 하나라도 있는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 2,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_2_not",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 2의 배수가 하나도 없는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 이의 배수가 하나도 없는가?",
+      "ael": "두 숫자 중 이의 배수가 하나도 없는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 2,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_4_yes",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 4의 배수가 하나라도 있는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 사의 배수가 하나라도 있는가?",
+      "ael": "두 숫자 중 사의 배수가 하나라도 있는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 4,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_4_not",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 4의 배수가 하나도 없는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 사의 배수가 하나도 없는가?",
+      "ael": "두 숫자 중 사의 배수가 하나도 없는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 4,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_5_yes",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 5의 배수가 하나라도 있는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 오의 배수가 하나라도 있는가?",
+      "ael": "두 숫자 중 오의 배수가 하나라도 있는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 5,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_5_not",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 5의 배수가 하나도 없는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 오의 배수가 하나도 없는가?",
+      "ael": "두 숫자 중 오의 배수가 하나도 없는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 5,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_6_yes",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 6의 배수가 하나라도 있는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 육의 배수가 하나라도 있는가?",
+      "ael": "두 숫자 중 육의 배수가 하나라도 있는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 6,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_6_not",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 6의 배수가 하나도 없는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 육의 배수가 하나도 없는가?",
+      "ael": "두 숫자 중 육의 배수가 하나도 없는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 6,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_7_yes",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 7의 배수가 하나라도 있는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 칠의 배수가 하나라도 있는가?",
+      "ael": "두 숫자 중 칠의 배수가 하나라도 있는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 7,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_7_not",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 7의 배수가 하나도 없는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 칠의 배수가 하나도 없는가?",
+      "ael": "두 숫자 중 칠의 배수가 하나도 없는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 7,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_8_yes",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 8의 배수가 하나라도 있는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 팔의 배수가 하나라도 있는가?",
+      "ael": "두 숫자 중 팔의 배수가 하나라도 있는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 8,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_8_not",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 8의 배수가 하나도 없는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 팔의 배수가 하나도 없는가?",
+      "ael": "두 숫자 중 팔의 배수가 하나도 없는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 8,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_9_yes",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 9의 배수가 하나라도 있는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 구의 배수가 하나라도 있는가?",
+      "ael": "두 숫자 중 구의 배수가 하나라도 있는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 9,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_9_not",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 9의 배수가 하나도 없는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 구의 배수가 하나도 없는가?",
+      "ael": "두 숫자 중 구의 배수가 하나도 없는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 9,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_10_yes",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 10의 배수가 하나라도 있는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 십의 배수가 하나라도 있는가?",
+      "ael": "두 숫자 중 십의 배수가 하나라도 있는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 10,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_containsMultiple_10_not",
+    "event": "question.containsMultiple",
+    "role": "actor",
+    "display": "두 숫자 중 10의 배수가 하나도 없는가?",
+    "scripts": {
+      "jongdae": "두 숫자 중 십의 배수가 하나도 없는가?",
+      "ael": "두 숫자 중 십의 배수가 하나도 없는가?"
+    },
+    "variables": {
+      "kind": "containsMultiple",
+      "parameter": 10,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 10
+      }
+    }
+  },
+  {
+    "id": "Q_multiple_none_yes",
+    "event": "question.multiple",
+    "role": "actor",
+    "display": "큰 숫자는 작은 숫자의 배수인가?",
+    "scripts": {
+      "jongdae": "큰 숫자는 작은 숫자의 배수인가?",
+      "ael": "큰 숫자는 작은 숫자의 배수인가?"
+    },
+    "variables": {
+      "kind": "multiple",
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {}
+  },
+  {
+    "id": "Q_multiple_none_not",
+    "event": "question.multiple",
+    "role": "actor",
+    "display": "큰 숫자는 작은 숫자의 배수가 아닌가?",
+    "scripts": {
+      "jongdae": "큰 숫자는 작은 숫자의 배수가 아닌가?",
+      "ael": "큰 숫자는 작은 숫자의 배수가 아닌가?"
+    },
+    "variables": {
+      "kind": "multiple",
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {}
+  },
+  {
+    "id": "Q_ratio_2_yes",
+    "event": "question.ratio",
+    "role": "actor",
+    "display": "큰 숫자는 작은 숫자의 2배인가?",
+    "scripts": {
+      "jongdae": "큰 숫자는 작은 숫자의 이배인가?",
+      "ael": "큰 숫자는 작은 숫자의 이배인가?"
+    },
+    "variables": {
+      "kind": "ratio",
+      "parameter": 2,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "Q_ratio_2_not",
+    "event": "question.ratio",
+    "role": "actor",
+    "display": "큰 숫자는 작은 숫자의 2배가 아닌가?",
+    "scripts": {
+      "jongdae": "큰 숫자는 작은 숫자의 이배가 아닌가?",
+      "ael": "큰 숫자는 작은 숫자의 이배가 아닌가?"
+    },
+    "variables": {
+      "kind": "ratio",
+      "parameter": 2,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "Q_ratio_3_yes",
+    "event": "question.ratio",
+    "role": "actor",
+    "display": "큰 숫자는 작은 숫자의 3배인가?",
+    "scripts": {
+      "jongdae": "큰 숫자는 작은 숫자의 삼배인가?",
+      "ael": "큰 숫자는 작은 숫자의 삼배인가?"
+    },
+    "variables": {
+      "kind": "ratio",
+      "parameter": 3,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "Q_ratio_3_not",
+    "event": "question.ratio",
+    "role": "actor",
+    "display": "큰 숫자는 작은 숫자의 3배가 아닌가?",
+    "scripts": {
+      "jongdae": "큰 숫자는 작은 숫자의 삼배가 아닌가?",
+      "ael": "큰 숫자는 작은 숫자의 삼배가 아닌가?"
+    },
+    "variables": {
+      "kind": "ratio",
+      "parameter": 3,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "Q_ratio_4_yes",
+    "event": "question.ratio",
+    "role": "actor",
+    "display": "큰 숫자는 작은 숫자의 4배인가?",
+    "scripts": {
+      "jongdae": "큰 숫자는 작은 숫자의 사배인가?",
+      "ael": "큰 숫자는 작은 숫자의 사배인가?"
+    },
+    "variables": {
+      "kind": "ratio",
+      "parameter": 4,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "Q_ratio_4_not",
+    "event": "question.ratio",
+    "role": "actor",
+    "display": "큰 숫자는 작은 숫자의 4배가 아닌가?",
+    "scripts": {
+      "jongdae": "큰 숫자는 작은 숫자의 사배가 아닌가?",
+      "ael": "큰 숫자는 작은 숫자의 사배가 아닌가?"
+    },
+    "variables": {
+      "kind": "ratio",
+      "parameter": 4,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "Q_ratio_5_yes",
+    "event": "question.ratio",
+    "role": "actor",
+    "display": "큰 숫자는 작은 숫자의 5배인가?",
+    "scripts": {
+      "jongdae": "큰 숫자는 작은 숫자의 오배인가?",
+      "ael": "큰 숫자는 작은 숫자의 오배인가?"
+    },
+    "variables": {
+      "kind": "ratio",
+      "parameter": 5,
+      "negate": "false"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "Q_ratio_5_not",
+    "event": "question.ratio",
+    "role": "actor",
+    "display": "큰 숫자는 작은 숫자의 5배가 아닌가?",
+    "scripts": {
+      "jongdae": "큰 숫자는 작은 숫자의 오배가 아닌가?",
+      "ael": "큰 숫자는 작은 숫자의 오배가 아닌가?"
+    },
+    "variables": {
+      "kind": "ratio",
+      "parameter": 5,
+      "negate": "true"
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "parameter": {
+        "min": 2,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_1",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 1",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 일로 보겠어.",
+      "ael": "첫 번째 카드. 일로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 1
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_2",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 2",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 이로 보겠어.",
+      "ael": "첫 번째 카드. 이로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 2
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_3",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 3",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 삼으로 보겠어.",
+      "ael": "첫 번째 카드. 삼으로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 3
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_4",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 4",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 사로 보겠어.",
+      "ael": "첫 번째 카드. 사로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 4
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_5",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 5",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 오로 보겠어.",
+      "ael": "첫 번째 카드. 오로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 5
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_6",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 6",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 육으로 보겠어.",
+      "ael": "첫 번째 카드. 육으로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 6
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_7",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 7",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 칠로 보겠어.",
+      "ael": "첫 번째 카드. 칠로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 7
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_8",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 8",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 팔로 보겠어.",
+      "ael": "첫 번째 카드. 팔로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 8
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_9",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 9",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 구로 보겠어.",
+      "ael": "첫 번째 카드. 구로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 9
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_10",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 10",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 십으로 보겠어.",
+      "ael": "첫 번째 카드. 십으로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 10
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_11",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 11",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 십일로 보겠어.",
+      "ael": "첫 번째 카드. 십일로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 11
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_12",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 12",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 십이로 보겠어.",
+      "ael": "첫 번째 카드. 십이로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 12
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_13",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 13",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 십삼으로 보겠어.",
+      "ael": "첫 번째 카드. 십삼으로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 13
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_14",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 14",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 십사로 보겠어.",
+      "ael": "첫 번째 카드. 십사로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 14
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_15",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 15",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 십오로 보겠어.",
+      "ael": "첫 번째 카드. 십오로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 15
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_16",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 16",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 십육으로 보겠어.",
+      "ael": "첫 번째 카드. 십육으로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 16
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_17",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 17",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 십칠로 보겠어.",
+      "ael": "첫 번째 카드. 십칠로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 17
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_18",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 18",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 십팔로 보겠어.",
+      "ael": "첫 번째 카드. 십팔로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 18
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_19",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 19",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 십구로 보겠어.",
+      "ael": "첫 번째 카드. 십구로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 19
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_0_20",
+    "event": "number",
+    "role": "actor",
+    "display": "1번 카드 추측: 20",
+    "scripts": {
+      "jongdae": "첫 번째 카드. 이십으로 보겠어.",
+      "ael": "첫 번째 카드. 이십으로 볼게."
+    },
+    "variables": {
+      "a": 0,
+      "value": 20
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_1",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 1",
+    "scripts": {
+      "jongdae": "두 번째 카드. 일로 보겠어.",
+      "ael": "두 번째 카드. 일로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 1
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_2",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 2",
+    "scripts": {
+      "jongdae": "두 번째 카드. 이로 보겠어.",
+      "ael": "두 번째 카드. 이로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 2
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_3",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 3",
+    "scripts": {
+      "jongdae": "두 번째 카드. 삼으로 보겠어.",
+      "ael": "두 번째 카드. 삼으로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 3
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_4",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 4",
+    "scripts": {
+      "jongdae": "두 번째 카드. 사로 보겠어.",
+      "ael": "두 번째 카드. 사로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 4
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_5",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 5",
+    "scripts": {
+      "jongdae": "두 번째 카드. 오로 보겠어.",
+      "ael": "두 번째 카드. 오로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 5
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_6",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 6",
+    "scripts": {
+      "jongdae": "두 번째 카드. 육으로 보겠어.",
+      "ael": "두 번째 카드. 육으로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 6
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_7",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 7",
+    "scripts": {
+      "jongdae": "두 번째 카드. 칠로 보겠어.",
+      "ael": "두 번째 카드. 칠로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 7
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_8",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 8",
+    "scripts": {
+      "jongdae": "두 번째 카드. 팔로 보겠어.",
+      "ael": "두 번째 카드. 팔로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 8
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_9",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 9",
+    "scripts": {
+      "jongdae": "두 번째 카드. 구로 보겠어.",
+      "ael": "두 번째 카드. 구로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 9
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_10",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 10",
+    "scripts": {
+      "jongdae": "두 번째 카드. 십으로 보겠어.",
+      "ael": "두 번째 카드. 십으로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 10
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_11",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 11",
+    "scripts": {
+      "jongdae": "두 번째 카드. 십일로 보겠어.",
+      "ael": "두 번째 카드. 십일로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 11
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_12",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 12",
+    "scripts": {
+      "jongdae": "두 번째 카드. 십이로 보겠어.",
+      "ael": "두 번째 카드. 십이로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 12
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_13",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 13",
+    "scripts": {
+      "jongdae": "두 번째 카드. 십삼으로 보겠어.",
+      "ael": "두 번째 카드. 십삼으로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 13
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_14",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 14",
+    "scripts": {
+      "jongdae": "두 번째 카드. 십사로 보겠어.",
+      "ael": "두 번째 카드. 십사로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 14
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_15",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 15",
+    "scripts": {
+      "jongdae": "두 번째 카드. 십오로 보겠어.",
+      "ael": "두 번째 카드. 십오로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 15
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_16",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 16",
+    "scripts": {
+      "jongdae": "두 번째 카드. 십육으로 보겠어.",
+      "ael": "두 번째 카드. 십육으로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 16
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_17",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 17",
+    "scripts": {
+      "jongdae": "두 번째 카드. 십칠로 보겠어.",
+      "ael": "두 번째 카드. 십칠로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 17
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_18",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 18",
+    "scripts": {
+      "jongdae": "두 번째 카드. 십팔로 보겠어.",
+      "ael": "두 번째 카드. 십팔로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 18
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_19",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 19",
+    "scripts": {
+      "jongdae": "두 번째 카드. 십구로 보겠어.",
+      "ael": "두 번째 카드. 십구로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 19
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_1_20",
+    "event": "number",
+    "role": "actor",
+    "display": "2번 카드 추측: 20",
+    "scripts": {
+      "jongdae": "두 번째 카드. 이십으로 보겠어.",
+      "ael": "두 번째 카드. 이십으로 볼게."
+    },
+    "variables": {
+      "a": 1,
+      "value": 20
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_1",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 1",
+    "scripts": {
+      "jongdae": "세 번째 카드. 일로 보겠어.",
+      "ael": "세 번째 카드. 일로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 1
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_2",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 2",
+    "scripts": {
+      "jongdae": "세 번째 카드. 이로 보겠어.",
+      "ael": "세 번째 카드. 이로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 2
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_3",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 3",
+    "scripts": {
+      "jongdae": "세 번째 카드. 삼으로 보겠어.",
+      "ael": "세 번째 카드. 삼으로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 3
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_4",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 4",
+    "scripts": {
+      "jongdae": "세 번째 카드. 사로 보겠어.",
+      "ael": "세 번째 카드. 사로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 4
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_5",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 5",
+    "scripts": {
+      "jongdae": "세 번째 카드. 오로 보겠어.",
+      "ael": "세 번째 카드. 오로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 5
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_6",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 6",
+    "scripts": {
+      "jongdae": "세 번째 카드. 육으로 보겠어.",
+      "ael": "세 번째 카드. 육으로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 6
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_7",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 7",
+    "scripts": {
+      "jongdae": "세 번째 카드. 칠로 보겠어.",
+      "ael": "세 번째 카드. 칠로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 7
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_8",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 8",
+    "scripts": {
+      "jongdae": "세 번째 카드. 팔로 보겠어.",
+      "ael": "세 번째 카드. 팔로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 8
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_9",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 9",
+    "scripts": {
+      "jongdae": "세 번째 카드. 구로 보겠어.",
+      "ael": "세 번째 카드. 구로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 9
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_10",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 10",
+    "scripts": {
+      "jongdae": "세 번째 카드. 십으로 보겠어.",
+      "ael": "세 번째 카드. 십으로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 10
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_11",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 11",
+    "scripts": {
+      "jongdae": "세 번째 카드. 십일로 보겠어.",
+      "ael": "세 번째 카드. 십일로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 11
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_12",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 12",
+    "scripts": {
+      "jongdae": "세 번째 카드. 십이로 보겠어.",
+      "ael": "세 번째 카드. 십이로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 12
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_13",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 13",
+    "scripts": {
+      "jongdae": "세 번째 카드. 십삼으로 보겠어.",
+      "ael": "세 번째 카드. 십삼으로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 13
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_14",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 14",
+    "scripts": {
+      "jongdae": "세 번째 카드. 십사로 보겠어.",
+      "ael": "세 번째 카드. 십사로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 14
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_15",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 15",
+    "scripts": {
+      "jongdae": "세 번째 카드. 십오로 보겠어.",
+      "ael": "세 번째 카드. 십오로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 15
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_16",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 16",
+    "scripts": {
+      "jongdae": "세 번째 카드. 십육으로 보겠어.",
+      "ael": "세 번째 카드. 십육으로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 16
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_17",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 17",
+    "scripts": {
+      "jongdae": "세 번째 카드. 십칠로 보겠어.",
+      "ael": "세 번째 카드. 십칠로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 17
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_18",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 18",
+    "scripts": {
+      "jongdae": "세 번째 카드. 십팔로 보겠어.",
+      "ael": "세 번째 카드. 십팔로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 18
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_19",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 19",
+    "scripts": {
+      "jongdae": "세 번째 카드. 십구로 보겠어.",
+      "ael": "세 번째 카드. 십구로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 19
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_2_20",
+    "event": "number",
+    "role": "actor",
+    "display": "3번 카드 추측: 20",
+    "scripts": {
+      "jongdae": "세 번째 카드. 이십으로 보겠어.",
+      "ael": "세 번째 카드. 이십으로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 20
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_1",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 1",
+    "scripts": {
+      "jongdae": "네 번째 카드. 일로 보겠어.",
+      "ael": "네 번째 카드. 일로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 1
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_2",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 2",
+    "scripts": {
+      "jongdae": "네 번째 카드. 이로 보겠어.",
+      "ael": "네 번째 카드. 이로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 2
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_3",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 3",
+    "scripts": {
+      "jongdae": "네 번째 카드. 삼으로 보겠어.",
+      "ael": "네 번째 카드. 삼으로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 3
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_4",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 4",
+    "scripts": {
+      "jongdae": "네 번째 카드. 사로 보겠어.",
+      "ael": "네 번째 카드. 사로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 4
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_5",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 5",
+    "scripts": {
+      "jongdae": "네 번째 카드. 오로 보겠어.",
+      "ael": "네 번째 카드. 오로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 5
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_6",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 6",
+    "scripts": {
+      "jongdae": "네 번째 카드. 육으로 보겠어.",
+      "ael": "네 번째 카드. 육으로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 6
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_7",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 7",
+    "scripts": {
+      "jongdae": "네 번째 카드. 칠로 보겠어.",
+      "ael": "네 번째 카드. 칠로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 7
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_8",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 8",
+    "scripts": {
+      "jongdae": "네 번째 카드. 팔로 보겠어.",
+      "ael": "네 번째 카드. 팔로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 8
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_9",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 9",
+    "scripts": {
+      "jongdae": "네 번째 카드. 구로 보겠어.",
+      "ael": "네 번째 카드. 구로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 9
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_10",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 10",
+    "scripts": {
+      "jongdae": "네 번째 카드. 십으로 보겠어.",
+      "ael": "네 번째 카드. 십으로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 10
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_11",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 11",
+    "scripts": {
+      "jongdae": "네 번째 카드. 십일로 보겠어.",
+      "ael": "네 번째 카드. 십일로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 11
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_12",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 12",
+    "scripts": {
+      "jongdae": "네 번째 카드. 십이로 보겠어.",
+      "ael": "네 번째 카드. 십이로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 12
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_13",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 13",
+    "scripts": {
+      "jongdae": "네 번째 카드. 십삼으로 보겠어.",
+      "ael": "네 번째 카드. 십삼으로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 13
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_14",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 14",
+    "scripts": {
+      "jongdae": "네 번째 카드. 십사로 보겠어.",
+      "ael": "네 번째 카드. 십사로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 14
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_15",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 15",
+    "scripts": {
+      "jongdae": "네 번째 카드. 십오로 보겠어.",
+      "ael": "네 번째 카드. 십오로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 15
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_16",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 16",
+    "scripts": {
+      "jongdae": "네 번째 카드. 십육으로 보겠어.",
+      "ael": "네 번째 카드. 십육으로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 16
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_17",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 17",
+    "scripts": {
+      "jongdae": "네 번째 카드. 십칠로 보겠어.",
+      "ael": "네 번째 카드. 십칠로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 17
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_18",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 18",
+    "scripts": {
+      "jongdae": "네 번째 카드. 십팔로 보겠어.",
+      "ael": "네 번째 카드. 십팔로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 18
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_19",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 19",
+    "scripts": {
+      "jongdae": "네 번째 카드. 십구로 보겠어.",
+      "ael": "네 번째 카드. 십구로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 19
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_3_20",
+    "event": "number",
+    "role": "actor",
+    "display": "4번 카드 추측: 20",
+    "scripts": {
+      "jongdae": "네 번째 카드. 이십으로 보겠어.",
+      "ael": "네 번째 카드. 이십으로 볼게."
+    },
+    "variables": {
+      "a": 3,
+      "value": 20
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_1",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 1",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 일로 보겠어.",
+      "ael": "다섯 번째 카드. 일로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 1
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_2",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 2",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 이로 보겠어.",
+      "ael": "다섯 번째 카드. 이로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 2
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_3",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 3",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 삼으로 보겠어.",
+      "ael": "다섯 번째 카드. 삼으로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 3
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_4",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 4",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 사로 보겠어.",
+      "ael": "다섯 번째 카드. 사로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 4
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_5",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 5",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 오로 보겠어.",
+      "ael": "다섯 번째 카드. 오로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 5
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_6",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 6",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 육으로 보겠어.",
+      "ael": "다섯 번째 카드. 육으로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 6
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_7",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 7",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 칠로 보겠어.",
+      "ael": "다섯 번째 카드. 칠로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 7
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_8",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 8",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 팔로 보겠어.",
+      "ael": "다섯 번째 카드. 팔로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 8
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_9",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 9",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 구로 보겠어.",
+      "ael": "다섯 번째 카드. 구로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 9
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_10",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 10",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 십으로 보겠어.",
+      "ael": "다섯 번째 카드. 십으로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 10
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_11",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 11",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 십일로 보겠어.",
+      "ael": "다섯 번째 카드. 십일로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 11
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_12",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 12",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 십이로 보겠어.",
+      "ael": "다섯 번째 카드. 십이로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 12
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_13",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 13",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 십삼으로 보겠어.",
+      "ael": "다섯 번째 카드. 십삼으로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 13
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_14",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 14",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 십사로 보겠어.",
+      "ael": "다섯 번째 카드. 십사로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 14
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_15",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 15",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 십오로 보겠어.",
+      "ael": "다섯 번째 카드. 십오로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 15
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_16",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 16",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 십육으로 보겠어.",
+      "ael": "다섯 번째 카드. 십육으로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 16
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_17",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 17",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 십칠로 보겠어.",
+      "ael": "다섯 번째 카드. 십칠로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 17
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_18",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 18",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 십팔로 보겠어.",
+      "ael": "다섯 번째 카드. 십팔로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 18
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_19",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 19",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 십구로 보겠어.",
+      "ael": "다섯 번째 카드. 십구로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 19
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "INF_08_4_20",
+    "event": "number",
+    "role": "actor",
+    "display": "5번 카드 추측: 20",
+    "scripts": {
+      "jongdae": "다섯 번째 카드. 이십으로 보겠어.",
+      "ael": "다섯 번째 카드. 이십으로 볼게."
+    },
+    "variables": {
+      "a": 4,
+      "value": 20
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "GAP_1",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 1",
+    "scripts": {
+      "jongdae": "간격은 일로 보겠어.",
+      "ael": "간격은 일로 볼게."
+    },
+    "variables": {
+      "value": 1
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_2",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 2",
+    "scripts": {
+      "jongdae": "간격은 이로 보겠어.",
+      "ael": "간격은 이로 볼게."
+    },
+    "variables": {
+      "value": 2
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_3",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 3",
+    "scripts": {
+      "jongdae": "간격은 삼으로 보겠어.",
+      "ael": "간격은 삼으로 볼게."
+    },
+    "variables": {
+      "value": 3
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_4",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 4",
+    "scripts": {
+      "jongdae": "간격은 사로 보겠어.",
+      "ael": "간격은 사로 볼게."
+    },
+    "variables": {
+      "value": 4
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_5",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 5",
+    "scripts": {
+      "jongdae": "간격은 오로 보겠어.",
+      "ael": "간격은 오로 볼게."
+    },
+    "variables": {
+      "value": 5
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_6",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 6",
+    "scripts": {
+      "jongdae": "간격은 육으로 보겠어.",
+      "ael": "간격은 육으로 볼게."
+    },
+    "variables": {
+      "value": 6
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_7",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 7",
+    "scripts": {
+      "jongdae": "간격은 칠로 보겠어.",
+      "ael": "간격은 칠로 볼게."
+    },
+    "variables": {
+      "value": 7
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_8",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 8",
+    "scripts": {
+      "jongdae": "간격은 팔로 보겠어.",
+      "ael": "간격은 팔로 볼게."
+    },
+    "variables": {
+      "value": 8
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_9",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 9",
+    "scripts": {
+      "jongdae": "간격은 구로 보겠어.",
+      "ael": "간격은 구로 볼게."
+    },
+    "variables": {
+      "value": 9
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_10",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 10",
+    "scripts": {
+      "jongdae": "간격은 십으로 보겠어.",
+      "ael": "간격은 십으로 볼게."
+    },
+    "variables": {
+      "value": 10
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_11",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 11",
+    "scripts": {
+      "jongdae": "간격은 십일로 보겠어.",
+      "ael": "간격은 십일로 볼게."
+    },
+    "variables": {
+      "value": 11
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_12",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 12",
+    "scripts": {
+      "jongdae": "간격은 십이로 보겠어.",
+      "ael": "간격은 십이로 볼게."
+    },
+    "variables": {
+      "value": 12
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_13",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 13",
+    "scripts": {
+      "jongdae": "간격은 십삼으로 보겠어.",
+      "ael": "간격은 십삼으로 볼게."
+    },
+    "variables": {
+      "value": 13
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_14",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 14",
+    "scripts": {
+      "jongdae": "간격은 십사로 보겠어.",
+      "ael": "간격은 십사로 볼게."
+    },
+    "variables": {
+      "value": 14
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_15",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 15",
+    "scripts": {
+      "jongdae": "간격은 십오로 보겠어.",
+      "ael": "간격은 십오로 볼게."
+    },
+    "variables": {
+      "value": 15
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_16",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 16",
+    "scripts": {
+      "jongdae": "간격은 십육으로 보겠어.",
+      "ael": "간격은 십육으로 볼게."
+    },
+    "variables": {
+      "value": 16
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_17",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 17",
+    "scripts": {
+      "jongdae": "간격은 십칠로 보겠어.",
+      "ael": "간격은 십칠로 볼게."
+    },
+    "variables": {
+      "value": 17
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_18",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 18",
+    "scripts": {
+      "jongdae": "간격은 십팔로 보겠어.",
+      "ael": "간격은 십팔로 볼게."
+    },
+    "variables": {
+      "value": 18
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "GAP_19",
+    "event": "gap",
+    "role": "actor",
+    "display": "간격 추측: 19",
+    "scripts": {
+      "jongdae": "간격은 십구로 보겠어.",
+      "ael": "간격은 십구로 볼게."
+    },
+    "variables": {
+      "value": 19
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "game",
+    "ranges": {
+      "value": {
+        "min": 1,
+        "max": 19
+      }
+    }
+  },
+  {
+    "id": "AUD_01",
+    "event": "comparison",
+    "role": "test",
+    "display": "대결을 시작합니다.",
+    "scripts": {
+      "jongdae": "좋아. 슬슬 시작해 보자.",
+      "ael": "좋아. 이제 시작해 볼까?"
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "atmosphere",
+    "status": "ready",
+    "scope": "audition",
+    "ranges": {}
+  },
+  {
+    "id": "AUD_03",
+    "event": "comparison",
+    "role": "test",
+    "display": "3번 카드 추측: 7",
+    "scripts": {
+      "jongdae": "세 번째 카드. 칠로 보겠어.",
+      "ael": "세 번째 카드. 칠로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 7
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "audition",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "AUD_04",
+    "event": "comparison",
+    "role": "test",
+    "display": "정답입니다.",
+    "scripts": {
+      "jongdae": "맞았네. 잘 짚었어.",
+      "ael": "맞았어. 제법인데?"
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "audition",
+    "ranges": {}
+  },
+  {
+    "id": "AUD_05",
+    "event": "comparison",
+    "role": "test",
+    "display": "오답입니다.",
+    "scripts": {
+      "jongdae": "아니야. 그 숫자는 아니야.",
+      "ael": "틀렸어. 그 숫자가 아니야."
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "audition",
+    "ranges": {}
+  },
+  {
+    "id": "AUD_06",
+    "event": "comparison",
+    "role": "test",
+    "display": "패배.",
+    "scripts": {
+      "jongdae": "졌네. 이번엔 네 승리군.",
+      "ael": "졌어. 이번 판은 네 승리야."
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "atmosphere",
+    "status": "ready",
+    "scope": "audition",
+    "ranges": {}
+  },
+  {
+    "id": "AUD_02",
+    "event": "comparison",
+    "role": "test",
+    "display": "비교 청취 전용: 합은 14.",
+    "scripts": {
+      "jongdae": "합은 십사.",
+      "ael": "합은 십사."
+    },
+    "variables": {},
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "audition",
+    "ranges": {}
+  },
+  {
+    "id": "NUM_10",
+    "event": "pronunciation",
+    "role": "test",
+    "display": "3번 카드 추측: 10",
+    "scripts": {
+      "jongdae": "세 번째 카드. 십으로 보겠어.",
+      "ael": "세 번째 카드. 십으로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 10
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "numbers",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  },
+  {
+    "id": "NUM_12",
+    "event": "pronunciation",
+    "role": "test",
+    "display": "3번 카드 추측: 12",
+    "scripts": {
+      "jongdae": "세 번째 카드. 십이로 보겠어.",
+      "ael": "세 번째 카드. 십이로 볼게."
+    },
+    "variables": {
+      "a": 2,
+      "value": 12
+    },
+    "variant": "base",
+    "importance": "information",
+    "status": "ready",
+    "scope": "numbers",
+    "ranges": {
+      "a": {
+        "min": 0,
+        "max": 4
+      },
+      "value": {
+        "min": 1,
+        "max": 20
+      }
+    }
+  }
+]

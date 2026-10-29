@@ -1,3 +1,9 @@
+import type {SpeechListener} from './voice/player';
+import {DialoguePlayer} from './voice/player';
+import {voiceSettings} from './voice/types';
+import type {VoiceId} from './voice/types';
+import type {Dialogue} from './voice/events';
+import type {PlayerId} from './engine/types';
 import { SfxPlayer } from './sfx';
 import type { SfxEvent, SfxOptions } from './sfx';
 import { audioSettings, MENU_AUDIO } from './audioScene';
@@ -27,6 +33,8 @@ export class GameAudio {
  private cue?: Voice;
  private unlocking?: Promise<void>;
  private sfxPlayer = new SfxPlayer({context:()=>this.context,destination:()=>this.effectsGain,enabled:()=>!this.disposed&&!this.hidden&&this.settings.sound&&!this.settings.muted&&this.settings.volume>0,audible:()=>this.audible()&&this.context?.state==='running',voiceLimit:()=>this.cue||this.pendingCue?5:6});
+ private dialogueDuck=false;
+ private dialoguePlayer=new DialoguePlayer({context:()=>this.context,destination:()=>this.master,audible:()=>!this.disposed&&this.audible()&&this.context?.state==='running',settings:()=>voiceSettings(this.settings),duck:active=>{this.dialogueDuck=active;this.ramp(this.musicGain,(this.cue||active) ? .16 : .65,.15);}});
  private disposed = false;
  private hidden = false;
  private unlocked = false;
@@ -87,12 +95,18 @@ export class GameAudio {
  }
 
  setSettings(settings: AudioSettings) {
-  this.settings = audioSettings(settings);
+  const wasSilent=this.settings.muted||this.settings.volume===0;
+  if(settings.dialogue!==this.settings.dialogue)this.dialoguePlayer.cancel();
+  this.settings = audioSettings(settings);this.dialoguePlayer.update();
+  // A resume requested while muted can remain pending behind suspend(). A new
+  // audible setting must retry it, just as the next activating gesture would.
+  if(wasSilent&&!this.settings.muted&&this.settings.volume>0&&this.context)void this.unlock(true);
   if (!settings.sound || settings.muted || settings.volume === 0) { this.cancelCue(); this.sfxPlayer.cancel(); }
   this.reconcile();
  }
  setScene(scene: AudioScene) {
   if(scene.track!==this.scene.track||scene.result?.id!==this.scene.result?.id)this.sfxPlayer.cancel();
+  if(scene.track!==this.scene.track)this.dialoguePlayer.cancel();
   this.scene = scene;
   if (scene.result?.id !== this.resultId) {
    this.cancelCue(); this.resultId = scene.result?.id;
@@ -104,7 +118,7 @@ export class GameAudio {
  setHidden(hidden: boolean) {
   this.hidden = hidden;
   if (hidden) {
-   this.cancelCue(); this.sfxPlayer.cancel();
+   this.cancelCue(); this.sfxPlayer.cancel();this.dialoguePlayer.cancel();
    if (this.master && this.context) { this.master.gain.cancelScheduledValues(this.context.currentTime); this.master.gain.setValueAtTime(0, this.context.currentTime); }
    void this.context?.suspend().catch(() => {});
   } else if (this.context) void this.unlock();
@@ -126,7 +140,7 @@ export class GameAudio {
  private reconcile() {
   if (this.disposed || !this.context) return;
   this.ramp(this.master, this.hidden || this.settings.muted ? 0 : this.settings.volume, .04);
-  this.ramp(this.musicGain, this.cue ? .16 : .65, .15);
+  this.ramp(this.musicGain, this.cue||this.dialogueDuck ? .16 : .65, .15);
   this.ramp(this.ambienceGain, this.settings.ambience ? .3 : 0);
   this.ramp(this.effectsGain, this.settings.sound ? 1 : 0, .04);
   // Master mute pauses the shared clock, preserving loop positions.
@@ -173,7 +187,7 @@ export class GameAudio {
       this.cue = undefined; source.disconnect(); gain.disconnect(); this.reconcile();
      };
     } else { gain.gain.value = 0; this.voices.set(asset, voice); this.ramp(gain, 1); }
-    source.start(); this.ramp(this.musicGain, this.cue ? .16 : .65, .15);
+    source.start(); this.ramp(this.musicGain, this.cue||this.dialogueDuck ? .16 : .65, .15);
    } catch {
     if (!controller.signal.aborted && !this.disposed) this.failed.add(asset);
     if (this.pendingCue === asset && !controller.signal.aborted) this.pendingCue = undefined;
@@ -195,6 +209,10 @@ export class GameAudio {
   try { voice.source.stop(); } catch { /* Already stopped. */ }
   voice.source.disconnect(); voice.gain.disconnect();
  }
+ dialogue(value:Dialogue,voices:readonly VoiceId[],viewer:PlayerId,preview=false,listener?:SpeechListener){this.dialoguePlayer.play(value,voices,viewer,preview,listener);}
+ preloadVoice(lines:string[],voice:VoiceId){this.dialoguePlayer.preload(lines,voice);}
+ cancelDialogue(){this.dialoguePlayer.cancel();}
+ async previewVoice(voice:VoiceId){await this.unlock(true);this.dialogue({id:`preview:${performance.now()}`,ttl:8000,utterances:[{speaker:0,lines:['AUD_01']}]},[voice,voice],0,true);}
  sfx(event:SfxEvent,options:SfxOptions={}) { this.sfxPlayer.play(event,options,this.unlocking); }
  cancelSfx(id:string) { this.sfxPlayer.cancelId(id); }
  /** Legacy callers use the same sample bus; no synthesized duplicate cue remains. */
@@ -204,7 +222,7 @@ export class GameAudio {
   this.sfx(event[kind],kind==='chain'?{state:'low'}:{});
  }
  dispose() {
-  this.disposed = true; this.detach?.(); this.cancelCue(); this.sfxPlayer.dispose();
+  this.disposed = true; this.detach?.(); this.cancelCue(); this.sfxPlayer.dispose();this.dialoguePlayer.dispose();
   for (const load of this.loads.values()) load.abort(); this.loads.clear();
   for (const voice of this.voices.values()) this.stop(voice); this.voices.clear();
   void this.context?.close().catch(() => {});
