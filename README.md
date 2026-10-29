@@ -1,4 +1,6 @@
-> **최신 변경:** [듀얼 전용 · 18그룹/36종 대전 효과음 연결](SFX-INTEGRATION.md). 실제 브라우저 재생 검증의 남은 한계도 함께 기록했습니다.
+> **운영 사이트:** [LE BLANC · Vercel](https://leblanccarl.vercel.app). GitHub `main`에 푸시하면 기존 Vercel `cooolguy/leblanc` 프로젝트가 자동 배포합니다. 온라인 판정·방 상태는 Firebase를 사용합니다. Typecast 제작 키는 배포 환경에 필요하지 않습니다.
+>
+> **최신 변경:** 질문 5종, Sofya, 사전 제작 음성 590개와 질문·답변 말풍선. 메뉴와 설정에서는 **남자 / 여자**를 선택하며, **Carl / Sofya**는 AI 상대 이름으로만 표시합니다. AI 상대는 선택한 캐릭터의 반대 성별입니다. [질문](FIVE-QUESTIONS.md) · [캐릭터](SOFYA.md) · [음성](VOICE-IMPLEMENTATION.md).
 
 > **온라인 대전 운영 중:** [LE BLANC 실행](https://le-blanc-noir-2026.web.app). 2026-10-28 Firebase 서버·인증·시간 초과 예약을 배포하고 실제 두 브라우저 대전을 검증했습니다. [서신 UI·음악·메뉴 수정](LETTERS-AUDIO-UPDATE.md), [온라인 운영 안내](ONLINE-UPDATE.md).
 
