@@ -52,7 +52,10 @@ describe('speech semantics and Korean numbers',()=>{
   expect(projectRoom(legacy,'b',2).game!.voices).toEqual(['ael','jongdae']);
   expect(()=>createRoomState('ABCDEFGH','a','A',0,true,'male','unknown')).toThrow('보이스');
   expect(()=>joinRoomState(createRoomState('ABCDEFGH','a','A',0),'b','B',1,42,0,'male',null)).toThrow('보이스');
-  expect(voiceSettings({voiceVolume:NaN})).toMatchObject({voice:'jongdae',dialogue:'off',voiceVolume:.8});
+  expect(voiceSettings({voiceVolume:NaN})).toMatchObject({voice:'jongdae',dialogue:'all',voiceVolume:.8});
+  expect(voiceSettings(null).dialogue).toBe('all');
+  expect(voiceSettings({dialogue:'off'}).dialogue).toBe('off');
+  expect(voiceSettings({dialogue:'opponent'}).dialogue).toBe('opponent');
  });
  it('reconnected history is only a baseline, duplicate arrivals are silent',()=>{
   const tracker=new ObservedOutcomes(),e={id:1,actor:0 as const,type:'number' as const,a:2,value:7,reveals:[],success:false,text:''};

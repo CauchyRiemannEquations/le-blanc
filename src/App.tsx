@@ -35,7 +35,16 @@ import {requestLandscape,useMobilePortrait} from './orientation';
 import { TURN_MS } from './online/types';
 type Screen='online'|'title'|'mode'|'difficulty'|'local'|'game'|'tutorial'|'result';
 interface Settings extends AudioSettings { reduced:boolean }
-function readSettings():Settings {const defaults={...audioSettings(null),reduced:matchMedia('(prefers-reduced-motion: reduce)').matches};try {const saved=JSON.parse(localStorage.getItem('leblanc-settings-v1')??'{}');return {...audioSettings(saved),reduced:typeof saved?.reduced==='boolean'?saved.reduced:defaults.reduced};}catch{return defaults;}}
+function readSettings():Settings {
+ const defaults={...audioSettings(null),reduced:matchMedia('(prefers-reduced-motion: reduce)').matches};
+ try {
+  const saved=JSON.parse(localStorage.getItem('leblanc-settings-v1')??'{}');
+  // Older releases persisted the silent default on every visit. Enable it once;
+  // subsequent explicit opt-outs are preserved by the saved version marker.
+  const dialogue=saved?.dialogueDefaultsVersion!==1&&saved?.dialogue==='off'?'all':saved?.dialogue;
+  return {...audioSettings({...saved,dialogue}),reduced:typeof saved?.reduced==='boolean'?saved.reduced:defaults.reduced};
+ }catch{return defaults;}
+}
 const levelNames:Record<Difficulty,string>={easy:'초급',medium:'중급',hard:'고급'};
 export default function App() {
  const mobilePortrait=useMobilePortrait(),orientationRequest=useRef<Promise<boolean>|null>(null);
@@ -59,7 +68,7 @@ export default function App() {
  useEffect(()=>{if(curtain)cancelDialogue();},[curtain]);
  const aiTurn=!dealing&&screen==='game'&&mode==='ai'&&game?.active===1&&game.phase!=='over';
  const blocking=!!(sheet||panel||outcome);
- useEffect(()=>{try{localStorage.setItem('leblanc-settings-v1',JSON.stringify(settings));}catch{/* Private browsing still works. */}},[settings]);
+ useEffect(()=>{try{localStorage.setItem('leblanc-settings-v1',JSON.stringify({...settings,dialogueDefaultsVersion:1}));}catch{/* Private browsing still works. */}},[settings]);
  useEffect(()=>{function secure(){if(mode==='local'&&screen==='game'&&document.hidden){setCurtain(true);setSheet(null);setPanel(null);setOutcome(null);lock.current=false;}}document.addEventListener('visibilitychange',secure);return()=>document.removeEventListener('visibilitychange',secure);},[mode,screen]);
  useEffect(()=>{function back(){if(screen==='game'&&mode==='local'){setCurtain(true);setSheet(null);setPanel(null);setOutcome(null);lock.current=false;}}window.addEventListener('popstate',back);window.addEventListener('pageshow',back);return()=>{window.removeEventListener('popstate',back);window.removeEventListener('pageshow',back);};},[mode,screen]);
  function start(chosenMode=mode){if(mobilePortrait)return;localRun.current++;lastTurnSound.current='';const first=Math.random()<.5?0:1,opponent:Appearance=settings.voice==='ael'?'male':'female';const fresh=createGame(Date.now(),{initialReveal:chosenMode==='local'&&!friendInitial?[]:[2]},chosenMode==='ai'?['나',CHARACTERS[opponent].name]:['플레이어 1','플레이어 2'],first,chosenMode==='ai'?[settings.voice==='ael'?'female':'male',opponent]:localAppearances,chosenMode==='ai'?[settings.voice??'jongdae',appearanceVoice(opponent)]:[appearanceVoice(localAppearances[0]),appearanceVoice(localAppearances[1])]);setMode(chosenMode);setGame(fresh);setViewer(0);setCurtain(false);setDealing(true);setScreen('game');setOutcome(null);setSheet(null);setPanel(null);lock.current=false;}
